@@ -1,0 +1,44 @@
+using MinimalApiTemplate.Api.Configurations;
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using MinimalApi.Endpoint.Extensions;
+using MinimalApiTemplate.Api.Filters;
+
+var builder = WebApplication.CreateBuilder(args);
+builder.ConfigureLogging();
+
+// Add services to the container.
+builder.Services.AddApplicationServices(builder.Configuration);
+builder.Services.AddInfrastructureServices(builder.Configuration, builder.Environment);
+builder.Services.AddApiServices(builder.Configuration);
+
+var app = builder.Build();
+
+app.UseLogging();
+app.UseHttpsRedirection();
+app.UseCompression();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+app.MapEndpoints();
+
+if (!app.Environment.IsProduction())
+{
+    app.UseApiDocumentation(app.Configuration);
+}
+
+app.MapHealthChecks("/health", new HealthCheckOptions
+{
+    Predicate = _ => true,
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
+
+app.MapGet("/ping", () => "Working as expected")
+    .ExcludeFromDescription();
+
+await app.ApplyMigrations();
+
+app.Run();
+
+// Make the implicit Program class public so test projects can access it
+public partial class Program { }

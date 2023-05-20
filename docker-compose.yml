@@ -1,0 +1,55 @@
+version: '3.4'
+
+services:
+  minimalapitemplate.api:
+    image: ${DOCKER_REGISTRY-}minimalapitemplate.api
+    container_name: minimalapitemplate.api
+    ports:
+      - "8901:443"
+    networks:
+      - shared-network
+    depends_on:
+      - minimalapitemplate.db
+      - minimalapitemplate.cache
+      - minimalapitemplate.seq
+    build:
+      context: .
+      dockerfile: src/MinimalApiTemplate.Api/Dockerfile
+
+  minimalapitemplate.db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: minimalapitemplate.db
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=61tagstdgdtfsgkF!@
+    ports:
+      - "8902:1433"
+    networks:
+      - shared-network
+  
+  minimalapitemplate.seq:
+    image: datalust/seq
+    container_name: minimalapitemplate.seq
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - "8903:80"
+    volumes:
+      - seq_data:/data
+    networks:
+      - shared-network
+
+  minimalapitemplate.cache:
+    image: redis
+    container_name: minimalapitemplate.cache
+    ports:
+      - "8904:6379"
+    networks:
+      - shared-network
+
+volumes:
+  seq_data:
+
+networks:
+  shared-network:
+    driver: bridge

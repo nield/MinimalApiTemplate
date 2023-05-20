@@ -1,0 +1,11 @@
+﻿global using AutoMapper;
+global using FluentValidation;
+global using MinimalApiTemplate.Application.Common.Exceptions;
+global using MinimalApiTemplate.Application.Common.Interfaces;
+global using MinimalApiTemplate.Domain.Entities;
+global using MinimalApiTemplate.Domain.Enums;
+global using MinimalApiTemplate.Domain.Events;
+global using MediatR;
+global using Audit.Core;
+global using MinimalApiTemplate.Application.Common;
+global using MinimalApiTemplate.Application.Common.Interfaces.Repositories;
