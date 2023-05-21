@@ -45,7 +45,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MinimalApiTemplate.Api.Models\MinimalApiTemplate.Api.Models.csproj" />
     <ProjectReference Include="..\MinimalApiTemplate.Application\MinimalApiTemplate.Application.csproj" />
     <ProjectReference Include="..\MinimalApiTemplate.Infrastructure\MinimalApiTemplate.Infrastructure.csproj" />
   </ItemGroup>
