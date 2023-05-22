@@ -28,7 +28,7 @@ jobs:
       run: dotnet build MinimalApiTemplate.sln --no-restore
     
     - name: Test
-      run: dotnet test MinimalApiTemplate.sln -p:CollectCoverage=true -p:CoverletOutput=..\..\results\coverage -p:CoverletOutputFormat=opencover /p:MergeWith=..\..\results\coverage.json --no-build --verbosity normal
+      run: dotnet test MinimalApiTemplate.sln -p:CollectCoverage=true -p:CoverletOutput=${GITHUB_WORKSPACE}/results/coverage -p:CoverletOutputFormat=opencover /p:MergeWith=${GITHUB_WORKSPACE}/results/coverage.json --no-build --verbosity normal
     
     - name: Create Test Coverage Badge
       uses: simon-k/dotnet-code-coverage-badge@v1.0.0
@@ -36,7 +36,7 @@ jobs:
       with:
         label: Unit Test Coverage
         color: brightgreen
-        path: results/coverage.opencover.xml
+        path: ${GITHUB_WORKSPACE}/results/coverage.opencover.xml
         gist-filename: code-coverage.json
         gist-id: 992e5d9de8dfd156785e59694e76c3c5
         gist-auth-token: ${{ secrets.GIST_TOKEN }}  
