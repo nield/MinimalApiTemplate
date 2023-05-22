@@ -36,16 +36,13 @@ jobs:
     - name: Compile Code Coverage
       run:  ${{ github.workspace }}/report-tool/reportgenerator -reports:"${{ github.workspace }}/tests/*Tests*/coverage.cobertura.xml" -targetdir:"${{ github.workspace }}/CodeCoverage" -reporttypes:"Cobertura;SonarQube"
     
-    - name: Create Test Coverage Badge
-      uses: simon-k/dotnet-code-coverage-badge@v1.0.0
-      id: create_coverage_badge
+    - name: Code Coverage Summary Report
+      uses: irongut/CodeCoverageSummary@v1.3.0
       with:
-        label: Unit Test Coverage
-        color: brightgreen
-        path: ${{ github.workspace }}/CodeCoverage/Cobertura.xml
-        gist-filename: code-coverage.json
-        gist-id: 992e5d9de8dfd156785e59694e76c3c5
-        gist-auth-token: ${{ secrets.GIST_TOKEN }}  
+        filename: ${{ github.workspace }}/CodeCoverage/Cobertura.xml
+        badge: true
+        format: 'markdown'
+        output: 'both'
         
-    - name: Print code coverage
-      run: echo "Code coverage percentage ${{steps.create_coverage_badge.outputs.percentage}}%"
+    - name: Write to Job Summary
+      run: cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY
