@@ -28,7 +28,13 @@ jobs:
       run: dotnet build MinimalApiTemplate.sln --no-restore
     
     - name: Test
-      run: dotnet test MinimalApiTemplate.sln -p:CollectCoverage=true -p:CoverletOutput=${{ github.workspace }}/results/coverage -p:CoverletOutputFormat=opencover /p:MergeWith=${{ github.workspace }}/results/coverage.json --no-build --verbosity normal --logger:trx --results-directory ${{ github.workspace }}/results
+      run: dotnet test MinimalApiTemplate.sln -p:CollectCoverage=true -p:CoverletOutputFormat=cobertura --no-build --verbosity normal
+    
+    - name: Install Code Coverage Tool
+      run: dotnet tool install dotnet-reportgenerator-globaltool --version 4.8.13
+    
+    - name: Compile Code Coverage
+      run:  reportgenerator -reports:"${{ github.workspace }}/tests/*Tests*/coverage.cobertura.xml" -targetdir:"${{ github.workspace }}/CodeCoverage" -reporttypes:"Cobertura;SonarQube"
     
     - name: Create Test Coverage Badge
       uses: simon-k/dotnet-code-coverage-badge@v1.0.0
@@ -36,7 +42,7 @@ jobs:
       with:
         label: Unit Test Coverage
         color: brightgreen
-        path: ${{ github.workspace }}/results/coverage.opencover.xml
+        path: ${{ github.workspace }}/CodeCoverage/Cobertura.xml
         gist-filename: code-coverage.json
         gist-id: 992e5d9de8dfd156785e59694e76c3c5
         gist-auth-token: ${{ secrets.GIST_TOKEN }}  
