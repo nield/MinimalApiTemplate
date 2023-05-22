@@ -28,7 +28,7 @@ jobs:
       run: dotnet build MinimalApiTemplate.sln --no-restore
     
     - name: Test
-      run: dotnet test MinimalApiTemplate.sln --no-build --verbosity normal --logger trx --results-directory "TestResults"
+      run: dotnet test MinimalApiTemplate.sln --no-build --verbosity normal
     
     - name: Upload dotnet test results
       uses: EnricoMi/publish-unit-test-result-action@v2
