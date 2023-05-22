@@ -27,14 +27,14 @@ jobs:
     - name: Build
       run: dotnet build MinimalApiTemplate.sln --no-restore
     
+    - name: Install Code Coverage Tool
+      run: dotnet tool install dotnet-reportgenerator-globaltool --version 4.8.13 --tool-path ${{ github.workspace }}/report-tool/ --no-cache
+    
     - name: Test
       run: dotnet test MinimalApiTemplate.sln -p:CollectCoverage=true -p:CoverletOutputFormat=cobertura --no-build --verbosity normal
     
-    - name: Install Code Coverage Tool
-      run: dotnet tool install dotnet-reportgenerator-globaltool --version 4.8.13
-    
     - name: Compile Code Coverage
-      run:  reportgenerator -reports:"${{ github.workspace }}/tests/*Tests*/coverage.cobertura.xml" -targetdir:"${{ github.workspace }}/CodeCoverage" -reporttypes:"Cobertura;SonarQube"
+      run:  ${{ github.workspace }}/report-tool/reportgenerator -reports:"${{ github.workspace }}/tests/*Tests*/coverage.cobertura.xml" -targetdir:"${{ github.workspace }}/CodeCoverage" -reporttypes:"Cobertura;SonarQube"
     
     - name: Create Test Coverage Badge
       uses: simon-k/dotnet-code-coverage-badge@v1.0.0
