@@ -31,7 +31,7 @@ jobs:
       run: dotnet tool install dotnet-reportgenerator-globaltool --version 4.8.13 --tool-path ${{ github.workspace }}/report-tool/ --no-cache
     
     - name: Test
-      run: dotnet test MinimalApiTemplate.sln -p:CollectCoverage=true -p:CoverletOutputFormat=cobertura --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage
+      run: dotnet test MinimalApiTemplate.sln --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage
     
     - name: Compile Code Coverage
       run:  ${{ github.workspace }}/report-tool/reportgenerator -reports:"${{ github.workspace }}/tests/*Tests*/coverage.cobertura.xml" -targetdir:"${{ github.workspace }}/CodeCoverage" -reporttypes:"Cobertura"
