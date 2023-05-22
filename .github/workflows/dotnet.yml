@@ -28,8 +28,8 @@ jobs:
       run: dotnet test MinimalApiTemplate.sln --no-build --verbosity normal --logger trx --results-directory "TestResults"
     - name: Upload dotnet test results
       uses: actions/upload-artifact@v3
+      if: always()
       with:
         name: dotnet-results
         path: TestResults
-        # Use always() to always run this step to publish test results when there are test failures
-        if: always()
+       
