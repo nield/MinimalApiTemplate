@@ -31,12 +31,11 @@ jobs:
       run: dotnet test MinimalApiTemplate.sln --no-build --verbosity normal --logger trx --results-directory "TestResults"
     
     - name: Upload dotnet test results
-      uses: actions/upload-artifact@v3
+      uses: EnricoMi/publish-unit-test-result-action@v2
       id: test-results
       if: always()
       with:
-        name: dotnet-results
-        path: TestResults
+        files: "test-results/**/*.xml"
         
     - name: Set badge color
       shell: bash
