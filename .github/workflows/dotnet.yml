@@ -28,45 +28,18 @@ jobs:
       run: dotnet build MinimalApiTemplate.sln --no-restore
     
     - name: Test
-      run: dotnet test MinimalApiTemplate.sln --no-build --verbosity normal
+      run: dotnet test MinimalApiTemplate.sln -p:CollectCoverage=true -p:CoverletOutput=TestResults/ -p:CoverletOutputFormat=opencover --no-build --verbosity normal --results-directory "Tests"
     
-    - name: Upload dotnet test results
-      uses: EnricoMi/publish-unit-test-result-action@v2
-      id: test-results
-      if: always()
+    - name: Create Test Coverage Badge
+      uses: simon-k/dotnet-code-coverage-badge@v1.0.0
+      id: create_coverage_badge
       with:
-        files: "test-results/**/*.xml"
+        label: Unit Test Coverage
+        color: brightgreen
+        path: Tests/TestResults/coverage.opencover.xml
+        gist-filename: code-coverage.json
+        gist-id: 992e5d9de8dfd156785e59694e76c3c5
+        gist-auth-token: ${{ secrets.GIST_TOKEN }}  
         
-    - name: Set badge color
-      shell: bash
-      run: |
-        case ${{ fromJSON( steps.test-results.outputs.json ).conclusion }} in
-          success)
-            echo "BADGE_COLOR=31c653" >> $GITHUB_ENV
-            ;;
-          failure)
-            echo "BADGE_COLOR=800000" >> $GITHUB_ENV
-            ;;
-          neutral)
-            echo "BADGE_COLOR=696969" >> $GITHUB_ENV
-            ;;
-        esac
-
-    - name: Create badge
-      uses: emibcn/badge-action@d6f51ff11b5c3382b3b88689ae2d6db22d9737d1
-      with:
-        label: Tests
-        status: '${{ fromJSON( steps.test-results.outputs.json ).formatted.stats.tests }} tests, ${{ fromJSON( steps.test-results.outputs.json ).formatted.stats.runs }} runs: ${{ fromJSON( steps.test-results.outputs.json ).conclusion }}'
-        color: ${{ env.BADGE_COLOR }}
-        path: badge.svg
-
-    - name: Upload badge to Gist
-      # Upload only for master branch
-      if: >
-        github.event_name == 'workflow_run' && github.event.workflow_run.head_branch == 'master' ||
-        github.event_name != 'workflow_run' && github.ref == 'refs/heads/master'
-      uses: andymckay/append-gist-action@1fbfbbce708a39bd45846f0955ed5521f2099c6d
-      with:
-        token: ${{ secrets.GIST_TOKEN }}
-        gistURL: https://gist.githubusercontent.com/{user}/{id}
-        file: badge.svg
+    - name: Print code coverage
+      run: echo "Code coverage percentage ${{steps.create_coverage_badge.outputs.percentage}}%"
