@@ -1,6 +1,6 @@
 # MinimalApiTemplate
 [![.NET](https://github.com/nield/MinimalApiTemplate/actions/workflows/dotnet.yml/badge.svg)](https://github.com/nield/MinimalApiTemplate/actions/workflows/dotnet.yml)
-![badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/nield/992e5d9de8dfd156785e59694e76c3c5/raw/code-coverage.json)
+![badge](https://gist.githubusercontent.com/nield/036191e91ff7da1f940618f701c0ad9f/raw/badge_combined.svg)
 
 An example Minimal Api application with OpenAPI, Swashbuckle, and API versioning.
 
