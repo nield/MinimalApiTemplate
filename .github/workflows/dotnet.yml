@@ -61,8 +61,6 @@ jobs:
         file_path: 'CodeCoverage/badge_combined.svg'
         file_type: binary
         gist_file_name: test.txt
-      env:
-        GITHUB_TOKEN: ${{ secrets.TOKEN }}
 
     - name: Upload coverage report artifact
       uses: actions/upload-artifact@v2.2.3
