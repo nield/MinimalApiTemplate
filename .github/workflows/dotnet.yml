@@ -19,7 +19,17 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 7.0.x
-        
+    
+    - name: Testy
+      uses: sergeysova/gist-write-action@v1.0.0
+      with:
+        # Gist ID
+        gist_id: 036191e91ff7da1f940618f701c0ad9f
+        # Name of the file at the gist to write data at
+        file_name: badge_combined.svg
+        # Content to write
+        content: 'work please'
+
     - name: Restore dependencies
       run: dotnet restore MinimalApiTemplate.sln
     
