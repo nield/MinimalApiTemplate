@@ -41,19 +41,18 @@ jobs:
         tag: '${{ github.run_number }}_${{ github.run_id }}' # Optional tag or build version.
         toolpath: 'reportgeneratortool' # Default directory for installing the dotnet tool    
 
-    - name: Upload coverage report artifact
-      uses: actions/upload-artifact@v2.2.3
-      with:
-        name: CoverageReport # Artifact name        
-        path: ${{ github.workspace }}/CodeCoverage # Directory containing files to upload
-      
-      
     - uses: actions/checkout@v3
     - name: Upload Badge
       uses: exuanbo/actions-deploy-gist@v1
       with:
         token: ${{ secrets.GIST_TOKEN }}
-        gist_id: 992e5d9de8dfd156785e59694e76c3c5
-        gist_file_name: 'code-coverage.json'
+        gist_id: ae85cab721e8e09ca91618d7f1238558
         file_path: 'CodeCoverage/badge_combined.svg'
         file_type: binary
+
+    - name: Upload coverage report artifact
+      uses: actions/upload-artifact@v2.2.3
+      with:
+        name: CoverageReport # Artifact name        
+        path: ${{ github.workspace }}/CodeCoverage # Directory containing files to upload
+  
