@@ -37,12 +37,22 @@ jobs:
       with:
         reports: '${{ github.workspace }}/tests/*Tests*/coverage.cobertura.xml' # REQUIRED # The coverage reports that should be parsed (separated by semicolon). Globbing is supported.
         targetdir: '${{ github.workspace }}/CodeCoverage' # REQUIRED # The directory where the generated report should be saved.
-        reporttypes: 'HtmlInline;Cobertura' # The output formats and scope (separated by semicolon) Values: Badges, Clover, Cobertura, OpenCover, CsvSummary, Html, Html_Dark, Html_Light, Html_BlueRed, HtmlChart, HtmlInline, HtmlInline_AzurePipelines, HtmlInline_AzurePipelines_Dark, HtmlInline_AzurePipelines_Light, HtmlSummary, JsonSummary, Latex, LatexSummary, lcov, MarkdownSummary, MarkdownSummaryGithub, MarkdownDeltaSummary, MHtml, PngChart, SonarQube, TeamCitySummary, TextSummary, TextDeltaSummary, Xml, XmlSummary
+        reporttypes: 'HtmlInline;Cobertura;Badges' # The output formats and scope (separated by semicolon) Values: Badges, Clover, Cobertura, OpenCover, CsvSummary, Html, Html_Dark, Html_Light, Html_BlueRed, HtmlChart, HtmlInline, HtmlInline_AzurePipelines, HtmlInline_AzurePipelines_Dark, HtmlInline_AzurePipelines_Light, HtmlSummary, JsonSummary, Latex, LatexSummary, lcov, MarkdownSummary, MarkdownSummaryGithub, MarkdownDeltaSummary, MHtml, PngChart, SonarQube, TeamCitySummary, TextSummary, TextDeltaSummary, Xml, XmlSummary
         tag: '${{ github.run_number }}_${{ github.run_id }}' # Optional tag or build version.
-        toolpath: 'reportgeneratortool' # Default directory for installing the dotnet tool.
+        toolpath: 'reportgeneratortool' # Default directory for installing the dotnet tool    
 
     - name: Upload coverage report artifact
       uses: actions/upload-artifact@v2.2.3
       with:
         name: CoverageReport # Artifact name        
         path: ${{ github.workspace }}/CodeCoverage # Directory containing files to upload
+      
+      
+    - uses: actions/checkout@v3
+    - name: Upload Badge
+      uses: exuanbo/actions-deploy-gist@v1
+      with:
+        token: ${{ secrets.GIST_TOKEN }}
+        gist_id: 992e5d9de8dfd156785e59694e76c3c5
+        file_path: '${{ github.workspace }}/CodeCoverage/badge_combined.svg'
+        file_type: binary
