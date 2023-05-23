@@ -26,17 +26,17 @@ jobs:
     - name: Build
       run: dotnet build MinimalApiTemplate.sln --no-restore
     
-    - name: Install Code Coverage Tool
-      run: dotnet tool install dotnet-reportgenerator-globaltool --version 4.8.13 --tool-path ${{ github.workspace }}/report-tool/ --no-cache
+    #- name: Install Code Coverage Tool
+    #  run: dotnet tool install dotnet-reportgenerator-globaltool --version 4.8.13 --tool-path ${{ github.workspace }}/report-tool/ --no-cache
     
     - name: Test
-      run: dotnet test src/MinimalApiTemplate.Api/MinimalApiTemplate.Api.csproj -p:CollectCoverage=true --no-build --verbosity normal
+      run: dotnet test src/MinimalApiTemplate.Api/MinimalApiTemplate.Api.csproj -p:CollectCoverage=true -p:CoverletOutputFormat=cobertura --no-build --verbosity normal
     
     - name: ReportGenerator
       uses: danielpalme/ReportGenerator-GitHub-Action@5.1.21
       with:
-        reports: 'coverage.xml' # REQUIRED # The coverage reports that should be parsed (separated by semicolon). Globbing is supported.
-        targetdir: 'coveragereport' # REQUIRED # The directory where the generated report should be saved.
+        reports: '${{ github.workspace }}/tests/*Tests*/coverage.cobertura.xml' # REQUIRED # The coverage reports that should be parsed (separated by semicolon). Globbing is supported.
+        targetdir: '${{ github.workspace }}/CodeCoverage' # REQUIRED # The directory where the generated report should be saved.
         reporttypes: 'HtmlInline;Cobertura' # The output formats and scope (separated by semicolon) Values: Badges, Clover, Cobertura, OpenCover, CsvSummary, Html, Html_Dark, Html_Light, Html_BlueRed, HtmlChart, HtmlInline, HtmlInline_AzurePipelines, HtmlInline_AzurePipelines_Dark, HtmlInline_AzurePipelines_Light, HtmlSummary, JsonSummary, Latex, LatexSummary, lcov, MarkdownSummary, MarkdownSummaryGithub, MarkdownDeltaSummary, MHtml, PngChart, SonarQube, TeamCitySummary, TextSummary, TextDeltaSummary, Xml, XmlSummary
         tag: '${{ github.run_number }}_${{ github.run_id }}' # Optional tag or build version.
         toolpath: 'reportgeneratortool' # Default directory for installing the dotnet tool.
@@ -45,4 +45,4 @@ jobs:
       uses: actions/upload-artifact@v2.2.3
       with:
         name: CoverageReport # Artifact name        
-        path: coveragereport # Directory containing files to upload
+        path: ${{ github.workspace }}/CodeCoverage # Directory containing files to upload
