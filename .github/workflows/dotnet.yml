@@ -54,5 +54,5 @@ jobs:
       with:
         token: ${{ secrets.GIST_TOKEN }}
         gist_id: 992e5d9de8dfd156785e59694e76c3c5
-        file_path: '${{ github.workspace }}/CodeCoverage/badge_combined.svg'
+        file_path: 'CodeCoverage/badge_combined.svg'
         file_type: binary
