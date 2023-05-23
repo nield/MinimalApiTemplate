@@ -47,7 +47,7 @@ jobs:
         token: ${{ secrets.GIST_TOKEN }}
         gist_id: 'nield/992e5d9de8dfd156785e59694e76c3c5'
         file_path: 'CodeCoverage/badge_combined.svg'
-        file_name: code-coverage.json
+        gist_file_name: code-coverage.json
         file_type: binary
 
     - name: Upload coverage report artifact
