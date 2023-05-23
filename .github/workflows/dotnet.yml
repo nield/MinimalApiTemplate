@@ -29,6 +29,8 @@ jobs:
         file_name: badge_combined.svg
         # Content to write
         content: 'work please'
+      env:
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
 
     - name: Restore dependencies
       run: dotnet restore MinimalApiTemplate.sln
