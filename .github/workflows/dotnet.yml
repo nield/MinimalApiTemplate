@@ -30,7 +30,7 @@ jobs:
         # Content to write
         content: 'work please'
       env:
-        GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}      
 
     - name: Restore dependencies
       run: dotnet restore MinimalApiTemplate.sln
@@ -54,14 +54,15 @@ jobs:
         toolpath: 'reportgeneratortool' # Default directory for installing the dotnet tool    
         
     - name: Upload Badge
-      uses: exuanbo/actions-deploy-gist@v1
+      uses: exuanbo/actions-deploy-gist@v1.1.4
       with:
         token: ${{ secrets.TOKEN }}
-        gist_id: 036191e91ff7da1f940618f701c0ad9f
+        gist_id: c2e2426ab7f4bd2f65d7bb3d9ce0ee92
         file_path: 'CodeCoverage/badge_combined.svg'
         file_type: binary
-        #gist_file_name: code-coverage.json
-
+        gist_file_name: test.txt
+      env:
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
 
     - name: Upload coverage report artifact
       uses: actions/upload-artifact@v2.2.3
