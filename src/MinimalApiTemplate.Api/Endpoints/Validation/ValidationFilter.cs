@@ -1,9 +1,11 @@
-﻿using System.Net;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Net;
 using System.Reflection;
 using FluentValidation;
 
 namespace MinimalApiTemplate.Api.Endpoints.Validation;
 
+[ExcludeFromCodeCoverage]
 public static class ValidationFilter
 {
     public static EndpointFilterDelegate ValidationFilterFactory(EndpointFilterFactoryContext context, EndpointFilterDelegate next)
