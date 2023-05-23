@@ -30,7 +30,7 @@ jobs:
     #  run: dotnet tool install dotnet-reportgenerator-globaltool --version 4.8.13 --tool-path ${{ github.workspace }}/report-tool/ --no-cache
     
     - name: Test
-      run: dotnet test src/MinimalApiTemplate.Api/MinimalApiTemplate.Api.csproj -p:CollectCoverage=true -p:CoverletOutputFormat=cobertura --no-build --verbosity normal
+      run: dotnet test tests/MinimalApiTemplate.Api.Tests/MinimalApiTemplate.Api.Tests.csproj -p:CollectCoverage=true -p:CoverletOutputFormat=cobertura --no-build --verbosity normal
     
     - name: ReportGenerator
       uses: danielpalme/ReportGenerator-GitHub-Action@5.1.21
