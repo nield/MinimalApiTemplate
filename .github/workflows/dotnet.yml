@@ -45,10 +45,11 @@ jobs:
       uses: exuanbo/actions-deploy-gist@v1
       with:
         token: ${{ secrets.TOKEN }}
-        gist_id: 992e5d9de8dfd156785e59694e76c3c5
+        gist_id: 036191e91ff7da1f940618f701c0ad9f
         file_path: 'CodeCoverage/badge_combined.svg'
-        gist_file_name: code-coverage.json
         file_type: binary
+        #gist_file_name: code-coverage.json
+
 
     - name: Upload coverage report artifact
       uses: actions/upload-artifact@v2.2.3
