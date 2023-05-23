@@ -40,8 +40,7 @@ jobs:
         reporttypes: 'HtmlInline;Cobertura;Badges' # The output formats and scope (separated by semicolon) Values: Badges, Clover, Cobertura, OpenCover, CsvSummary, Html, Html_Dark, Html_Light, Html_BlueRed, HtmlChart, HtmlInline, HtmlInline_AzurePipelines, HtmlInline_AzurePipelines_Dark, HtmlInline_AzurePipelines_Light, HtmlSummary, JsonSummary, Latex, LatexSummary, lcov, MarkdownSummary, MarkdownSummaryGithub, MarkdownDeltaSummary, MHtml, PngChart, SonarQube, TeamCitySummary, TextSummary, TextDeltaSummary, Xml, XmlSummary
         tag: '${{ github.run_number }}_${{ github.run_id }}' # Optional tag or build version.
         toolpath: 'reportgeneratortool' # Default directory for installing the dotnet tool    
-
-    - uses: actions/checkout@v3
+        
     - name: Upload Badge
       uses: exuanbo/actions-deploy-gist@v1
       with:
