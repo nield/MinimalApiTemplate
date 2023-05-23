@@ -54,5 +54,6 @@ jobs:
       with:
         token: ${{ secrets.GIST_TOKEN }}
         gist_id: 992e5d9de8dfd156785e59694e76c3c5
+        gist_file_name: 'code-coverage.json'
         file_path: 'CodeCoverage/badge_combined.svg'
         file_type: binary
