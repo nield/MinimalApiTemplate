@@ -45,7 +45,7 @@ jobs:
       uses: exuanbo/actions-deploy-gist@v1
       with:
         token: ${{ secrets.GIST_TOKEN }}
-        gist_id: ae85cab721e8e09ca91618d7f1238558
+        gist_id: nield/ae85cab721e8e09ca91618d7f1238558
         file_path: 'CodeCoverage/badge_combined.svg'
         file_type: binary
 
