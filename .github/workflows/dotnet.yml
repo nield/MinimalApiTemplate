@@ -11,7 +11,6 @@ on:
 
 jobs:
   build:
-    permissions: write-all
     runs-on: ubuntu-latest
 
     steps:
@@ -31,12 +30,19 @@ jobs:
       run: dotnet tool install dotnet-reportgenerator-globaltool --version 4.8.13 --tool-path ${{ github.workspace }}/report-tool/ --no-cache
     
     - name: Test
-      run: dotnet test MinimalApiTemplate.sln -p:CollectCoverage=true -p:CoverletOutputFormat=cobertura --no-build --verbosity normal
+      run: dotnet test src/MinimalApiTemplate.Api/MinimalApiTemplate.Api.csproj -p:CollectCoverage=true --no-build --verbosity normal
     
-    - name: Compile Code Coverage
-      run:  ${{ github.workspace }}/report-tool/reportgenerator -reports:"${{ github.workspace }}/tests/*Tests*/coverage.cobertura.xml" -targetdir:"${{ github.workspace }}/CodeCoverage" -reporttypes:"Cobertura"
-    
-    - uses: 5monkeys/cobertura-action@master
+    - name: ReportGenerator
+      uses: danielpalme/ReportGenerator-GitHub-Action@5.1.21
       with:
-        path: "${{ github.workspace }}/CodeCoverage/Cobertura.xml"
-        minimum_coverage: 75
+        reports: 'coverage.xml' # REQUIRED # The coverage reports that should be parsed (separated by semicolon). Globbing is supported.
+        targetdir: 'coveragereport' # REQUIRED # The directory where the generated report should be saved.
+        reporttypes: 'HtmlInline;Cobertura' # The output formats and scope (separated by semicolon) Values: Badges, Clover, Cobertura, OpenCover, CsvSummary, Html, Html_Dark, Html_Light, Html_BlueRed, HtmlChart, HtmlInline, HtmlInline_AzurePipelines, HtmlInline_AzurePipelines_Dark, HtmlInline_AzurePipelines_Light, HtmlSummary, JsonSummary, Latex, LatexSummary, lcov, MarkdownSummary, MarkdownSummaryGithub, MarkdownDeltaSummary, MHtml, PngChart, SonarQube, TeamCitySummary, TextSummary, TextDeltaSummary, Xml, XmlSummary
+        tag: '${{ github.run_number }}_${{ github.run_id }}' # Optional tag or build version.
+        toolpath: 'reportgeneratortool' # Default directory for installing the dotnet tool.
+
+    - name: Upload coverage report artifact
+      uses: actions/upload-artifact@v2.2.3
+      with:
+        name: CoverageReport # Artifact name        
+        path: coveragereport # Directory containing files to upload
