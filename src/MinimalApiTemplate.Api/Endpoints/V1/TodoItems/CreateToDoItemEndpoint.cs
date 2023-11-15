@@ -18,7 +18,7 @@ public class CreateToDoItemEndpoint : BaseEndpoint,
     {
         app.ToDoItemRoute()
             .MapPost("", ([FromBody][Validate] CreateTodoItemRequest request, CancellationToken cancellationToken) =>
-                            HandleAsync(request, cancellationToken))
+                HandleAsync(request, cancellationToken))
             .WithDescription("Used to create a todo")
             .Produces<CreateTodoItemResponse>(StatusCodes.Status201Created);
     }

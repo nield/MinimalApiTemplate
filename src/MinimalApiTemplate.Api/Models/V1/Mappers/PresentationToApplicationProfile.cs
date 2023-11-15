@@ -1,5 +1,6 @@
-﻿using MinimalApiTemplate.Api.Models.V1.Responses;
-using MinimalApiTemplate.Application.Features.TodoItems.Queries.GetToDoItem;
+﻿using MinimalApiTemplate.Api.Models.V1.Requests;
+using MinimalApiTemplate.Application.Features.TodoItems.Commands.CreateTodoItem;
+using MinimalApiTemplate.Application.Features.TodoItems.Commands.UpdateTodoItem;
 using MinimalApiTemplate.Application.Features.TodoItems.Queries.GetTodoItemsWithPagination;
 
 namespace MinimalApiTemplate.Api.Models.V1.Mappers;
@@ -8,8 +9,11 @@ public class PresentationToApplicationProfile : Profile
 {
     public PresentationToApplicationProfile()
     {
-        CreateMap<GetTodoItemsDto, GetToDoItemsResponse>();
+        CreateMap<CreateTodoItemRequest, CreateTodoItemCommand>();
 
-        CreateMap<GetToDoItemDto, GetToDoItemResponse>();
+        CreateMap<UpdateTodoItemRequest, UpdateTodoItemCommand>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore());
+
+        CreateMap<GetTodoItemsWithPaginationRequest, GetTodoItemsWithPaginationQuery>();
     }
 }

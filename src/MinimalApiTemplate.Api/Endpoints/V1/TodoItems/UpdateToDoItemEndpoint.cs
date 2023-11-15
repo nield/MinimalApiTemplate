@@ -17,8 +17,8 @@ public class UpdateToDoItemEndpoint : BaseEndpoint,
     {
         app.ToDoItemRoute()
             .MapPut("{id}",
-                         ([FromRoute] long id, [FromBody][Validate] UpdateTodoItemRequest request, CancellationToken cancellationToken) =>
-                             HandleAsync(id, request, cancellationToken))
+                ([FromRoute] long id, [FromBody][Validate] UpdateTodoItemRequest request, CancellationToken cancellationToken) =>
+                    HandleAsync(id, request, cancellationToken))
             .WithDescription("Used to update a todo")
             .Produces(StatusCodes.Status204NoContent);
     }

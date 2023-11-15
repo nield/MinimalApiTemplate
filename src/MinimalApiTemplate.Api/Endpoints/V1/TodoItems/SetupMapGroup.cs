@@ -2,7 +2,7 @@
 
 namespace MinimalApiTemplate.Api.Endpoints.V1.TodoItems;
 
-public static class ToDoItemMapGroupSetup
+public static class SetupMapGroup
 {
     public static RouteGroupBuilder ToDoItemRoute(this IEndpointRouteBuilder webApplication) =>
         webApplication

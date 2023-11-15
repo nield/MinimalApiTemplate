@@ -1,6 +1,6 @@
 ﻿using MinimalApiTemplate.Api.Endpoints.Validation;
 
-namespace MinimalApiTemplate.Api.Endpoints.V1;
+namespace MinimalApiTemplate.Api.Endpoints;
 
 public static class MapGroupsSetup
 {

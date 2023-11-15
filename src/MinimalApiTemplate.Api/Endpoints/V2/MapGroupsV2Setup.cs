@@ -1,4 +1,4 @@
-﻿namespace MinimalApiTemplate.Api.Endpoints.V1;
+﻿namespace MinimalApiTemplate.Api.Endpoints.V2;
 
 public static class MapGroupsV2Setup
 {

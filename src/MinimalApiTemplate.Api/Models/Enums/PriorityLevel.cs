@@ -1,4 +1,4 @@
-﻿namespace MinimalApiTemplate.Api.Models.V1;
+﻿namespace MinimalApiTemplate.Api.Models.Enums;
 
 public enum PriorityLevel
 {

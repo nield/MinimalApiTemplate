@@ -23,7 +23,7 @@ public static class ConfigureServices
 
         services.ConfigureAutoMapper();       
 
-        services.AddEndpoints();
+        services.AddApiEndpoints();
 
         services.ConfigureSwagger(config);
 

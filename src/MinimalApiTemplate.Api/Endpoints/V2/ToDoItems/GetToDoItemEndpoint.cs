@@ -1,7 +1,7 @@
-﻿using MinimalApiTemplate.Api.Models.V1.Responses;
+﻿using MinimalApiTemplate.Api.Models.V2.Responses;
 using MinimalApiTemplate.Application.Features.TodoItems.Queries.GetToDoItem;
 
-namespace MinimalApiTemplate.Api.Endpoints.V1.TodoItems;
+namespace MinimalApiTemplate.Api.Endpoints.V2.TodoItems;
 
 public class GetToDoItemEndpoint : BaseEndpoint, 
     IEndpoint<GetToDoItemResponse, long, CancellationToken>
@@ -18,7 +18,7 @@ public class GetToDoItemEndpoint : BaseEndpoint,
             .MapGet("{id}", (long id, CancellationToken cancellationToken) =>
                 HandleAsync(id, cancellationToken))
             .WithDescription("Used to get a single todo")
-            .WithName("GetToDoItem")
+            .WithName("GetToDoItemV2")
             .Produces<GetToDoItemResponse>(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound);
 
