@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
+using MinimalApiTemplate.Api.Integration.Tests.Containers;
 
 namespace MinimalApiTemplate.Api.Integration.Tests;
 
@@ -14,19 +15,19 @@ public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProg
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        System.Environment.SetEnvironmentVariable(
+        Environment.SetEnvironmentVariable(
             "DOTNET_HOSTBUILDER__RELOADCONFIGONCHANGE",
             "false"
         );
 
-        System.Environment.SetEnvironmentVariable(
+        Environment.SetEnvironmentVariable(
             "ConnectionStrings__DefaultConnection",
-            Environment.DatabaseConnectionString
+            DatabaseContainer.Instance.GetConnectionString()
         );
 
-        System.Environment.SetEnvironmentVariable(
+        Environment.SetEnvironmentVariable(
             "RedisOptions__ConnectionString",
-            Environment.CacheConnectionString
+            CacheContainer.Instance.GetConnectionString()
         );
 
         builder.ConfigureTestServices(services =>

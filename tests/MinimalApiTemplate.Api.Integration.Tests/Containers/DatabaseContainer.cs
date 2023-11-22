@@ -4,36 +4,34 @@ using Microsoft.Data.SqlClient;
 
 namespace MinimalApiTemplate.Api.Integration.Tests.Containers;
 
-internal sealed class DatabaseContainer
+internal sealed class DatabaseContainer : BaseContainer<DatabaseContainer>
 {
     private const string DatabaseName = "templateDb";
     private const string DatabaseUsername = "sa";
     private const string DatabasePassword = "yourStrong(!)Password";
     private const ushort DatabaseDefaultPort = 1433;
 
-    private readonly IContainer _databaseContainer;
-
-    private static readonly Lazy<DatabaseContainer> SingleLazyInstance = new(() => new DatabaseContainer());
-
-    public static DatabaseContainer Instance => SingleLazyInstance.Value;
-
-    public string GetDatabaseConnectionString() => $"Server={_databaseContainer!.Hostname},{_databaseContainer.GetMappedPublicPort(DatabaseDefaultPort)};Database={DatabaseName};User Id={DatabaseUsername};Password={DatabasePassword};TrustServerCertificate=True";
-
-    private DatabaseContainer()
+    protected override IContainer BuildContainer()
     {
-        _databaseContainer = new ContainerBuilder()
-               .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
-               .WithPortBinding(DatabaseDefaultPort, true)
-               .WithEnvironment("ACCEPT_EULA", "Y")
-               .WithEnvironment("MSSQL_SA_PASSWORD", DatabasePassword)
-               .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(DatabaseDefaultPort))
-               .Build();
+        return new ContainerBuilder()
+           .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
+           .WithPortBinding(DatabaseDefaultPort, true)
+           .WithEnvironment("ACCEPT_EULA", "Y")
+           .WithEnvironment("MSSQL_SA_PASSWORD", DatabasePassword)
+           .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(DatabaseDefaultPort))
+           .Build();
+    }
 
-        _databaseContainer.StartAsync().ConfigureAwait(false).GetAwaiter().GetResult();
+    public override string GetConnectionString() =>
+        $"Server={_container!.Hostname},{_container.GetMappedPublicPort(DatabaseDefaultPort)};Database={DatabaseName};User Id={DatabaseUsername};Password={DatabasePassword};TrustServerCertificate=True";
+
+    public override async Task StartContainer()
+    {
+        await base.StartContainer();
 
         var seconds = 0;
 
-        while (!IsServerConnected())
+        while (!await IsServerConnected())
         {
             Thread.Sleep(1000);
 
@@ -46,18 +44,22 @@ internal sealed class DatabaseContainer
         }
     }
 
-    private bool IsServerConnected()
+    private async Task<bool> IsServerConnected()
     {
-        using var connection = new SqlConnection($"Server={_databaseContainer!.Hostname},{_databaseContainer?.GetMappedPublicPort(DatabaseDefaultPort)};Database=master;User Id={DatabaseUsername};Password={DatabasePassword};TrustServerCertificate=True");
+        var dbConnectionString = GetConnectionString();
+
+        var dbMasterConnectionString = dbConnectionString.Replace(DatabaseName, "master");
+
+        using var connection = new SqlConnection(dbMasterConnectionString);
 
         try
         {
-            connection.Open();
+            await connection.OpenAsync();
             return true;
         }
         catch (SqlException)
         {
             return false;
         }
-    }
+    }    
 }
