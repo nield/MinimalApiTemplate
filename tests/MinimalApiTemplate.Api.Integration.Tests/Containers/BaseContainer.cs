@@ -20,7 +20,7 @@ internal abstract class BaseContainer<TContainer>
 
     public abstract string GetConnectionString();
 
-    public async virtual Task StartContainer()
+    public async virtual Task StartContainerAsync()
     {
         await _container.StartAsync();
 
