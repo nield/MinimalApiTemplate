@@ -69,6 +69,6 @@ public class ToDoItemsEndpointTests
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
-        await _webApplicationFixture.Respawner.ResetAsync(DatabaseContainer.Instance.GetConnectionString());
+        await _webApplicationFixture.ResetDatabaseAsync();
     }
 }

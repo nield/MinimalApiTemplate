@@ -6,6 +6,7 @@ using Polly.Extensions.Http;
 using Polly;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Polly.Retry;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -30,16 +31,17 @@ public static class ConfigureServices
                 Constants.HttpClients.DefaultClientName,
                 (config) =>
                 {
-                    config.BaseAddress = new Uri(
-                        configuration["ExternalServices:Default:BaseUrl"]
-                    );
+                    var baseUri = configuration["ExternalServices:Default:BaseUrl"]
+                        ?? throw new InvalidDataException("External services base url was not set");
+
+                    config.BaseAddress = new Uri(baseUri);
                     config.Timeout = TimeSpan.FromSeconds(30);
                 }
             )
             .AddPolicyHandler(GetRetryPolicy());
     }
 
-    private static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
+    private static AsyncRetryPolicy<HttpResponseMessage> GetRetryPolicy()
     {
         return HttpPolicyExtensions
             .HandleTransientHttpError()

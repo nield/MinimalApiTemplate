@@ -17,20 +17,19 @@ public class TestAuthHandler : AuthenticationHandler<TestAuthHandlerOptions>
     public TestAuthHandler(
         IOptionsMonitor<TestAuthHandlerOptions> options,
         ILoggerFactory logger,
-        UrlEncoder encoder,
-        ISystemClock clock
+        UrlEncoder encoder
     )
-        : base(options, logger, encoder, clock) { }
+        : base(options, logger, encoder) { }
 
     protected override Task<AuthenticateResult> HandleAuthenticateAsync()
     {
         var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.Name, "Test user"),
-            new Claim(ClaimTypes.NameIdentifier, "1"),
-            new Claim("CorrelationId", "1"),
-            new Claim("UserProfileId", "1"),
-            new Claim("UserId", "1") 
+            new(ClaimTypes.Name, "Test user"),
+            new(ClaimTypes.NameIdentifier, "1"),
+            new("CorrelationId", "1"),
+            new("UserProfileId", "1"),
+            new("UserId", "1") 
         };
 
         // TODO: Add as many claims as you need here

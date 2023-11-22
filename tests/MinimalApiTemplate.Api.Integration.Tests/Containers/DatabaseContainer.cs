@@ -25,13 +25,13 @@ internal sealed class DatabaseContainer : BaseContainer<DatabaseContainer>
     public override string GetConnectionString() =>
         $"Server={_container!.Hostname},{_container.GetMappedPublicPort(DatabaseDefaultPort)};Database={DatabaseName};User Id={DatabaseUsername};Password={DatabasePassword};TrustServerCertificate=True";
 
-    public override async Task StartContainer()
+    public override async Task StartContainerAsync()
     {
-        await base.StartContainer();
+        await base.StartContainerAsync();
 
         var seconds = 0;
 
-        while (!await IsServerConnected())
+        while (!await IsServerConnectedAsync())
         {
             Thread.Sleep(1000);
 
@@ -44,7 +44,7 @@ internal sealed class DatabaseContainer : BaseContainer<DatabaseContainer>
         }
     }
 
-    private async Task<bool> IsServerConnected()
+    private async Task<bool> IsServerConnectedAsync()
     {
         var dbConnectionString = GetConnectionString();
 

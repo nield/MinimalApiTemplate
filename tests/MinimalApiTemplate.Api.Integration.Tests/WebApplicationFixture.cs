@@ -3,25 +3,33 @@ using MinimalApiTemplate.Api.Integration.Tests.Containers;
 using Respawn;
 
 namespace MinimalApiTemplate.Api.Integration.Tests;
+
 public class WebApplicationFixture : IAsyncLifetime
 {
     private readonly CustomWebApplicationFactory<global::Program> _factory = new();
 
-    public HttpClient HttpClient { get; private set; }
-    public Respawner Respawner { get; private set; }
+    private string? _databaseConnectionString = null;
+
+    public HttpClient HttpClient { get; private set; } = null!;
+    public Respawner Respawner { get; private set; } = null!;
 
     public async Task InitializeAsync()
     {
         await Task.WhenAll(
-            DatabaseContainer.Instance.StartContainer(),
-            CacheContainer.Instance.StartContainer(),
-            RabbitContainer.Instance.StartContainer());
+            DatabaseContainer.Instance.StartContainerAsync(),
+            CacheContainer.Instance.StartContainerAsync(),
+            RabbitContainer.Instance.StartContainerAsync());
 
         HttpClient = _factory.CreateClient();
         HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Test");
 
-        Respawner = await Respawner.CreateAsync(DatabaseContainer.Instance.GetConnectionString());
+        _databaseConnectionString = DatabaseContainer.Instance.GetConnectionString();
+
+        Respawner = await Respawner.CreateAsync(_databaseConnectionString);
     }
+
+    public async Task ResetDatabaseAsync() => 
+        await Respawner.ResetAsync(_databaseConnectionString!);
 
     public Task DisposeAsync()
     {

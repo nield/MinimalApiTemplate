@@ -21,7 +21,7 @@ public class CurrentUserServiceTests
         {
             User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
             {
-                new Claim("UserProfileId", "1")
+                new("UserProfileId", "1")
             }))
         };
 
@@ -47,7 +47,7 @@ public class CurrentUserServiceTests
         {
             User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
             {
-                new Claim("UserProfileId", "1")
+                new("UserProfileId", "1")
             }))
         };
 
@@ -73,7 +73,7 @@ public class CurrentUserServiceTests
         {
             User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
             {
-                new Claim("CorrelationId", "1")
+                new("CorrelationId", "1")
             }))
         };
 
@@ -96,7 +96,8 @@ public class CurrentUserServiceTests
     public void Given_AuthorizationClaimExists_When_FetchingToken_Then_ReturnsAuthorizationFromClaim()
     {
         var context = new DefaultHttpContext();
-        context.Request.Headers.Add("Authorization", "token");
+
+        context.Request.Headers.Append("Authorization", "token");
 
         _httpContextAccessorMock.SetupGet(x => x.HttpContext).Returns(context);
 
