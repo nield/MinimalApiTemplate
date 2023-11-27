@@ -1,5 +1,6 @@
 ﻿using System.Net.Http.Headers;
 using MinimalApiTemplate.Api.Integration.Tests.Containers;
+using MinimalApiTemplate.Infrastructure.Persistence;
 using Respawn;
 
 namespace MinimalApiTemplate.Api.Integration.Tests;
@@ -25,7 +26,11 @@ public class WebApplicationFixture : IAsyncLifetime
 
         _databaseConnectionString = DatabaseContainer.Instance.GetConnectionString();
 
-        Respawner = await Respawner.CreateAsync(_databaseConnectionString);
+        Respawner = await Respawner.CreateAsync(_databaseConnectionString, new RespawnerOptions
+        {
+            SchemasToInclude = [ApplicationDbContext.DbSchema],
+            TablesToIgnore = [ApplicationDbContext.MigrationTableName]
+        });
     }
 
     public async Task ResetDatabaseAsync() => 

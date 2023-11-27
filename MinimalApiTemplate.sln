@@ -31,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinimalApiTemplate.Infrastr
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{D1441E7A-663B-4881-B750-45212A38FD94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinimalApiTemplate.Sdk", "src\MinimalApiTemplate.Sdk\MinimalApiTemplate.Sdk.csproj", "{C4386161-9B1F-4B79-829D-08C0C3EB88C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinimalApiTemplate.Sdk", "src\MinimalApiTemplate.Sdk\MinimalApiTemplate.Sdk.csproj", "{C4386161-9B1F-4B79-829D-08C0C3EB88C7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

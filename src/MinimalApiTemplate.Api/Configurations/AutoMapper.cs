@@ -6,10 +6,9 @@ public static class AutoMapper
 {
     public static void ConfigureAutoMapper(this IServiceCollection services)
     {
-        services.AddAutoMapper(new[]
-{
-            Assembly.GetExecutingAssembly(),
+        services.AddAutoMapper(        
+            Assembly.GetExecutingAssembly(), // api
             typeof(IApplicationMarker).Assembly
-        });
+        );
     }
 }

@@ -1,31 +1,18 @@
-﻿using MinimalApiTemplate.Infrastructure.Persistence.Interceptors;
-using MinimalApiTemplate.Infrastructure.Persistence;
-using MediatR;
+﻿using MinimalApiTemplate.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using MinimalApiTemplate.Domain.Entities;
 
 namespace MinimalApiTemplate.Infrastructure.Tests.Persistence;
 
 public class InMemoryApplicationDbContextFactory
-{
-    private readonly IServiceProvider _serviceProvider;
-
-    public InMemoryApplicationDbContextFactory(IServiceProvider serviceProvider)
-    {
-        _serviceProvider = serviceProvider;
-    }
-
+{    
     public ApplicationDbContext CreateContext(string databaseName)
     {
         var contextOptions = new DbContextOptionsBuilder<ApplicationDbContext>(new DbContextOptions<ApplicationDbContext>())
                 .UseInMemoryDatabase(databaseName)
                 .Options;
 
-        var mediator = _serviceProvider.GetRequiredService<IMediator>();
-        var auditInterceptor = _serviceProvider.GetRequiredService<AuditableEntitySaveChangesInterceptor>();
-
-        var dbContext = new ApplicationDbContext(contextOptions, mediator, auditInterceptor);
+        var dbContext = new ApplicationDbContext(contextOptions);
 
         SeedData(dbContext);
 

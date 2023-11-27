@@ -1,8 +1,6 @@
-﻿using MinimalApi.Endpoint.Extensions;
-using MinimalApiTemplate.Api.Filters;
+﻿using MinimalApiTemplate.Api.Filters;
 using MinimalApiTemplate.Api.Services;
 using MinimalApiTemplate.Application.Common.Interfaces;
-
 
 namespace MinimalApiTemplate.Api.Configurations;
 
@@ -13,6 +11,9 @@ public static class ConfigureServices
         services.AddEndpointsApiExplorer();
 
         services.AddScoped<ICurrentUserService, CurrentUserService>();
+
+        services.AddSingleton(TimeProvider.System);
+
         services.AddSingleton<ExceptionHandlingMiddleware>();
 
         services.AddHttpContextAccessor();

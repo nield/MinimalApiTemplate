@@ -2,6 +2,7 @@
 using Asp.Versioning;
 
 namespace MinimalApiTemplate.Api.Endpoints;
+
 public static class VersionsSets
 {
     private static readonly Dictionary<ApiVersion, ApiVersionSet> _versionSets = new();
@@ -10,12 +11,14 @@ public static class VersionsSets
     {
         var key = new ApiVersion(majorVersion, minorVersion);
 
-        if (!_versionSets.ContainsKey(key))
+        if (!_versionSets.TryGetValue(key, out ApiVersionSet? value))
         {
-            _versionSets[key] = CreateVersionSet(majorVersion, minorVersion);
+            value = CreateVersionSet(majorVersion, minorVersion);
+
+            _versionSets[key] = value;
         }
 
-        return _versionSets[key];
+        return value!;
     }
 
     private static ApiVersionSet CreateVersionSet(int majorVersion, int minorVersion)

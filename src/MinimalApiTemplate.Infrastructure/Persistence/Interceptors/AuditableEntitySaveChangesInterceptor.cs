@@ -6,10 +6,14 @@ namespace MinimalApiTemplate.Infrastructure.Persistence.Interceptors;
 public class AuditableEntitySaveChangesInterceptor : SaveChangesInterceptor
 {
     private readonly ICurrentUserService _currentUserService;
+    private readonly TimeProvider _dateTimeProvider;
 
-    public AuditableEntitySaveChangesInterceptor(ICurrentUserService currentUserService)
+    public AuditableEntitySaveChangesInterceptor(
+        ICurrentUserService currentUserService,
+        TimeProvider dateTimeProvider)
     {
         _currentUserService = currentUserService;
+        _dateTimeProvider = dateTimeProvider;
     }
 
     public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
@@ -35,7 +39,7 @@ public class AuditableEntitySaveChangesInterceptor : SaveChangesInterceptor
             if (entry.State == EntityState.Added)
             {
                 entry.Entity.CreatedBy = _currentUserService.UserId;
-                entry.Entity.CreatedDateTime = DateTimeOffset.UtcNow;
+                entry.Entity.CreatedDateTime = _dateTimeProvider.GetUtcNow();
             }
 
             if (entry.State == EntityState.Added
@@ -43,7 +47,7 @@ public class AuditableEntitySaveChangesInterceptor : SaveChangesInterceptor
                     || entry.HasChangedOwnedEntities())
             {
                 entry.Entity.LastModifiedBy = _currentUserService.UserId;
-                entry.Entity.LastModifiedDateTime = DateTimeOffset.UtcNow;
+                entry.Entity.LastModifiedDateTime = _dateTimeProvider.GetUtcNow();
             }
         }
     }
