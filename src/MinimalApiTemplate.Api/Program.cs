@@ -5,6 +5,7 @@ using MinimalApi.Endpoint.Extensions;
 using MinimalApiTemplate.Api.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
+
 builder.ConfigureLogging();
 
 // Add services to the container.
@@ -41,4 +42,10 @@ await app.ApplyMigrations();
 app.Run();
 
 // Make the implicit Program class public so test projects can access it
-public partial class Program { }
+public partial class Program
+{
+    protected Program()
+    {
+
+    }
+}

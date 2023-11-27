@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -11,19 +10,16 @@ public class ApplicationDbContextInitialiser
 {
     private readonly ILogger<ApplicationDbContextInitialiser> _logger;
     private readonly ApplicationDbContext _context;
-    private readonly IConfiguration _configuration;
     private readonly IHostEnvironment _hostEnvironment;
 
     public ApplicationDbContextInitialiser(
         ApplicationDbContext context,
-        IConfiguration configuration,
         IHostEnvironment hostEnvironment,
         ILogger<ApplicationDbContextInitialiser> logger
     )
     {
         _logger = logger;
         _context = context;
-        _configuration = configuration;
         _hostEnvironment = hostEnvironment;
     }
 

@@ -7,6 +7,7 @@ using Polly;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Polly.Retry;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -52,17 +53,24 @@ public static class ConfigureServices
 
     private static void SetupDatabase(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddScoped<AuditableEntitySaveChangesInterceptor>();
+        services.AddScoped<ISaveChangesInterceptor, AuditableEntitySaveChangesInterceptor>();
+        services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
+        services.AddSingleton<ISaveChangesInterceptor, SoftDeleteSaveChangesInterceptor>();
+
         services.AddScoped<ApplicationDbContextInitialiser>();
 
         services.AddScoped<IApplicationDbContext>(provider =>
             provider.GetRequiredService<ApplicationDbContext>());
 
-        services.AddDbContext<ApplicationDbContext>(options =>
+        services.AddDbContext<ApplicationDbContext>((sp, options) =>
+        {
+            options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
+
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
                 builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)
                                     .EnableRetryOnFailure(maxRetryCount: 3)
-                                    .MigrationsHistoryTable("__EFMigrationsHistory", ApplicationDbContext.DbSchema)));       
+                                    .MigrationsHistoryTable(ApplicationDbContext.MigrationTableName, ApplicationDbContext.DbSchema));
+        });       
     }
 
     private static void SetupRepositories(this IServiceCollection services)

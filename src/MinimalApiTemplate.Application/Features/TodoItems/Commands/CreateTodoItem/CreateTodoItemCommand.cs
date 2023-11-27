@@ -26,7 +26,6 @@ public class CreateTodoItemCommandHandler : IRequestHandler<CreateTodoItemComman
         // Example adding event
         entity.AddDomainEvent(_mapper.Map<TodoItemCreatedEvent>(entity));
 
-
         using (AuditScope.Create("ToDoItem:Create", () => entity))
         {
             await _toDoItemRepository.AddAsync(entity, cancellationToken);
