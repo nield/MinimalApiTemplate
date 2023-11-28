@@ -92,11 +92,23 @@ public static class ConfigureServices
                 options.Configuration = configuration["RedisOptions:ConnectionString"];
                 options.InstanceName = configuration["RedisOptions:InstanceName"];
             });
+
+            services.AddStackExchangeRedisOutputCache(options =>
+            {
+                options.Configuration = configuration["RedisOptions:ConnectionString"];
+                options.InstanceName = configuration["RedisOptions:InstanceName"];
+            });
         }
         else
         {
             services.AddDistributedMemoryCache();
         }
+
+        services.AddOutputCache(options =>
+        {
+            options.AddBasePolicy(builder =>
+                builder.Expire(TimeSpan.FromMinutes(5)));
+        });
     }
 
     private static void SetupAuditing(this IServiceCollection services, IConfiguration configuration)

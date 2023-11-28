@@ -1,16 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 using MinimalApiTemplate.Api.Models.V1.Requests;
 using MinimalApiTemplate.Application.Features.TodoItems.Commands.UpdateTodoItem;
+using static MinimalApiTemplate.Application.Common.Constants;
 
 namespace MinimalApiTemplate.Api.Endpoints.V1.TodoItems;
 
 public class UpdateToDoItemEndpoint : BaseEndpoint, 
     IEndpoint<IResult, long, UpdateTodoItemRequest, CancellationToken>
 {
-    public UpdateToDoItemEndpoint(ISender sender, IMapper mapper)
+    private readonly IOutputCacheStore _outputCacheStore;
+
+    public UpdateToDoItemEndpoint(ISender sender, IMapper mapper, IOutputCacheStore outputCacheStore)
         : base(sender, mapper)
     {
-
+        _outputCacheStore = outputCacheStore;
     }
 
     public void AddRoute(IEndpointRouteBuilder app)
@@ -29,6 +33,8 @@ public class UpdateToDoItemEndpoint : BaseEndpoint,
         command.Id = id;
 
         await _mediator.Send(command, cancellationToken);
+
+        await _outputCacheStore.EvictByTagAsync(OutputCacheTags.ToDoList, cancellationToken);
 
         return Results.NoContent();
     }

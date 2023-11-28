@@ -1,6 +1,7 @@
 ﻿using MinimalApiTemplate.Api.Models.V1.Requests;
 using MinimalApiTemplate.Api.Models.V1.Responses;
 using MinimalApiTemplate.Application.Features.TodoItems.Queries.GetTodoItemsWithPagination;
+using static MinimalApiTemplate.Application.Common.Constants;
 
 namespace MinimalApiTemplate.Api.Endpoints.V1.TodoItems;
 
@@ -27,6 +28,9 @@ public class GetTodoItemsWithPaginationEndpoint : BaseEndpoint,
 
                 return ops;
             })
+            .CacheOutput(builder => builder.SetVaryByQuery(nameof(GetTodoItemsWithPaginationRequest.PageNumber),
+                                                            nameof(GetTodoItemsWithPaginationRequest.PageSize))
+                                            .Tag(OutputCacheTags.ToDoList))
             .Produces<PaginatedListResponse<GetToDoItemsResponse>>(StatusCodes.Status200OK);
     }
 

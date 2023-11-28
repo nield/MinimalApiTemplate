@@ -20,6 +20,8 @@ app.UseCompression();
 
 app.UseExceptionHandler(_ => {  });
 
+app.UseOutputCache();
+
 app.MapEndpoints();
 
 if (!app.Environment.IsProduction())
