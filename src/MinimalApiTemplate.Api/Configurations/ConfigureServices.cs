@@ -1,5 +1,4 @@
-﻿using MinimalApiTemplate.Api.Infrastructure;
-using MinimalApiTemplate.Api.Services;
+﻿using MinimalApiTemplate.Api.Services;
 using MinimalApiTemplate.Application.Common.Interfaces;
 
 namespace MinimalApiTemplate.Api.Configurations;
@@ -14,15 +13,15 @@ public static class ConfigureServices
 
         services.AddSingleton(TimeProvider.System);
 
-        services.AddExceptionHandler<CustomExceptionHandler>();
-
         services.AddHttpContextAccessor();
 
         services.ConfigureHealthChecks(config);
 
         services.ConfigureFluentValidator();
 
-        services.ConfigureAutoMapper();       
+        services.ConfigureAutoMapper();
+
+        services.ConfigureExceptionHandlers();
 
         services.AddApiEndpoints();
 

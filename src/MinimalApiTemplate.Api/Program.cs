@@ -36,6 +36,7 @@ app.MapHealthChecks("/health", new HealthCheckOptions
 });
 
 app.MapGet("/ping", () => "Working as expected")
+    .ShortCircuit(200)
     .ExcludeFromDescription();
 
 await app.ApplyMigrations();
