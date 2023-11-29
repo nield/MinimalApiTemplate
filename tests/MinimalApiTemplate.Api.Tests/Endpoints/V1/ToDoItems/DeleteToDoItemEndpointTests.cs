@@ -11,7 +11,7 @@ public class DeleteToDoItemEndpointTests : BaseTestFixture
     public DeleteToDoItemEndpointTests(MappingFixture mappingFixture)
         : base(mappingFixture)
     {
-        _endpoint = new(_senderMock.Object, _mapper);
+        _endpoint = new(_senderMock.Object, _mapper, _outputCacheStoreMock.Object);
     }
 
     [Fact]

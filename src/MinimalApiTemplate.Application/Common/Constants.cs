@@ -19,4 +19,9 @@ public static class Constants
             public const string ToDos = "ToDos";
         }
     }
+
+    public static class OutputCacheTags
+    {
+        public const string ToDoList = "ToDoList";
+    }
 }

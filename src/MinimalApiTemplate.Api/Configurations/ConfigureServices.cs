@@ -1,4 +1,4 @@
-﻿using MinimalApiTemplate.Api.Filters;
+﻿using MinimalApiTemplate.Api.Infrastructure;
 using MinimalApiTemplate.Api.Services;
 using MinimalApiTemplate.Application.Common.Interfaces;
 
@@ -14,7 +14,7 @@ public static class ConfigureServices
 
         services.AddSingleton(TimeProvider.System);
 
-        services.AddSingleton<ExceptionHandlingMiddleware>();
+        services.AddExceptionHandler<CustomExceptionHandler>();
 
         services.AddHttpContextAccessor();
 

@@ -1,5 +1,6 @@
 ﻿
 using MediatR;
+using Microsoft.AspNetCore.OutputCaching;
 
 namespace MinimalApiTemplate.Api.Tests;
 
@@ -19,6 +20,7 @@ public abstract class BaseTestFixture
 {
     protected readonly IMapper _mapper;
     protected readonly Mock<ISender> _senderMock = new();
+    protected readonly Mock<IOutputCacheStore> _outputCacheStoreMock = new();
 
     protected BaseTestFixture(MappingFixture mappingFixture)
     {

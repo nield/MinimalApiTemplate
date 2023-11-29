@@ -1,4 +1,5 @@
 ﻿using MinimalApiTemplate.Api.Endpoints.V1.TodoItems;
+using MinimalApiTemplate.Api.Models.V1.Requests;
 using MinimalApiTemplate.Application.Common.Models;
 using MinimalApiTemplate.Application.Features.TodoItems.Queries.GetTodoItemsWithPagination;
 
@@ -21,7 +22,7 @@ public class GetTodoItemsWithPaginationEndpointTests : BaseTestFixture
         _senderMock.Setup(x => x.Send(It.IsAny<GetTodoItemsWithPaginationQuery>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new PaginatedList<GetTodoItemsDto>(data, 10, 1, 10));
 
-        var query = Builder<GetTodoItemsWithPaginationQuery>.CreateNew().Build();
+        var query = Builder<GetTodoItemsWithPaginationRequest>.CreateNew().Build();
 
         var sut = await _endpoint.HandleAsync(query, CancellationToken.None);
 

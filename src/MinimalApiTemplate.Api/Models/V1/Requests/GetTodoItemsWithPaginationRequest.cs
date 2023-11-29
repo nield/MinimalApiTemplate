@@ -1,7 +1,12 @@
-﻿namespace MinimalApiTemplate.Api.Models.V1.Requests;
+﻿using System.ComponentModel;
+
+namespace MinimalApiTemplate.Api.Models.V1.Requests;
 
 public class GetTodoItemsWithPaginationRequest
 {
-    public int PageNumber { get; set; } = 1;
-    public int PageSize { get; set; } = 10;
+    [DefaultValue(1)]
+    public int PageNumber { get; set; }
+
+    [DefaultValue(10)]
+    public int PageSize { get; set; }
 }

@@ -13,7 +13,7 @@ public class CreateToDoItemEndpointTests : BaseTestFixture
     public CreateToDoItemEndpointTests(MappingFixture mappingFixture)
         : base(mappingFixture)
     {
-        _endpoint = new(_senderMock.Object, _mapper);
+        _endpoint = new(_senderMock.Object, _mapper, _outputCacheStoreMock.Object);
     }
 
     [Fact]
