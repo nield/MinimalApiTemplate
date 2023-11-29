@@ -11,6 +11,7 @@ public static class ExceptionHandlers
         services.AddExceptionHandler<ValidationExceptionHandler>();
         services.AddExceptionHandler<UnauthorizedAccessExceptionHandler>();
         services.AddExceptionHandler<ForbiddenAccessExceptionHandler>();
+        services.AddExceptionHandler<UnhandledExceptionHandler>();
 
     }
 }

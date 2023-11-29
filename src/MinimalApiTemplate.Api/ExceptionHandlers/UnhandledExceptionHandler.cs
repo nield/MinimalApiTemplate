@@ -6,21 +6,22 @@ namespace MinimalApiTemplate.Api.ExceptionHandlers;
 public class UnhandledExceptionHandler : BaseExceptionHandler<Exception>
 {
     private readonly IWebHostEnvironment _webHostEnvironment;
-    private readonly ILogger<UnhandledExceptionHandler> _logger;
 
     public override HttpStatusCode HttpStatusCode => HttpStatusCode.InternalServerError;
 
-    public UnhandledExceptionHandler(IWebHostEnvironment webHostEnvironment,
-        ILogger<UnhandledExceptionHandler> logger)
+    public UnhandledExceptionHandler(IWebHostEnvironment webHostEnvironment)
     {
         _webHostEnvironment = webHostEnvironment;
-        _logger = logger;
     }
+
+    /// <summary>
+    /// Note: Error logged in Mediator pipeline behavior
+    /// </summary>
+    /// <param name="exception"></param>
+    /// <returns></returns>
 
     public override ProblemDetails GenerateProblemDetails(Exception exception)
     {
-        _logger.LogError(exception, "Unhandled exception");
-
         var errorDetail = "An error occurred while processing your request.";
 
         if (!_webHostEnvironment.IsProduction() && !_webHostEnvironment.IsStaging())

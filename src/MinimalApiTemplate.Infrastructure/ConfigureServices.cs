@@ -104,11 +104,7 @@ public static class ConfigureServices
             services.AddDistributedMemoryCache();
         }
 
-        services.AddOutputCache(options =>
-        {
-            options.AddBasePolicy(builder =>
-                builder.Expire(TimeSpan.FromMinutes(5)));
-        });
+        services.AddOutputCache();
     }
 
     private static void SetupAuditing(this IServiceCollection services, IConfiguration configuration)
