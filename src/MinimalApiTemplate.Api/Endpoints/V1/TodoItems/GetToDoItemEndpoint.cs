@@ -1,4 +1,4 @@
-﻿using MinimalApiTemplate.Api.Models.V1.Responses;
+﻿    using MinimalApiTemplate.Api.Models.V1.Responses;
 using MinimalApiTemplate.Application.Features.TodoItems.Queries.GetToDoItem;
 
 namespace MinimalApiTemplate.Api.Endpoints.V1.TodoItems;
@@ -14,14 +14,13 @@ public class GetToDoItemEndpoint : BaseEndpoint,
 
     public void AddRoute(IEndpointRouteBuilder app)
     {
-        app.ToDoItemRoute()
+        app.ToDoItemRouteV1()
             .MapGet("{id}", (long id, CancellationToken cancellationToken) =>
                 HandleAsync(id, cancellationToken))
             .WithDescription("Used to get a single todo")
             .WithName("GetToDoItem")
             .Produces<GetToDoItemResponse>(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound);
-
     }
 
     public async Task<GetToDoItemResponse> HandleAsync(long id, CancellationToken cancellationToken)

@@ -1,4 +1,4 @@
-﻿namespace MinimalApiTemplate.Api.Endpoints;
+﻿namespace MinimalApiTemplate.Api.Endpoints.Common;
 
 public abstract class BaseEndpoint
 {

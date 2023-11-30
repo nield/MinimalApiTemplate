@@ -16,7 +16,7 @@ public class GetTodoItemsWithPaginationEndpoint : BaseEndpoint,
 
     public void AddRoute(IEndpointRouteBuilder app)
     {
-        app.ToDoItemRoute()
+        app.ToDoItemRouteV1()
             .MapGet("",                        
                 ([AsParameters] GetTodoItemsWithPaginationRequest request, CancellationToken cancellationToken) => 
                     HandleAsync(request, cancellationToken))
