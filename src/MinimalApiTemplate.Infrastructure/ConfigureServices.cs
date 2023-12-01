@@ -19,6 +19,7 @@ public static class ConfigureServices
         services.SetupDatabase(configuration, hostEnvironment);
         services.SetupCaching(configuration);
         services.SetupRepositories();
+        services.SetupMetrics();
         services.SetupAuditing(configuration);
         services.SetupHttpClients(configuration);
 
@@ -85,7 +86,14 @@ public static class ConfigureServices
                                     .AddClasses(c => c.AssignableTo(typeof(IRepository<>)))
                                     .AsImplementedInterfaces()
                                     .WithScopedLifetime());
+    }
 
+    private static void SetupMetrics(this IServiceCollection services) 
+    {
+        services.Scan(scan => scan.FromAssemblyOf<IInfrastructureMarker>()
+                                    .AddClasses(c => c.AssignableTo<IMetric>())
+                                    .AsImplementedInterfaces()
+                                    .WithSingletonLifetime());
     }
 
     private static void SetupCaching(this IServiceCollection services, 

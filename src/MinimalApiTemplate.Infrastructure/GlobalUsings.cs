@@ -5,3 +5,5 @@ global using MinimalApiTemplate.Application.Common.Interfaces;
 global using Microsoft.EntityFrameworkCore;
 global using MinimalApiTemplate.Application.Common;
 global using MinimalApiTemplate.Application.Common.Interfaces.Repositories;
+global using MinimalApiTemplate.Application.Common.Interfaces.Metrics;
+global using System.Diagnostics.Metrics;

@@ -9,7 +9,7 @@ public class CreateToDoItemCommandHandlerTests : BaseTestFixture<CreateTodoItemC
     public CreateToDoItemCommandHandlerTests(MappingFixture mappingFixture)
         : base(mappingFixture)
     {
-        _handler = new(_templateRepositoryMock.Object, _mapper);
+        _handler = new(_templateRepositoryMock.Object, _mapper, _toDoMetricMock.Object);
     }
 
     [Fact]

@@ -1,4 +1,6 @@
 ﻿
+using MinimalApiTemplate.Application.Common.Interfaces.Metrics;
+
 namespace MinimalApiTemplate.Application.Tests;
 
 [Collection("Mapping collection")]
@@ -6,6 +8,7 @@ public abstract class BaseTestFixture<T> : BaseTestFixture where T: class
 {
     protected readonly Mock<ILogger<T>> _logger = new();
     protected readonly Mock<IToDoItemRepository> _templateRepositoryMock = new();
+    protected readonly Mock<IToDoItemMetrics> _toDoMetricMock = new();
 
     protected BaseTestFixture(MappingFixture mappingFixture) 
         : base(mappingFixture)
@@ -18,6 +21,7 @@ public abstract class BaseTestFixture<T> : BaseTestFixture where T: class
         base.DisposeCore();
 
         _templateRepositoryMock.VerifyAll();
+        _toDoMetricMock.VerifyAll();
     }
 }
 
@@ -26,7 +30,7 @@ public abstract class BaseTestFixture : IDisposable
 {
     protected readonly IMapper _mapper;
     protected readonly Mock<IApplicationDbContext> _applicationDbContextMock = new();
-    public readonly Mock<IPublishMessageService> _publishMessageServiceMock = new();
+    protected readonly Mock<IPublishMessageService> _publishMessageServiceMock = new();
     protected bool _disposedValue;
 
     protected BaseTestFixture(MappingFixture mappingFixture)

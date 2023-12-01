@@ -24,4 +24,9 @@ public static class Constants
     {
         public const string ToDoList = "ToDoList";
     }
+
+    public static class MetricMeters
+    {
+        public const string GeneralMeter = "MinimalTemplate";
+    }
 }

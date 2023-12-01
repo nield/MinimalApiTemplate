@@ -1,4 +1,6 @@
-﻿namespace MinimalApiTemplate.Application.Features.TodoItems.Commands.CreateTodoItem;
+﻿using MinimalApiTemplate.Application.Common.Interfaces.Metrics;
+
+namespace MinimalApiTemplate.Application.Features.TodoItems.Commands.CreateTodoItem;
 
 public record CreateTodoItemCommand : IRequest<long>
 {
@@ -12,11 +14,13 @@ public class CreateTodoItemCommandHandler : IRequestHandler<CreateTodoItemComman
 {
     private readonly IToDoItemRepository _toDoItemRepository;
     private readonly IMapper _mapper;
+    private readonly IToDoItemMetrics _toDoItemMetrics;
 
-    public CreateTodoItemCommandHandler(IToDoItemRepository toDoItemRepository, IMapper mapper)
+    public CreateTodoItemCommandHandler(IToDoItemRepository toDoItemRepository, IMapper mapper, IToDoItemMetrics toDoItemMetrics)
     {
         _toDoItemRepository = toDoItemRepository;
         _mapper = mapper;
+        _toDoItemMetrics = toDoItemMetrics;
     }
 
     public async Task<long> Handle(CreateTodoItemCommand request, CancellationToken cancellationToken)
@@ -30,6 +34,8 @@ public class CreateTodoItemCommandHandler : IRequestHandler<CreateTodoItemComman
         {
             await _toDoItemRepository.AddAsync(entity, cancellationToken);
         }
+
+        _toDoItemMetrics.ToDoItemsCreated(request.Title);
 
         return entity.Id;
     }
