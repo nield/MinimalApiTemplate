@@ -16,7 +16,7 @@ public static class ConfigureServices
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, 
         IConfiguration configuration, IHostEnvironment hostEnvironment)
     {
-        services.SetupDatabase(configuration);
+        services.SetupDatabase(configuration, hostEnvironment);
         services.SetupCaching(configuration);
         services.SetupRepositories();
         services.SetupAuditing(configuration);
@@ -39,7 +39,8 @@ public static class ConfigureServices
                     config.Timeout = TimeSpan.FromSeconds(30);
                 }
             )
-            .AddPolicyHandler(GetRetryPolicy());
+            .AddPolicyHandler(GetRetryPolicy())
+            .AddHeaderPropagation();
     }
 
     private static AsyncRetryPolicy<HttpResponseMessage> GetRetryPolicy()
@@ -51,7 +52,9 @@ public static class ConfigureServices
             .WaitAndRetryAsync(6, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
     }
 
-    private static void SetupDatabase(this IServiceCollection services, IConfiguration configuration)
+    private static void SetupDatabase(this IServiceCollection services, 
+        IConfiguration configuration,
+        IHostEnvironment hostEnvironment)
     {
         services.AddScoped<ISaveChangesInterceptor, AuditableEntitySaveChangesInterceptor>();
         services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
@@ -66,10 +69,13 @@ public static class ConfigureServices
         {
             options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
 
-            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
-                builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)
-                                    .EnableRetryOnFailure(maxRetryCount: 3)
-                                    .MigrationsHistoryTable(ApplicationDbContext.MigrationTableName, ApplicationDbContext.DbSchema));
+            options.UseSqlServer(
+                configuration.GetConnectionString("DefaultConnection"),
+                builder =>
+                    builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)
+                        .EnableRetryOnFailure(maxRetryCount: 3)
+                        .MigrationsHistoryTable(ApplicationDbContext.MigrationTableName, ApplicationDbContext.DbSchema))
+                    .EnableSensitiveDataLogging(hostEnvironment.IsDevelopment());                                    
         });       
     }
 

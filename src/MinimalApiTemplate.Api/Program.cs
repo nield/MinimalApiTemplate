@@ -22,6 +22,8 @@ app.UseExceptionHandler(_ => {  });
 
 app.UseOutputCache();
 
+app.UseHeaderPropagation();
+
 app.MapEndpoints();
 
 if (!app.Environment.IsProduction())
