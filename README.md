@@ -6,9 +6,11 @@ An example Minimal Api application with OpenAPI, Swashbuckle, and API versioning
 
 It also include the following: 
 - Redis OutputCaching
-- CorrelationId using HeaderPropagation
-- OpenTelemtry with custom metrics
-- Integration tests using Testconainters
+- .Net 8 ExceptionHandlers
+- CorrelationId handling using HeaderPropagation
+- OpenTelemetry with custom metrics
+- Integration tests using Testcontainers
+- API versioning
 
 This template is based on [Jason Tyler's Template](https://github.com/jasontaylordev/CleanArchitecture), but contains the list above and uses repositories in command handlers and different unit test and integration test setups.
 
