@@ -27,7 +27,7 @@ public abstract class BaseExceptionHandler<TException> : IExceptionHandler where
         return false;
     }
 
-    private static async Task WriteErrorMessageToContext<T>(
+    protected static async Task WriteErrorMessageToContext<T>(
         HttpContext context,
         HttpStatusCode httpStatusCode,
         T problemDetails,

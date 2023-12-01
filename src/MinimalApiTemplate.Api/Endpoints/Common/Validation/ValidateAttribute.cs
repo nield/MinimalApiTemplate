@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace MinimalApiTemplate.Api.Endpoints;
+namespace MinimalApiTemplate.Api.Endpoints.Common;
 
 [ExcludeFromCodeCoverage]
 [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]

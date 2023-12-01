@@ -19,7 +19,7 @@ public class DeleteToDoItemEndpoint : BaseEndpoint,
 
     public void AddRoute(IEndpointRouteBuilder app)
     {
-        app.ToDoItemRoute()
+        app.ToDoItemRouteV1()
             .MapDelete("{id}",
                  ([FromRoute] long id, CancellationToken cancellationToken) =>
                      HandleAsync(id, cancellationToken))

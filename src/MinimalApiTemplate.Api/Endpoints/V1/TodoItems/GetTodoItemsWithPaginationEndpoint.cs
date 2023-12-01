@@ -16,7 +16,7 @@ public class GetTodoItemsWithPaginationEndpoint : BaseEndpoint,
 
     public void AddRoute(IEndpointRouteBuilder app)
     {
-        app.ToDoItemRoute()
+        app.ToDoItemRouteV1()
             .MapGet("",                        
                 ([AsParameters] GetTodoItemsWithPaginationRequest request, CancellationToken cancellationToken) => 
                     HandleAsync(request, cancellationToken))
@@ -30,7 +30,8 @@ public class GetTodoItemsWithPaginationEndpoint : BaseEndpoint,
             })
             .CacheOutput(builder => builder.SetVaryByQuery(nameof(GetTodoItemsWithPaginationRequest.PageNumber),
                                                             nameof(GetTodoItemsWithPaginationRequest.PageSize))
-                                            .Tag(OutputCacheTags.ToDoList))
+                                            .Expire(TimeSpan.FromMinutes(5))
+                                            .Tag(OutputCacheTags.ToDoList))                                            
             .Produces<PaginatedListResponse<GetToDoItemsResponse>>(StatusCodes.Status200OK);
     }
 

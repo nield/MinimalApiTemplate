@@ -3,7 +3,7 @@ using System.Net;
 using System.Reflection;
 using FluentValidation;
 
-namespace MinimalApiTemplate.Api.Endpoints.Validation;
+namespace MinimalApiTemplate.Api.Endpoints.Common;
 
 [ExcludeFromCodeCoverage]
 public static class ValidationFilter

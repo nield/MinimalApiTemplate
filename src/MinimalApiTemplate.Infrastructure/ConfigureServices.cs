@@ -16,9 +16,10 @@ public static class ConfigureServices
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, 
         IConfiguration configuration, IHostEnvironment hostEnvironment)
     {
-        services.SetupDatabase(configuration);
+        services.SetupDatabase(configuration, hostEnvironment);
         services.SetupCaching(configuration);
         services.SetupRepositories();
+        services.SetupMetrics();
         services.SetupAuditing(configuration);
         services.SetupHttpClients(configuration);
 
@@ -39,7 +40,8 @@ public static class ConfigureServices
                     config.Timeout = TimeSpan.FromSeconds(30);
                 }
             )
-            .AddPolicyHandler(GetRetryPolicy());
+            .AddPolicyHandler(GetRetryPolicy())
+            .AddHeaderPropagation();
     }
 
     private static AsyncRetryPolicy<HttpResponseMessage> GetRetryPolicy()
@@ -51,7 +53,9 @@ public static class ConfigureServices
             .WaitAndRetryAsync(6, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
     }
 
-    private static void SetupDatabase(this IServiceCollection services, IConfiguration configuration)
+    private static void SetupDatabase(this IServiceCollection services, 
+        IConfiguration configuration,
+        IHostEnvironment hostEnvironment)
     {
         services.AddScoped<ISaveChangesInterceptor, AuditableEntitySaveChangesInterceptor>();
         services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
@@ -66,10 +70,13 @@ public static class ConfigureServices
         {
             options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
 
-            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
-                builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)
-                                    .EnableRetryOnFailure(maxRetryCount: 3)
-                                    .MigrationsHistoryTable(ApplicationDbContext.MigrationTableName, ApplicationDbContext.DbSchema));
+            options.UseSqlServer(
+                configuration.GetConnectionString("DefaultConnection"),
+                builder =>
+                    builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)
+                        .EnableRetryOnFailure(maxRetryCount: 3)
+                        .MigrationsHistoryTable(ApplicationDbContext.MigrationTableName, ApplicationDbContext.DbSchema))
+                    .EnableSensitiveDataLogging(hostEnvironment.IsDevelopment());                                    
         });       
     }
 
@@ -79,7 +86,14 @@ public static class ConfigureServices
                                     .AddClasses(c => c.AssignableTo(typeof(IRepository<>)))
                                     .AsImplementedInterfaces()
                                     .WithScopedLifetime());
+    }
 
+    private static void SetupMetrics(this IServiceCollection services) 
+    {
+        services.Scan(scan => scan.FromAssemblyOf<IInfrastructureMarker>()
+                                    .AddClasses(c => c.AssignableTo<IMetric>())
+                                    .AsImplementedInterfaces()
+                                    .WithSingletonLifetime());
     }
 
     private static void SetupCaching(this IServiceCollection services, 
@@ -104,11 +118,7 @@ public static class ConfigureServices
             services.AddDistributedMemoryCache();
         }
 
-        services.AddOutputCache(options =>
-        {
-            options.AddBasePolicy(builder =>
-                builder.Expire(TimeSpan.FromMinutes(5)));
-        });
+        services.AddOutputCache();
     }
 
     private static void SetupAuditing(this IServiceCollection services, IConfiguration configuration)

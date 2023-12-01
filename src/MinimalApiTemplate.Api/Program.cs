@@ -22,6 +22,10 @@ app.UseExceptionHandler(_ => {  });
 
 app.UseOutputCache();
 
+app.UseHeaderPropagation();
+
+app.MapPrometheusScrapingEndpoint("/metrics");
+
 app.MapEndpoints();
 
 if (!app.Environment.IsProduction())

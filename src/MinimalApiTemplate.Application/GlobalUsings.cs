@@ -9,3 +9,4 @@ global using MediatR;
 global using Audit.Core;
 global using MinimalApiTemplate.Application.Common;
 global using MinimalApiTemplate.Application.Common.Interfaces.Repositories;
+global using System.Text.Json;

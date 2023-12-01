@@ -19,7 +19,7 @@ public class UpdateToDoItemEndpoint : BaseEndpoint,
 
     public void AddRoute(IEndpointRouteBuilder app)
     {
-        app.ToDoItemRoute()
+        app.ToDoItemRouteV1()
             .MapPut("{id}",
                 ([FromRoute] long id, [FromBody][Validate] UpdateTodoItemRequest request, CancellationToken cancellationToken) =>
                     HandleAsync(id, request, cancellationToken))

@@ -13,15 +13,14 @@ public class GetToDoItemEndpoint : BaseEndpoint,
     }
 
     public void AddRoute(IEndpointRouteBuilder app)
-    {
-        app.ToDoItemRoute()
+    { 
+        app.ToDoItemRouteV2()
             .MapGet("{id}", (long id, CancellationToken cancellationToken) =>
                 HandleAsync(id, cancellationToken))
             .WithDescription("Used to get a single todo")
             .WithName("GetToDoItemV2")
             .Produces<GetToDoItemResponse>(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound);
-
     }
 
     public async Task<GetToDoItemResponse> HandleAsync(long id, CancellationToken cancellationToken)

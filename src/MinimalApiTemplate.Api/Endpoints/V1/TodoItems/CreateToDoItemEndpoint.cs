@@ -19,8 +19,8 @@ public class CreateToDoItemEndpoint : BaseEndpoint,
     }
 
     public void AddRoute(IEndpointRouteBuilder app)
-    {
-        app.ToDoItemRoute()
+    { 
+        app.ToDoItemRouteV1()
             .MapPost("", ([FromBody][Validate] CreateTodoItemRequest request, CancellationToken cancellationToken) =>
                 HandleAsync(request, cancellationToken))
             .WithDescription("Used to create a todo")

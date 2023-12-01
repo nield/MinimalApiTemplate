@@ -33,6 +33,10 @@ public static class ConfigureServices
 
         services.ConfigureCompression();
 
+        services.ConfigureHeaderPropagation();
+
+        services.ConfigureMetrics();
+
         return services;
     }
 }
