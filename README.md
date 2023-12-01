@@ -11,6 +11,7 @@ It also include the following:
 - OpenTelemetry with custom metrics
 - Integration tests using Testcontainers
 - API versioning
+- Auditing using Audit.Net
 
 This template is based on [Jason Tyler's Template](https://github.com/jasontaylordev/CleanArchitecture), but contains the list above and uses repositories in command handlers and different unit test and integration test setups.
 
