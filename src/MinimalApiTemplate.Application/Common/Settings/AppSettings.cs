@@ -3,12 +3,12 @@
 public class AppSettings
 {
     public bool ApplyMigrations { get; set; }
-    public Logs Logs { get; set; } = null!;
+    public required Logs Logs { get; set; }
 }
 
 public class Logs
 {
-    public Performance Performance { get; set; } = null!;
+    public required Performance Performance { get; set; }
 }
 
 public class Performance

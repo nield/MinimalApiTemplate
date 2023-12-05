@@ -4,7 +4,7 @@ namespace MinimalApiTemplate.Application.Features.TodoItems.Commands.CreateTodoI
 
 public record CreateTodoItemCommand : IRequest<long>
 {
-    public string Title { get; set; } = null!;
+    public required string Title { get; set; }
     public string? Note { get; set; }
     public PriorityLevel Priority { get; set; }
     public DateTimeOffset? Reminder { get; set; }

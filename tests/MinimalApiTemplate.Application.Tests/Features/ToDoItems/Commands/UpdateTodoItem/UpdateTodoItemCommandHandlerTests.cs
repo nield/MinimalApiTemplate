@@ -21,7 +21,9 @@ public class UpdateTodoItemCommandHandlerTests : BaseTestFixture<UpdateTodoItemC
             .ReturnsAsync(() => null);
 
         await Assert.ThrowsAsync<NotFoundException>(() =>
-                    _handler.Handle(new UpdateTodoItemCommand { Id = id }, CancellationToken.None));
+                    _handler.Handle(Builder<UpdateTodoItemCommand>.CreateNew()
+                                        .With(x =>  id)
+                                        .Build(), CancellationToken.None));
 
         _templateRepositoryMock.Verify(x => x.UpdateAsync(It.IsAny<TodoItem>(), It.IsAny<CancellationToken>()), Times.Never);
     }
@@ -34,7 +36,9 @@ public class UpdateTodoItemCommandHandlerTests : BaseTestFixture<UpdateTodoItemC
         _templateRepositoryMock.Setup(x => x.GetByIdAsync(1, It.IsAny<CancellationToken>()))
             .ReturnsAsync(Builder<TodoItem>.CreateNew().Build());
 
-        await _handler.Handle(new UpdateTodoItemCommand { Id = id }, CancellationToken.None);
+        await _handler.Handle(Builder<UpdateTodoItemCommand>.CreateNew()
+                                        .With(x => id)
+                                        .Build(), CancellationToken.None);
 
         _templateRepositoryMock.Verify(x => x.UpdateAsync(It.IsAny<TodoItem>(), It.IsAny<CancellationToken>()), Times.Once);
     }

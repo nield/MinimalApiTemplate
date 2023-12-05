@@ -2,7 +2,7 @@
 
 public class UpdateTodoItemRequest
 {
-    public string Title { get; set; } = null!;
+    public required string Title { get; set; }
     public PriorityLevel Priority { get; set; }
     public string? Note { get; set; }
 }
