@@ -6,8 +6,7 @@ public class ToDoItemRepositoryTests : BasePersistenceTestFixture<ToDoItemReposi
 {
     private readonly ToDoItemRepository _repository;
 
-    public ToDoItemRepositoryTests(PersistenceFixture persistenceFixture) 
-        : base(persistenceFixture)
+    public ToDoItemRepositoryTests()
     {
         _repository = new(_dbContext);
     }

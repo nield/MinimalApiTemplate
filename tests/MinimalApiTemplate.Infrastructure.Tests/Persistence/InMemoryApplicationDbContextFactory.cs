@@ -4,11 +4,12 @@ using MinimalApiTemplate.Domain.Entities;
 
 namespace MinimalApiTemplate.Infrastructure.Tests.Persistence;
 
-public class InMemoryApplicationDbContextFactory
+public static class InMemoryApplicationDbContextFactory
 {    
-    public ApplicationDbContext CreateContext(string databaseName)
+    public static ApplicationDbContext CreateContext(string databaseName)
     {
-        var contextOptions = new DbContextOptionsBuilder<ApplicationDbContext>(new DbContextOptions<ApplicationDbContext>())
+        var contextOptions = new DbContextOptionsBuilder<ApplicationDbContext>(
+            new DbContextOptions<ApplicationDbContext>())
                 .UseInMemoryDatabase(databaseName)
                 .Options;
 
