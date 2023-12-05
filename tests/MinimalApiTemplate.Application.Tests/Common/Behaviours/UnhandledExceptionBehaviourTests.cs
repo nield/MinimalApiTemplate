@@ -5,8 +5,8 @@ namespace MinimalApiTemplate.Application.Tests.Common.Behaviours;
 
 public class UnhandledExceptionBehaviourTests
 {
-    private readonly UnhandledExceptionBehaviour<UnhandledExceptionBehaviourInput, Unit> _unhandledExceptionBehaviour;
-    private readonly Mock<ILogger<UnhandledExceptionBehaviourInput>> _loggerMock = new();
+    private readonly UnhandledExceptionBehaviour<UnhandledExceptionBehaviourTestInput, Unit> _unhandledExceptionBehaviour;
+    private readonly Mock<ILogger<UnhandledExceptionBehaviourTestInput>> _loggerMock = new();
     private readonly Mock<RequestHandlerDelegate<Unit>> _pipelineBehaviourDelegateMock = new();
 
 
@@ -21,7 +21,7 @@ public class UnhandledExceptionBehaviourTests
         _pipelineBehaviourDelegateMock.Setup(m => m())
             .ThrowsAsync(new Exception("Unhandled exception")).Verifiable();
 
-        await Assert.ThrowsAsync<Exception>(() => _unhandledExceptionBehaviour.Handle(new UnhandledExceptionBehaviourInput(),
+        await Assert.ThrowsAsync<Exception>(() => _unhandledExceptionBehaviour.Handle(new UnhandledExceptionBehaviourTestInput(),
                                             _pipelineBehaviourDelegateMock.Object,
                                             CancellationToken.None));
 
@@ -30,19 +30,19 @@ public class UnhandledExceptionBehaviourTests
             It.IsAny<EventId>(),
             It.Is<It.IsAnyType>((v, t) => true),
             It.IsAny<Exception>(),
-            It.Is<Func<It.IsAnyType, Exception, string>>((v, t) => true)),
+            It.Is<Func<It.IsAnyType, Exception?, string>>((v, t) => true)),
             Times.Once);
     }
 }
 
-public class UnhandledExceptionBehaviourInput : IRequest<Unit>
+public class UnhandledExceptionBehaviourTestInput : IRequest<Unit>
 {
 
 }
 
-public class UnhandledExceptionBehaviourHandler : IRequestHandler<UnhandledExceptionBehaviourInput, Unit>
+public class UnhandledExceptionBehaviourTestHandler : IRequestHandler<UnhandledExceptionBehaviourTestInput, Unit>
 {
-    public Task<Unit> Handle(UnhandledExceptionBehaviourInput request, CancellationToken cancellationToken)
+    public Task<Unit> Handle(UnhandledExceptionBehaviourTestInput request, CancellationToken cancellationToken)
     {
         return Unit.Task;
     }

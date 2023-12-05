@@ -1,9 +1,6 @@
-﻿using System.Runtime.Serialization;
+﻿namespace MinimalApiTemplate.Application.Common.Exceptions;
 
-namespace MinimalApiTemplate.Application.Common.Exceptions;
-
-[Serializable]
-public class NotFoundException : Exception
+public class NotFoundException : ApplicationException
 {
     public NotFoundException()
         : base()
@@ -23,11 +20,5 @@ public class NotFoundException : Exception
     public NotFoundException(string name, object key)
         : base($"Entity \"{name}\" ({key}) was not found.")
     {
-    }
-
-    protected NotFoundException(SerializationInfo serializationInfo, StreamingContext streamingContext)
-        : base(serializationInfo, streamingContext)
-    {
-        throw new NotImplementedException();
     }
 }

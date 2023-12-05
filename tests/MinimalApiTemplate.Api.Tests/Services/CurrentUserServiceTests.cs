@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using MinimalApiTemplate.Api.Services;
 using Microsoft.AspNetCore.Http;
+using static MinimalApiTemplate.Application.Common.Constants;
 
 namespace MinimalApiTemplate.Api.Tests.Services;
 
@@ -21,7 +22,7 @@ public class CurrentUserServiceTests
         {
             User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
             {
-                new("UserProfileId", "1")
+                new(Headers.UserProfileId, "1")
             }))
         };
 
@@ -47,7 +48,7 @@ public class CurrentUserServiceTests
         {
             User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
             {
-                new("UserProfileId", "1")
+                new(Headers.UserProfileId, "1")
             }))
         };
 
@@ -73,7 +74,7 @@ public class CurrentUserServiceTests
         {
             User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
             {
-                new("CorrelationId", "1")
+                new(Headers.CorrelationId, "1")
             }))
         };
 
@@ -97,7 +98,7 @@ public class CurrentUserServiceTests
     {
         var context = new DefaultHttpContext();
 
-        context.Request.Headers.Append("Authorization", "token");
+        context.Request.Headers.Append(Headers.Authorization, "token");
 
         _httpContextAccessorMock.SetupGet(x => x.HttpContext).Returns(context);
 

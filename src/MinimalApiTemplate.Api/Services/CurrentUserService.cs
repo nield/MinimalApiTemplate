@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using MinimalApiTemplate.Application.Common.Interfaces;
+using static MinimalApiTemplate.Application.Common.Constants;
 
 namespace MinimalApiTemplate.Api.Services;
 
@@ -12,16 +13,16 @@ public class CurrentUserService : ICurrentUserService
         _httpContextAccessor = httpContextAccessor;
     }
 
-    public string? UserId => _httpContextAccessor.HttpContext?.User?.FindFirstValue("UserProfileId");
+    public string? UserId => _httpContextAccessor.HttpContext?.User?.FindFirstValue(Headers.UserProfileId);
 
     public string? UserProfileId =>
-        _httpContextAccessor.HttpContext?.User?.FindFirstValue("UserProfileId");
+        _httpContextAccessor.HttpContext?.User?.FindFirstValue(Headers.UserProfileId);
 
     public string? CorrelationId =>
-        _httpContextAccessor.HttpContext?.User?.FindFirstValue("CorrelationId");
+        _httpContextAccessor.HttpContext?.User?.FindFirstValue(Headers.CorrelationId);
 
     public string? Token =>
         _httpContextAccessor.HttpContext
-            ?.Request?.Headers?.FirstOrDefault(x => x.Key == "Authorization")
+            ?.Request?.Headers?.FirstOrDefault(x => x.Key == Headers.Authorization)
             .Value;
 }

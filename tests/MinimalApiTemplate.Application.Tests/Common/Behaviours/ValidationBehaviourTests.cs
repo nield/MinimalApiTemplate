@@ -6,9 +6,9 @@ namespace MinimalApiTemplate.Application.Tests.Common.Behaviours;
 
 public class ValidationBehaviourTests
 {
-    private readonly ValidationBehaviour<ValidationBehaviourInput, Unit> _validationBehaviour;
+    private readonly ValidationBehaviour<ValidationBehaviourTestInput, Unit> _validationBehaviour;
     private readonly Mock<RequestHandlerDelegate<Unit>> _pipelineBehaviourDelegateMock = new();
-    private readonly Mock<IValidator<ValidationBehaviourInput>> _validatorMock = new();
+    private readonly Mock<IValidator<ValidationBehaviourTestInput>> _validatorMock = new();
 
     public ValidationBehaviourTests()
     {
@@ -29,7 +29,7 @@ public class ValidationBehaviourTests
         _pipelineBehaviourDelegateMock.Setup(m => m())
             .ReturnsAsync(() => Unit.Value).Verifiable();
 
-        var sut = await Assert.ThrowsAsync<Application.Common.Exceptions.ValidationException> (() => _validationBehaviour.Handle(new ValidationBehaviourInput(),                                          
+        var sut = await Assert.ThrowsAsync<Application.Common.Exceptions.ValidationException> (() => _validationBehaviour.Handle(new ValidationBehaviourTestInput(),                                          
                                             _pipelineBehaviourDelegateMock.Object,
                                             CancellationToken.None));
 
@@ -37,14 +37,14 @@ public class ValidationBehaviourTests
     }
 }
 
-public class ValidationBehaviourInput : IRequest<Unit>
+public class ValidationBehaviourTestInput : IRequest<Unit>
 {
 
 }
 
-public class ValidationBehaviourHandler : IRequestHandler<ValidationBehaviourInput, Unit>
+public class ValidationBehaviourTestHandler : IRequestHandler<ValidationBehaviourTestInput, Unit>
 {
-    public Task<Unit> Handle(ValidationBehaviourInput request, CancellationToken cancellationToken)
+    public Task<Unit> Handle(ValidationBehaviourTestInput request, CancellationToken cancellationToken)
     {
         return Unit.Task;
     }

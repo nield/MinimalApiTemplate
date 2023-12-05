@@ -2,6 +2,7 @@
 using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Options;
+using static MinimalApiTemplate.Application.Common.Constants;
 
 namespace MinimalApiTemplate.Api.Integration.Tests;
 
@@ -27,9 +28,8 @@ public class TestAuthHandler : AuthenticationHandler<TestAuthHandlerOptions>
         {
             new(ClaimTypes.Name, "Test user"),
             new(ClaimTypes.NameIdentifier, "1"),
-            new("CorrelationId", "1"),
-            new("UserProfileId", "1"),
-            new("UserId", "1") 
+            new(Headers.CorrelationId, "1"),
+            new(Headers.UserProfileId, "1")
         };
 
         // TODO: Add as many claims as you need here
