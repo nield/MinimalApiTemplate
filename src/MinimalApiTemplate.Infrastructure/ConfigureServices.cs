@@ -2,11 +2,8 @@
 using MinimalApiTemplate.Infrastructure.Common;
 using MinimalApiTemplate.Infrastructure.Persistence;
 using MinimalApiTemplate.Infrastructure.Persistence.Interceptors;
-using Polly.Extensions.Http;
-using Polly;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Polly.Retry;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Microsoft.Extensions.DependencyInjection;
@@ -40,17 +37,8 @@ public static class ConfigureServices
                     config.Timeout = TimeSpan.FromSeconds(30);
                 }
             )
-            .AddPolicyHandler(GetRetryPolicy())
-            .AddHeaderPropagation();
-    }
-
-    private static AsyncRetryPolicy<HttpResponseMessage> GetRetryPolicy()
-    {
-        return HttpPolicyExtensions
-            .HandleTransientHttpError()
-            .Or<TaskCanceledException>()
-            .Or<TimeoutException>()
-            .WaitAndRetryAsync(6, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
+            .AddHeaderPropagation()
+            .AddStandardResilienceHandler();            
     }
 
     private static void SetupDatabase(this IServiceCollection services, 
