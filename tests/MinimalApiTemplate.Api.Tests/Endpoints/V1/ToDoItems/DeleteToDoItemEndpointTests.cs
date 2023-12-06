@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using MinimalApiTemplate.Api.Endpoints.V1.TodoItems;
+﻿using MinimalApiTemplate.Api.Endpoints.V1.TodoItems;
 using MinimalApiTemplate.Application.Features.TodoItems.Commands.DeleteTodoItem;
 
 namespace MinimalApiTemplate.Api.Tests.Endpoints.V1.ToDoItems;
@@ -19,7 +18,7 @@ public class DeleteToDoItemEndpointTests : BaseTestFixture
     {
         var sut = await _endpoint.HandleAsync(1, CancellationToken.None);
 
-        sut.Should().BeOfType<NoContent>();
+        sut.Should().NotBeNull();
 
         _senderMock.Verify(x => x.Send(It.IsAny<DeleteTodoItemCommand>(), It.IsAny<CancellationToken>()), Times.Once);
     }

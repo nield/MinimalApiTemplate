@@ -1,8 +1,4 @@
-﻿using System.Net.Http.Json;
-using System.Text;
-using System.Text.Json;
-using MinimalApiTemplate.Api.Integration.Tests.Containers;
-using MinimalApiTemplate.Api.Models.V1.Requests;
+﻿using MinimalApiTemplate.Api.Models.V1.Requests;
 using MinimalApiTemplate.Api.Models.V1.Responses;
 
 namespace MinimalApiTemplate.Api.Integration.Tests.Controllers.V1;

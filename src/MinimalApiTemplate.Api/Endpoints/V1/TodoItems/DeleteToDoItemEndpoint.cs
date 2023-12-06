@@ -1,13 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OutputCaching;
-using MinimalApiTemplate.Api.Models.V1.Responses;
-using MinimalApiTemplate.Application.Features.TodoItems.Commands.DeleteTodoItem;
+﻿using MinimalApiTemplate.Application.Features.TodoItems.Commands.DeleteTodoItem;
 using static MinimalApiTemplate.Application.Common.Constants;
 
 namespace MinimalApiTemplate.Api.Endpoints.V1.TodoItems;
 
 public class DeleteToDoItemEndpoint : BaseEndpoint, 
-    IEndpoint<IResult, long, CancellationToken>
+    IEndpoint<NoContent, long, CancellationToken>
 {
     private readonly IOutputCacheStore _outputCacheStore;
 
@@ -24,15 +21,15 @@ public class DeleteToDoItemEndpoint : BaseEndpoint,
                  ([FromRoute] long id, CancellationToken cancellationToken) =>
                      HandleAsync(id, cancellationToken))
             .WithDescription("Used to delete a todo")
-            .Produces<CreateTodoItemResponse>(StatusCodes.Status204NoContent);
+            .Produces(StatusCodes.Status404NotFound);
     }
 
-    public async Task<IResult> HandleAsync(long id, CancellationToken cancellationToken)
+    public async Task<NoContent> HandleAsync(long id, CancellationToken cancellationToken)
     {
         await _mediator.Send(new DeleteTodoItemCommand(id), cancellationToken);
 
         await _outputCacheStore.EvictByTagAsync(OutputCacheTags.ToDoList, cancellationToken);
 
-        return Results.NoContent();
+        return TypedResults.NoContent();
     }
 }

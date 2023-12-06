@@ -1,13 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OutputCaching;
-using MinimalApiTemplate.Api.Models.V1.Requests;
+﻿using MinimalApiTemplate.Api.Models.V1.Requests;
 using MinimalApiTemplate.Application.Features.TodoItems.Commands.UpdateTodoItem;
 using static MinimalApiTemplate.Application.Common.Constants;
 
 namespace MinimalApiTemplate.Api.Endpoints.V1.TodoItems;
 
 public class UpdateToDoItemEndpoint : BaseEndpoint, 
-    IEndpoint<IResult, long, UpdateTodoItemRequest, CancellationToken>
+    IEndpoint<NoContent, long, UpdateTodoItemRequest, CancellationToken>
 {
     private readonly IOutputCacheStore _outputCacheStore;
 
@@ -24,10 +22,11 @@ public class UpdateToDoItemEndpoint : BaseEndpoint,
                 ([FromRoute] long id, [FromBody][Validate] UpdateTodoItemRequest request, CancellationToken cancellationToken) =>
                     HandleAsync(id, request, cancellationToken))
             .WithDescription("Used to update a todo")
-            .Produces(StatusCodes.Status204NoContent);
+            .Produces(StatusCodes.Status400BadRequest)
+            .Produces(StatusCodes.Status404NotFound);
     }
 
-    public async Task<IResult> HandleAsync(long id, UpdateTodoItemRequest request, CancellationToken cancellationToken)
+    public async Task<NoContent> HandleAsync(long id, UpdateTodoItemRequest request, CancellationToken cancellationToken)
     {
         var command = _mapper.Map<UpdateTodoItemCommand>(request);
         command.Id = id;
@@ -36,6 +35,6 @@ public class UpdateToDoItemEndpoint : BaseEndpoint,
 
         await _outputCacheStore.EvictByTagAsync(OutputCacheTags.ToDoList, cancellationToken);
 
-        return Results.NoContent();
+        return TypedResults.NoContent();
     }
 }

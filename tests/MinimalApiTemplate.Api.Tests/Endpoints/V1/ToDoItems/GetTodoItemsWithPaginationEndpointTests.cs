@@ -27,6 +27,7 @@ public class GetTodoItemsWithPaginationEndpointTests : BaseTestFixture
         var sut = await _endpoint.HandleAsync(query, CancellationToken.None);
 
         sut.Should().NotBeNull();
-        sut.Items.Should().HaveCount(1);
+        sut.Value.Should().NotBeNull();
+        sut.Value!.Items.Should().HaveCount(1);
     }
 }
