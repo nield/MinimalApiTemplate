@@ -29,4 +29,11 @@ public static class Constants
     {
         public const string GeneralMeter = "MinimalTemplate";
     }
+
+    public static class Headers
+    {
+        public const string CorrelationId = "x-correlation-id";
+        public const string UserProfileId = "UserProfileId";
+        public const string Authorization = "Authorization";
+    }
 }

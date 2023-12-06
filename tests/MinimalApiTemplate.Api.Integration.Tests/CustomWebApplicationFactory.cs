@@ -1,10 +1,10 @@
-﻿using MinimalApiTemplate.Api.Integration.Tests.Mocks;
-using MinimalApiTemplate.Application.Common.Interfaces;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using MinimalApiTemplate.Api.Integration.Tests.Containers;
+using MinimalApiTemplate.Api.Integration.Tests.Mocks;
+using MinimalApiTemplate.Application.Common.Interfaces;
 
 namespace MinimalApiTemplate.Api.Integration.Tests;
 

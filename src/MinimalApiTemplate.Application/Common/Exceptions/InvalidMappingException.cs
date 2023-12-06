@@ -1,9 +1,6 @@
-﻿using System.Runtime.Serialization;
+﻿namespace MinimalApiTemplate.Application.Common.Exceptions;
 
-namespace MinimalApiTemplate.Application.Common.Exceptions;
-
-[Serializable]
-public class InvalidMappingException: Exception
+public class InvalidMappingException : ApplicationException
 {
     public InvalidMappingException(string message)
         : base(message)
@@ -12,12 +9,6 @@ public class InvalidMappingException: Exception
 
     public InvalidMappingException(Type fromObject, Type toObject)
         : base($"Cannot map from {fromObject.Name} to {toObject.Name}.")
-    {
-    }
-
-
-    protected InvalidMappingException(SerializationInfo serializationInfo, StreamingContext streamingContext)
-        : base(serializationInfo, streamingContext)
     {
     }
 }

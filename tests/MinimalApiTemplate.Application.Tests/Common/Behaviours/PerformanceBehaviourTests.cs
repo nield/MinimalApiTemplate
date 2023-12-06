@@ -1,14 +1,14 @@
-﻿using MinimalApiTemplate.Application.Common.Behaviours;
-using MinimalApiTemplate.Application.Common.Settings;
-using MediatR;
+﻿using MediatR;
 using Microsoft.Extensions.Options;
+using MinimalApiTemplate.Application.Common.Behaviours;
+using MinimalApiTemplate.Application.Common.Settings;
 
 namespace MinimalApiTemplate.Application.Tests.Common.Behaviours;
 
 public class PerformanceBehaviourTests
 {
-    private PerformanceBehaviour<PerformanceBehaviourInput, Unit>? _performanceBehaviour;
-    private readonly Mock<ILogger<PerformanceBehaviourInput>> _loggerMock = new();
+    private PerformanceBehaviour<PerformanceBehaviourTestInput, Unit>? _performanceBehaviour;
+    private readonly Mock<ILogger<PerformanceBehaviourTestInput>> _loggerMock = new();
     private readonly Mock<ICurrentUserService> _currentUserServiceMock = new();
     private readonly Mock<RequestHandlerDelegate<Unit>> _pipelineBehaviourDelegateMock = new();
 
@@ -22,7 +22,7 @@ public class PerformanceBehaviourTests
     {
         _performanceBehaviour = new(_loggerMock.Object,
                                         _currentUserServiceMock.Object,
-                                       Options.Create<AppSettings>(appSettings));        
+                                       Options.Create<AppSettings>(appSettings));
     }
 
     [Theory]
@@ -31,51 +31,50 @@ public class PerformanceBehaviourTests
     [InlineData(true, 1, true, 10)]
     public async Task When_ConditionsAreMet_Then_LogSlowRunningRequests(bool logRequests, int threshold, bool shouldHaveLog, int delay)
     {
-        _pipelineBehaviourDelegateMock.Setup(m => m()).ReturnsAsync(() =>
-        {
-            Thread.Sleep(delay);
-
-            return Unit.Value;
-        }).Verifiable();
-
         Setup(new AppSettings
         {
-            Logs = new Logs 
-            { 
-            
+            Logs = new Logs
+            {
                 Performance = new Performance
                 {
                     LogSlowRunningHandlers = logRequests,
-                    SlowRunningHandlerThreshold = threshold                }
-            }             
+                    SlowRunningHandlerThreshold = threshold
+                }
+            }
         });
 
         if (_performanceBehaviour is null) throw new NullReferenceException("Setup was not called");
 
-        await _performanceBehaviour.Handle(new PerformanceBehaviourInput(),                                            
-                                            _pipelineBehaviourDelegateMock.Object,
-                                            CancellationToken.None);
+        await _performanceBehaviour.Handle(
+            new PerformanceBehaviourTestInput
+            {
+                DelayInMilliseconds = delay
+            },
+            _pipelineBehaviourDelegateMock.Object,
+            CancellationToken.None);
 
         _loggerMock.Verify(x => x.Log(
             It.IsAny<LogLevel>(),
             It.IsAny<EventId>(),
             It.Is<It.IsAnyType>((v, t) => true),
             It.IsAny<Exception>(),
-            It.Is<Func<It.IsAnyType, Exception, string>>((v, t) => true)),
+            It.Is<Func<It.IsAnyType, Exception?, string>>((v, t) => true)),
             shouldHaveLog ? Times.Once : Times.Never);
     }
 }
 
-public class PerformanceBehaviourInput : IRequest<Unit>
-{ 
-
+public class PerformanceBehaviourTestInput : IRequest<Unit>
+{
+    public int DelayInMilliseconds { get; set; }
 }
 
-public class PerformanceBehaviourHandler : IRequestHandler<PerformanceBehaviourInput, Unit>
+public class PerformanceBehaviourTestHandler : IRequestHandler<PerformanceBehaviourTestInput, Unit>
 {
-    public Task<Unit> Handle(PerformanceBehaviourInput request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(PerformanceBehaviourTestInput request, CancellationToken cancellationToken)
     {
-        return Unit.Task;
+        await Task.Delay(request.DelayInMilliseconds, cancellationToken);
+
+        return Unit.Value;
     }
 }
 

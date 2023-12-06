@@ -1,6 +1,6 @@
-﻿using MinimalApiTemplate.Domain.Common;
+﻿using Microsoft.EntityFrameworkCore;
+using MinimalApiTemplate.Domain.Common;
 using MinimalApiTemplate.Infrastructure.Persistence.Interceptors;
-using Microsoft.EntityFrameworkCore;
 
 namespace MinimalApiTemplate.Infrastructure.Tests.Persistence.Interceptors;
 

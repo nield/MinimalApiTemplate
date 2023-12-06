@@ -14,10 +14,10 @@ public static class Compression
             options.Providers.Add<GzipCompressionProvider>();
         });
 
-        services.Configure<BrotliCompressionProviderOptions>(options 
+        services.Configure<BrotliCompressionProviderOptions>(options
             => options.Level = CompressionLevel.SmallestSize);
 
-        services.Configure<GzipCompressionProviderOptions>(options 
+        services.Configure<GzipCompressionProviderOptions>(options
             => options.Level = CompressionLevel.SmallestSize);
     }
 

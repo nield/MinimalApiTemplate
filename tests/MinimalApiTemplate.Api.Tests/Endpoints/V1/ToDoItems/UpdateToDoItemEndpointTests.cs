@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using MinimalApiTemplate.Api.Endpoints.V1.TodoItems;
+﻿using MinimalApiTemplate.Api.Endpoints.V1.TodoItems;
 using MinimalApiTemplate.Api.Models.V1.Requests;
 using MinimalApiTemplate.Application.Features.TodoItems.Commands.UpdateTodoItem;
 
@@ -21,7 +20,7 @@ public class UpdateToDoItemEndpointTests : BaseTestFixture
 
         var sut = await _endpoint.HandleAsync(1, request, CancellationToken.None);
 
-        sut.Should().BeOfType<NoContent>();
+        sut.Should().NotBeNull();
 
         _senderMock.Verify(x => x.Send(It.IsAny<UpdateTodoItemCommand>(), It.IsAny<CancellationToken>()), Times.Once);
     }

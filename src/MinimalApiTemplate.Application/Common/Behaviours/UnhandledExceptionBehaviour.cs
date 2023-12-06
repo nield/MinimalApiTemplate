@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-
-namespace MinimalApiTemplate.Application.Common.Behaviours;
+﻿namespace MinimalApiTemplate.Application.Common.Behaviours;
 
 public class UnhandledExceptionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
@@ -25,6 +23,6 @@ public class UnhandledExceptionBehaviour<TRequest, TResponse> : IPipelineBehavio
             _logger.LogError(ex, "Request: Unhandled Exception for Request {Name} {@Request}", requestName, request);
 
             throw;
-        }        
+        }
     }
 }

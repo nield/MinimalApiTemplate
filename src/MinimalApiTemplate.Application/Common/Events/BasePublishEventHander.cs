@@ -1,8 +1,8 @@
 ﻿namespace MinimalApiTemplate.Application.Common.Events;
 
 public abstract class BasePublishEventHander<TNotification, TMessage> : INotificationHandler<TNotification>
-    where TNotification : INotification 
-    where TMessage: class
+    where TNotification : INotification
+    where TMessage : class
 {
     private readonly IPublishMessageService _publishMessageService;
 

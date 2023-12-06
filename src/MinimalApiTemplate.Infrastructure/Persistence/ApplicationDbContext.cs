@@ -10,7 +10,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
     #region DbSets
 
-    public DbSet<TodoItem> TodoItems => Set<TodoItem>(); 
+    public DbSet<TodoItem> TodoItems => Set<TodoItem>();
 
     #endregion
 
@@ -18,7 +18,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
-        
+
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

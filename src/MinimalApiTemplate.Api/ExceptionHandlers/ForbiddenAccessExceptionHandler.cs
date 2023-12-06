@@ -1,6 +1,4 @@
-﻿using System.Net;
-using Microsoft.AspNetCore.Mvc;
-using MinimalApiTemplate.Application.Common.Exceptions;
+﻿using MinimalApiTemplate.Application.Common.Exceptions;
 
 namespace MinimalApiTemplate.Api.ExceptionHandlers;
 

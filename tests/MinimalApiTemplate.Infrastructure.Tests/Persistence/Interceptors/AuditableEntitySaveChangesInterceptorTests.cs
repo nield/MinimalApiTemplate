@@ -49,9 +49,9 @@ public class AuditableEntitySaveChangesInterceptorTests
         var dateTime = new DateTimeOffset(2023, 12, 1, 1, 0, 0, TimeSpan.Zero);
 
         _userServiceMock.SetupGet(x => x.UserId).Returns(userId);
-       
+
         _timeProviderMock.Setup(x => x.GetUtcNow()).Returns(dateTime);
-       
+
         var dbContext = new FakeEntityDbContext();
         dbContext.FakeEntities.Add(new FakeEntity { Name = "update1" });
         dbContext.SaveChanges();

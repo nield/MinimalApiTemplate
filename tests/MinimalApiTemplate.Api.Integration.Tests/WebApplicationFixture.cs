@@ -33,7 +33,7 @@ public class WebApplicationFixture : IAsyncLifetime
         });
     }
 
-    public async Task ResetDatabaseAsync() => 
+    public async Task ResetDatabaseAsync() =>
         await Respawner.ResetAsync(_databaseConnectionString!);
 
     public Task DisposeAsync()

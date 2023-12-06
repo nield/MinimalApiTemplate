@@ -1,5 +1,5 @@
-﻿using MinimalApiTemplate.Application.Common.Events;
-using MediatR;
+﻿using MediatR;
+using MinimalApiTemplate.Application.Common.Events;
 
 namespace MinimalApiTemplate.Application.Tests.Common.Events;
 
@@ -27,7 +27,7 @@ public class BasePublishEventHanderTests : BaseTestFixture<FakePublishEventHande
 
 public class FakePublishEventHander : BasePublishEventHander<FakeTestEvent, FakeTestMessage>
 {
-    public FakePublishEventHander(IPublishMessageService publishMessageService) 
+    public FakePublishEventHander(IPublishMessageService publishMessageService)
         : base(publishMessageService)
     {
 

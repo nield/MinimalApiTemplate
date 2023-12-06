@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
-using MinimalApiTemplate.Application.Common.Settings;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using MinimalApiTemplate.Application.Common.Settings;
 
 namespace MinimalApiTemplate.Application.Common.Behaviours;
 

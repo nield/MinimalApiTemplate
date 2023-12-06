@@ -5,8 +5,8 @@ using static MinimalApiTemplate.Application.Common.Constants;
 
 namespace MinimalApiTemplate.Api.Endpoints.V1.TodoItems;
 
-public class GetTodoItemsWithPaginationEndpoint : BaseEndpoint, 
-    IEndpoint<PaginatedListResponse<GetToDoItemsResponse>, GetTodoItemsWithPaginationRequest, CancellationToken>
+public class GetTodoItemsWithPaginationEndpoint : BaseEndpoint,
+    IEndpoint<Ok<PaginatedListResponse<GetToDoItemsResponse>>, GetTodoItemsWithPaginationRequest, CancellationToken>
 {
     public GetTodoItemsWithPaginationEndpoint(ISender sender, IMapper mapper)
         : base(sender, mapper)
@@ -17,8 +17,8 @@ public class GetTodoItemsWithPaginationEndpoint : BaseEndpoint,
     public void AddRoute(IEndpointRouteBuilder app)
     {
         app.ToDoItemRouteV1()
-            .MapGet("",                        
-                ([AsParameters] GetTodoItemsWithPaginationRequest request, CancellationToken cancellationToken) => 
+            .MapGet("",
+                ([AsParameters] GetTodoItemsWithPaginationRequest request, CancellationToken cancellationToken) =>
                     HandleAsync(request, cancellationToken))
             .WithDescription("Used to get a list of todos")
             .WithOpenApi(ops =>
@@ -31,11 +31,10 @@ public class GetTodoItemsWithPaginationEndpoint : BaseEndpoint,
             .CacheOutput(builder => builder.SetVaryByQuery(nameof(GetTodoItemsWithPaginationRequest.PageNumber),
                                                             nameof(GetTodoItemsWithPaginationRequest.PageSize))
                                             .Expire(TimeSpan.FromMinutes(5))
-                                            .Tag(OutputCacheTags.ToDoList))                                            
-            .Produces<PaginatedListResponse<GetToDoItemsResponse>>(StatusCodes.Status200OK);
+                                            .Tag(OutputCacheTags.ToDoList));
     }
 
-    public async Task<PaginatedListResponse<GetToDoItemsResponse>> HandleAsync(GetTodoItemsWithPaginationRequest request, CancellationToken cancellationToken)
+    public async Task<Ok<PaginatedListResponse<GetToDoItemsResponse>>> HandleAsync(GetTodoItemsWithPaginationRequest request, CancellationToken cancellationToken)
     {
         var query = _mapper.Map<GetTodoItemsWithPaginationQuery>(request);
 
@@ -43,6 +42,6 @@ public class GetTodoItemsWithPaginationEndpoint : BaseEndpoint,
 
         var mappedData = _mapper.Map<PaginatedListResponse<GetToDoItemsResponse>>(data);
 
-        return mappedData;
+        return TypedResults.Ok(mappedData);
     }
 }

@@ -1,5 +1,5 @@
-﻿using MinimalApiTemplate.Application.Common.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using MinimalApiTemplate.Application.Common.Models;
 
 namespace System.Linq;
 

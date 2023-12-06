@@ -1,10 +1,8 @@
-﻿using System.Runtime.Serialization;
-using FluentValidation.Results;
+﻿using FluentValidation.Results;
 
 namespace MinimalApiTemplate.Application.Common.Exceptions;
 
-[Serializable]
-public class ValidationException : Exception
+public class ValidationException : ApplicationException
 {
     public ValidationException()
         : base("One or more validation failures have occurred.")
@@ -21,10 +19,4 @@ public class ValidationException : Exception
     }
 
     public IDictionary<string, string[]> Errors { get; }
-
-    protected ValidationException(SerializationInfo serializationInfo, StreamingContext streamingContext)
-        : base(serializationInfo, streamingContext)
-    {
-        throw new NotImplementedException();
-    }
 }

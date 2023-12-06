@@ -2,7 +2,7 @@
 
 public class PaginatedListResponse<T>
 {
-    public List<T> Items { get; set; } = null!;
+    public required List<T> Items { get; set; }
     public int PageNumber { get; set; }
     public int TotalPages { get; set; }
     public int TotalCount { get; set; }

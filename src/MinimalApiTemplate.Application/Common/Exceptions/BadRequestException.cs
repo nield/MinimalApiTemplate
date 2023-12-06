@@ -1,10 +1,6 @@
-﻿using System.Runtime.Serialization;
+﻿namespace MinimalApiTemplate.Application.Common.Exceptions;
 
-namespace MinimalApiTemplate.Application.Common.Exceptions;
-
-
-[Serializable]
-public class BadRequestException : Exception
+public class BadRequestException : ApplicationException
 {
     public BadRequestException(string message)
         : base(message)
@@ -14,11 +10,5 @@ public class BadRequestException : Exception
     private BadRequestException()
     : base()
     {
-    }
-
-    protected BadRequestException(SerializationInfo serializationInfo, StreamingContext streamingContext)
-        : base(serializationInfo, streamingContext)
-    {
-        throw new BadRequestException();
     }
 }

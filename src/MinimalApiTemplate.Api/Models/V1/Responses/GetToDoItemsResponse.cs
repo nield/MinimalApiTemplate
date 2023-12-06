@@ -3,6 +3,6 @@
 public class GetToDoItemsResponse
 {
     public int Id { get; set; }
-    public string Title { get; set; } = null!;
+    public required string Title { get; set; }
     public bool IsDone { get; set; }
 }

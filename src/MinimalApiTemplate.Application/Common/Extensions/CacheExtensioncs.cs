@@ -7,8 +7,8 @@ public static class CacheExtensioncs
         AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5)
     };
 
-    public static async Task<T?> GetAsync<T>(this IDistributedCache cache, 
-        string key, 
+    public static async Task<T?> GetAsync<T>(this IDistributedCache cache,
+        string key,
         CancellationToken cancellationToken = default) where T : class
     {
         var value = await cache.GetAsync(key, cancellationToken);
@@ -18,10 +18,10 @@ public static class CacheExtensioncs
         return JsonSerializer.Deserialize<T>(value);
     }
 
-    public static async Task SetAsync<T>(this IDistributedCache cache, 
-        string key, 
-        T value, 
-        DistributedCacheEntryOptions? cacheOptions = null, 
+    public static async Task SetAsync<T>(this IDistributedCache cache,
+        string key,
+        T value,
+        DistributedCacheEntryOptions? cacheOptions = null,
         CancellationToken cancellationToken = default)
     {
         await cache.SetAsync(key,
@@ -30,14 +30,14 @@ public static class CacheExtensioncs
             cancellationToken);
     }
 
-    public static async Task<T?> GetOrSetAsync<T>(this IDistributedCache cache, 
-        string key, 
-        Func<Task<T?>> setCache, 
-        DistributedCacheEntryOptions? cacheOptions = null, 
+    public static async Task<T?> GetOrSetAsync<T>(this IDistributedCache cache,
+        string key,
+        Func<Task<T?>> setCache,
+        DistributedCacheEntryOptions? cacheOptions = null,
         CancellationToken cancellationToken = default) where T : class
     {
         var cachedValues = await cache.GetAsync<T>(key, cancellationToken);
-        
+
         if (cachedValues != null) return cachedValues;
 
         if (setCache == null) return null;

@@ -4,7 +4,7 @@ namespace MinimalApiTemplate.Application.Features.TodoItems.Commands.CreateTodoI
 
 public record CreateTodoItemCommand : IRequest<long>
 {
-    public string Title { get; set; } = null!;
+    public required string Title { get; set; }
     public string? Note { get; set; }
     public PriorityLevel Priority { get; set; }
     public DateTimeOffset? Reminder { get; set; }
@@ -24,7 +24,7 @@ public class CreateTodoItemCommandHandler : IRequestHandler<CreateTodoItemComman
     }
 
     public async Task<long> Handle(CreateTodoItemCommand request, CancellationToken cancellationToken)
-    {       
+    {
         var entity = _mapper.Map<TodoItem>(request);
 
         // Example adding event

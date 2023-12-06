@@ -1,19 +1,16 @@
 ﻿using Audit.Core;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using MinimalApiTemplate.Infrastructure.Common;
 using MinimalApiTemplate.Infrastructure.Persistence;
 using MinimalApiTemplate.Infrastructure.Persistence.Interceptors;
-using Polly.Extensions.Http;
-using Polly;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Polly.Retry;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
 public static class ConfigureServices
 {
-    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, 
+    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services,
         IConfiguration configuration, IHostEnvironment hostEnvironment)
     {
         services.SetupDatabase(configuration, hostEnvironment);
@@ -40,20 +37,11 @@ public static class ConfigureServices
                     config.Timeout = TimeSpan.FromSeconds(30);
                 }
             )
-            .AddPolicyHandler(GetRetryPolicy())
-            .AddHeaderPropagation();
+            .AddHeaderPropagation()
+            .AddStandardResilienceHandler();
     }
 
-    private static AsyncRetryPolicy<HttpResponseMessage> GetRetryPolicy()
-    {
-        return HttpPolicyExtensions
-            .HandleTransientHttpError()
-            .Or<TaskCanceledException>()
-            .Or<TimeoutException>()
-            .WaitAndRetryAsync(6, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
-    }
-
-    private static void SetupDatabase(this IServiceCollection services, 
+    private static void SetupDatabase(this IServiceCollection services,
         IConfiguration configuration,
         IHostEnvironment hostEnvironment)
     {
@@ -76,8 +64,8 @@ public static class ConfigureServices
                     builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)
                         .EnableRetryOnFailure(maxRetryCount: 3)
                         .MigrationsHistoryTable(ApplicationDbContext.MigrationTableName, ApplicationDbContext.DbSchema))
-                    .EnableSensitiveDataLogging(hostEnvironment.IsDevelopment());                                    
-        });       
+                    .EnableSensitiveDataLogging(hostEnvironment.IsDevelopment());
+        });
     }
 
     private static void SetupRepositories(this IServiceCollection services)
@@ -88,7 +76,7 @@ public static class ConfigureServices
                                     .WithScopedLifetime());
     }
 
-    private static void SetupMetrics(this IServiceCollection services) 
+    private static void SetupMetrics(this IServiceCollection services)
     {
         services.Scan(scan => scan.FromAssemblyOf<IInfrastructureMarker>()
                                     .AddClasses(c => c.AssignableTo<IMetric>())
@@ -96,7 +84,7 @@ public static class ConfigureServices
                                     .WithSingletonLifetime());
     }
 
-    private static void SetupCaching(this IServiceCollection services, 
+    private static void SetupCaching(this IServiceCollection services,
         IConfiguration configuration)
     {
         if (!string.IsNullOrEmpty(configuration["RedisOptions:ConnectionString"]))

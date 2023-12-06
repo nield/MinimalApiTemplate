@@ -24,6 +24,7 @@ public class GetToDoItemEndpointTests : BaseTestFixture
         var sut = await _endpoint.HandleAsync(1, CancellationToken.None);
 
         sut.Should().NotBeNull();
-        sut.Id.Should().Be(data.Id);
+        sut.Value.Should().NotBeNull();
+        sut.Value!.Id.Should().Be(data.Id);
     }
 }

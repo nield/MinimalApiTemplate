@@ -2,7 +2,7 @@
 
 namespace MinimalApiTemplate.Api.Integration.Tests.Containers;
 
-internal abstract class BaseContainer<TContainer> 
+internal abstract class BaseContainer<TContainer>
     where TContainer : class, new()
 {
     private static readonly Lazy<TContainer> SingleLazyInstance = new(() => new TContainer());
