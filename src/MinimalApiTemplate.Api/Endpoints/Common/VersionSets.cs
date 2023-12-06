@@ -3,7 +3,7 @@ using Asp.Versioning.Builder;
 
 namespace MinimalApiTemplate.Api.Endpoints.Common;
 
-public static class VersionsSets
+public static class VersionSets
 {
     private static readonly Dictionary<ApiVersion, ApiVersionSet> VersionSetStore = [];
 

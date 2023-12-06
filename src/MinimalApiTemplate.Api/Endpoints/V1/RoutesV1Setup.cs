@@ -7,7 +7,7 @@ public static class RoutesV1Setup
     public static RouteGroupBuilder RouteV1(this IEndpointRouteBuilder webApplication) =>
         webApplication
             .UseMainRoute()
-            .WithApiVersionSet(VersionsSets.GetVersionSet(1))
+            .WithApiVersionSet(VersionSets.GetVersionSet(1))
             .MapToApiVersion(1.0);
 
     public static RouteGroupBuilder ToDoItemRouteV1(this IEndpointRouteBuilder webApplication) =>
