@@ -1,6 +1,6 @@
 ﻿using FluentValidation.Results;
-using MinimalApiTemplate.Application.Common.Behaviours;
 using MediatR;
+using MinimalApiTemplate.Application.Common.Behaviours;
 
 namespace MinimalApiTemplate.Application.Tests.Common.Behaviours;
 
@@ -29,7 +29,7 @@ public class ValidationBehaviourTests
         _pipelineBehaviourDelegateMock.Setup(m => m())
             .ReturnsAsync(() => Unit.Value).Verifiable();
 
-        var sut = await Assert.ThrowsAsync<Application.Common.Exceptions.ValidationException> (() => _validationBehaviour.Handle(new ValidationBehaviourTestInput(),                                          
+        var sut = await Assert.ThrowsAsync<Application.Common.Exceptions.ValidationException>(() => _validationBehaviour.Handle(new ValidationBehaviourTestInput(),
                                             _pipelineBehaviourDelegateMock.Object,
                                             CancellationToken.None));
 

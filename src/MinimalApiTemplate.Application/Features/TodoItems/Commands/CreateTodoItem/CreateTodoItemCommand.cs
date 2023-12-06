@@ -24,7 +24,7 @@ public class CreateTodoItemCommandHandler : IRequestHandler<CreateTodoItemComman
     }
 
     public async Task<long> Handle(CreateTodoItemCommand request, CancellationToken cancellationToken)
-    {       
+    {
         var entity = _mapper.Map<TodoItem>(request);
 
         // Example adding event

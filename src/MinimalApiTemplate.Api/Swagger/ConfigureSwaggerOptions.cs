@@ -1,10 +1,10 @@
-﻿using System.Text;
-using Asp.Versioning.ApiExplorer;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Text;
 using Asp.Versioning;
+using Asp.Versioning.ApiExplorer;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using System.Diagnostics.CodeAnalysis;
 
 namespace MinimalApiTemplate.Api.Swagger;
 

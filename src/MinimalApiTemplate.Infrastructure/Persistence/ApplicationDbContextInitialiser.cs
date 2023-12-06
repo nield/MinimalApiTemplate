@@ -61,7 +61,7 @@ public class ApplicationDbContextInitialiser
         {
             _context.TodoItems.Add(new TodoItem { Title = "Testing Item Init", IsDeleted = false });
         }
-     
+
         await _context.SaveChangesAsync();
     }
 }

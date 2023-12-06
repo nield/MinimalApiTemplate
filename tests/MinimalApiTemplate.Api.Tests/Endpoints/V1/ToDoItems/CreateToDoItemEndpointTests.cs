@@ -24,7 +24,7 @@ public class CreateToDoItemEndpointTests : BaseTestFixture
             .ReturnsAsync(newId);
 
         var sut = await _endpoint.HandleAsync(request, CancellationToken.None);
-        
+
         sut.Should().NotBeNull();
         sut.Value.Should().NotBeNull();
         sut.Value!.Id.Should().Be(newId);

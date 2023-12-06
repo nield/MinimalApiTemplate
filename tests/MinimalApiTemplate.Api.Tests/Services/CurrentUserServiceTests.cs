@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
-using MinimalApiTemplate.Api.Services;
 using Microsoft.AspNetCore.Http;
+using MinimalApiTemplate.Api.Services;
 using static MinimalApiTemplate.Application.Common.Constants;
 
 namespace MinimalApiTemplate.Api.Tests.Services;

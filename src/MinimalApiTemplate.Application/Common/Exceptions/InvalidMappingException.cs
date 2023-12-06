@@ -1,6 +1,6 @@
 ﻿namespace MinimalApiTemplate.Application.Common.Exceptions;
 
-public class InvalidMappingException: ApplicationException
+public class InvalidMappingException : ApplicationException
 {
     public InvalidMappingException(string message)
         : base(message)

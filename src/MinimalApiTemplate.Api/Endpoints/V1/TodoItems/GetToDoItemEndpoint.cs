@@ -3,7 +3,7 @@ using MinimalApiTemplate.Application.Features.TodoItems.Queries.GetToDoItem;
 
 namespace MinimalApiTemplate.Api.Endpoints.V1.TodoItems;
 
-public class GetToDoItemEndpoint : BaseEndpoint, 
+public class GetToDoItemEndpoint : BaseEndpoint,
     IEndpoint<Ok<GetToDoItemResponse>, long, CancellationToken>
 {
     public GetToDoItemEndpoint(ISender sender, IMapper mapper)

@@ -1,5 +1,5 @@
-﻿using Asp.Versioning.Builder;
-using Asp.Versioning;
+﻿using Asp.Versioning;
+using Asp.Versioning.Builder;
 
 namespace MinimalApiTemplate.Api.Endpoints.Common;
 

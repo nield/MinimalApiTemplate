@@ -1,11 +1,11 @@
-﻿using MinimalApiTemplate.Infrastructure.Persistence;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using MinimalApiTemplate.Domain.Entities;
+using MinimalApiTemplate.Infrastructure.Persistence;
 
 namespace MinimalApiTemplate.Infrastructure.Tests.Persistence;
 
 public static class InMemoryApplicationDbContextFactory
-{    
+{
     public static ApplicationDbContext CreateContext(string databaseName)
     {
         var contextOptions = new DbContextOptionsBuilder<ApplicationDbContext>(

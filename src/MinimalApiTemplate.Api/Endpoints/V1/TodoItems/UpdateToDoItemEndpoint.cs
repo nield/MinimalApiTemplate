@@ -4,7 +4,7 @@ using static MinimalApiTemplate.Application.Common.Constants;
 
 namespace MinimalApiTemplate.Api.Endpoints.V1.TodoItems;
 
-public class UpdateToDoItemEndpoint : BaseEndpoint, 
+public class UpdateToDoItemEndpoint : BaseEndpoint,
     IEndpoint<NoContent, long, UpdateTodoItemRequest, CancellationToken>
 {
     private readonly IOutputCacheStore _outputCacheStore;

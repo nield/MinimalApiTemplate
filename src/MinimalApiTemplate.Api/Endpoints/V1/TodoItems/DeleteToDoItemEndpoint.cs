@@ -3,13 +3,13 @@ using static MinimalApiTemplate.Application.Common.Constants;
 
 namespace MinimalApiTemplate.Api.Endpoints.V1.TodoItems;
 
-public class DeleteToDoItemEndpoint : BaseEndpoint, 
+public class DeleteToDoItemEndpoint : BaseEndpoint,
     IEndpoint<NoContent, long, CancellationToken>
 {
     private readonly IOutputCacheStore _outputCacheStore;
 
     public DeleteToDoItemEndpoint(ISender sender, IMapper mapper, IOutputCacheStore outputCacheStore)
-        :base(sender, mapper)
+        : base(sender, mapper)
     {
         _outputCacheStore = outputCacheStore;
     }

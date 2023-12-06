@@ -8,10 +8,10 @@ public class PaginatedListTests
 
     public PaginatedListTests()
     {
-        _items = new List<SampleTestModel> 
-        { 
+        _items = new List<SampleTestModel>
+        {
             new SampleTestModel { Id = 1 }
-        };   
+        };
     }
 
     [Theory]
@@ -36,7 +36,7 @@ public class PaginatedListTests
         sut.ParamName.Should().Be("pageSize");
     }
 
-    [Fact]   
+    [Fact]
     public void Given_NegativeCount_When_ClassIsInitialized_Then_ExceptionIsThrown()
     {
         var sut = Assert.Throws<ArgumentException>(() => new PaginatedList<SampleTestModel>(
@@ -50,7 +50,7 @@ public class PaginatedListTests
     {
         var sut = new PaginatedList<SampleTestModel>(_items, 0, 1, 1);
 
-        sut.TotalCount.Should().Be(0);  
+        sut.TotalCount.Should().Be(0);
     }
 
     [Fact]

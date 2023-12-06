@@ -1,7 +1,4 @@
-﻿using System.Net;
-using Microsoft.AspNetCore.Mvc;
-
-namespace MinimalApiTemplate.Api.ExceptionHandlers;
+﻿namespace MinimalApiTemplate.Api.ExceptionHandlers;
 
 public class UnauthorizedAccessExceptionHandler : BaseExceptionHandler<UnauthorizedAccessException>
 {

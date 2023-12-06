@@ -5,7 +5,7 @@ using static MinimalApiTemplate.Application.Common.Constants;
 
 namespace MinimalApiTemplate.Api.Endpoints.V1.TodoItems;
 
-public class GetTodoItemsWithPaginationEndpoint : BaseEndpoint, 
+public class GetTodoItemsWithPaginationEndpoint : BaseEndpoint,
     IEndpoint<Ok<PaginatedListResponse<GetToDoItemsResponse>>, GetTodoItemsWithPaginationRequest, CancellationToken>
 {
     public GetTodoItemsWithPaginationEndpoint(ISender sender, IMapper mapper)

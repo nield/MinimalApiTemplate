@@ -1,16 +1,16 @@
 ﻿using Audit.Core;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using MinimalApiTemplate.Infrastructure.Common;
 using MinimalApiTemplate.Infrastructure.Persistence;
 using MinimalApiTemplate.Infrastructure.Persistence.Interceptors;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
 public static class ConfigureServices
 {
-    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, 
+    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services,
         IConfiguration configuration, IHostEnvironment hostEnvironment)
     {
         services.SetupDatabase(configuration, hostEnvironment);
@@ -38,10 +38,10 @@ public static class ConfigureServices
                 }
             )
             .AddHeaderPropagation()
-            .AddStandardResilienceHandler();            
+            .AddStandardResilienceHandler();
     }
 
-    private static void SetupDatabase(this IServiceCollection services, 
+    private static void SetupDatabase(this IServiceCollection services,
         IConfiguration configuration,
         IHostEnvironment hostEnvironment)
     {
@@ -64,8 +64,8 @@ public static class ConfigureServices
                     builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)
                         .EnableRetryOnFailure(maxRetryCount: 3)
                         .MigrationsHistoryTable(ApplicationDbContext.MigrationTableName, ApplicationDbContext.DbSchema))
-                    .EnableSensitiveDataLogging(hostEnvironment.IsDevelopment());                                    
-        });       
+                    .EnableSensitiveDataLogging(hostEnvironment.IsDevelopment());
+        });
     }
 
     private static void SetupRepositories(this IServiceCollection services)
@@ -76,7 +76,7 @@ public static class ConfigureServices
                                     .WithScopedLifetime());
     }
 
-    private static void SetupMetrics(this IServiceCollection services) 
+    private static void SetupMetrics(this IServiceCollection services)
     {
         services.Scan(scan => scan.FromAssemblyOf<IInfrastructureMarker>()
                                     .AddClasses(c => c.AssignableTo<IMetric>())
@@ -84,7 +84,7 @@ public static class ConfigureServices
                                     .WithSingletonLifetime());
     }
 
-    private static void SetupCaching(this IServiceCollection services, 
+    private static void SetupCaching(this IServiceCollection services,
         IConfiguration configuration)
     {
         if (!string.IsNullOrEmpty(configuration["RedisOptions:ConnectionString"]))

@@ -20,7 +20,7 @@ public class ToDoItemsEndpointTests
 
         var sut = await _webApplicationFixture.HttpClient.PostAsJsonAsync("/api/v1/todos", payload);
 
-        sut.Should().NotBeNull();   
+        sut.Should().NotBeNull();
         sut.StatusCode.Should().Be(HttpStatusCode.Created);
     }
 

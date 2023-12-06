@@ -1,5 +1,5 @@
-﻿using MinimalApiTemplate.Application.Common.Behaviours;
-using MediatR;
+﻿using MediatR;
+using MinimalApiTemplate.Application.Common.Behaviours;
 
 namespace MinimalApiTemplate.Application.Tests.Common.Behaviours;
 

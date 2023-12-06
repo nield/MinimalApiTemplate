@@ -1,7 +1,7 @@
-﻿using MinimalApiTemplate.Application.Common.Behaviours;
-using MinimalApiTemplate.Application.Common.Settings;
-using MediatR;
+﻿using MediatR;
 using Microsoft.Extensions.Options;
+using MinimalApiTemplate.Application.Common.Behaviours;
+using MinimalApiTemplate.Application.Common.Settings;
 
 namespace MinimalApiTemplate.Application.Tests.Common.Behaviours;
 
@@ -22,7 +22,7 @@ public class PerformanceBehaviourTests
     {
         _performanceBehaviour = new(_loggerMock.Object,
                                         _currentUserServiceMock.Object,
-                                       Options.Create<AppSettings>(appSettings));        
+                                       Options.Create<AppSettings>(appSettings));
     }
 
     [Theory]
@@ -33,23 +33,23 @@ public class PerformanceBehaviourTests
     {
         Setup(new AppSettings
         {
-            Logs = new Logs 
-            {             
+            Logs = new Logs
+            {
                 Performance = new Performance
                 {
                     LogSlowRunningHandlers = logRequests,
-                    SlowRunningHandlerThreshold = threshold                
+                    SlowRunningHandlerThreshold = threshold
                 }
-            }             
+            }
         });
 
         if (_performanceBehaviour is null) throw new NullReferenceException("Setup was not called");
 
         await _performanceBehaviour.Handle(
-            new PerformanceBehaviourTestInput 
+            new PerformanceBehaviourTestInput
             {
-                DelayInMilliseconds = delay 
-            },                                            
+                DelayInMilliseconds = delay
+            },
             _pipelineBehaviourDelegateMock.Object,
             CancellationToken.None);
 

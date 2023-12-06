@@ -1,6 +1,4 @@
-﻿using System.Net;
-using Microsoft.AspNetCore.Mvc;
-using NotFoundException = MinimalApiTemplate.Application.Common.Exceptions.NotFoundException;
+﻿using NotFoundException = MinimalApiTemplate.Application.Common.Exceptions.NotFoundException;
 
 namespace MinimalApiTemplate.Api.ExceptionHandlers;
 

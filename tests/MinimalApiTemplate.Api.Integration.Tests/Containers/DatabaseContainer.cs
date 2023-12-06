@@ -61,5 +61,5 @@ internal sealed class DatabaseContainer : BaseContainer<DatabaseContainer>
         {
             return false;
         }
-    }    
+    }
 }

@@ -4,13 +4,13 @@ using MinimalApiTemplate.Application.Common.Interfaces.Metrics;
 namespace MinimalApiTemplate.Application.Tests;
 
 [Collection("Mapping collection")]
-public abstract class BaseTestFixture<T> : BaseTestFixture where T: class
+public abstract class BaseTestFixture<T> : BaseTestFixture where T : class
 {
     protected readonly Mock<ILogger<T>> _logger = new();
     protected readonly Mock<IToDoItemRepository> _templateRepositoryMock = new();
     protected readonly Mock<IToDoItemMetrics> _toDoMetricMock = new();
 
-    protected BaseTestFixture(MappingFixture mappingFixture) 
+    protected BaseTestFixture(MappingFixture mappingFixture)
         : base(mappingFixture)
     {
 

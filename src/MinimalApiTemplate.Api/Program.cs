@@ -1,7 +1,7 @@
-using MinimalApiTemplate.Api.Configurations;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using MinimalApi.Endpoint.Extensions;
+using MinimalApiTemplate.Api.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +18,7 @@ app.UseLogging();
 app.UseHttpsRedirection();
 app.UseCompression();
 
-app.UseExceptionHandler(_ => {  });
+app.UseExceptionHandler(_ => { });
 
 app.UseOutputCache();
 

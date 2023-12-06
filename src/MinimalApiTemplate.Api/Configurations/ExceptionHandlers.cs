@@ -10,7 +10,7 @@ public static class ExceptionHandlers
     /// </summary>
     /// <param name="services"></param>
     public static void ConfigureExceptionHandlers(this IServiceCollection services)
-    {        
+    {
         services.AddExceptionHandler<BadRequestExceptionHandler>();
         services.AddExceptionHandler<NotFoundExceptionHandler>();
         services.AddExceptionHandler<ValidationExceptionHandler>();

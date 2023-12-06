@@ -22,7 +22,7 @@ public class UpdateTodoItemCommandHandlerTests : BaseTestFixture<UpdateTodoItemC
 
         await Assert.ThrowsAsync<NotFoundException>(() =>
                     _handler.Handle(Builder<UpdateTodoItemCommand>.CreateNew()
-                                        .With(x =>  id)
+                                        .With(x => id)
                                         .Build(), CancellationToken.None));
 
         _templateRepositoryMock.Verify(x => x.UpdateAsync(It.IsAny<TodoItem>(), It.IsAny<CancellationToken>()), Times.Never);

@@ -1,9 +1,9 @@
-﻿global using MinimalApiTemplate.Domain.Entities;
-global using MinimalApiTemplate.Domain.Enums;
-global using MinimalApiTemplate.Domain.Common;
-global using MinimalApiTemplate.Application.Common.Interfaces;
+﻿global using System.Diagnostics.Metrics;
 global using Microsoft.EntityFrameworkCore;
 global using MinimalApiTemplate.Application.Common;
-global using MinimalApiTemplate.Application.Common.Interfaces.Repositories;
+global using MinimalApiTemplate.Application.Common.Interfaces;
 global using MinimalApiTemplate.Application.Common.Interfaces.Metrics;
-global using System.Diagnostics.Metrics;
+global using MinimalApiTemplate.Application.Common.Interfaces.Repositories;
+global using MinimalApiTemplate.Domain.Common;
+global using MinimalApiTemplate.Domain.Entities;
+global using MinimalApiTemplate.Domain.Enums;

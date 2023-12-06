@@ -3,7 +3,7 @@ using MinimalApiTemplate.Application.Features.TodoItems.Queries.GetToDoItem;
 
 namespace MinimalApiTemplate.Api.Endpoints.V2.TodoItems;
 
-public class GetToDoItemEndpoint : BaseEndpoint, 
+public class GetToDoItemEndpoint : BaseEndpoint,
     IEndpoint<Ok<GetToDoItemResponse>, long, CancellationToken>
 {
     public GetToDoItemEndpoint(ISender sender, IMapper mapper)
@@ -13,7 +13,7 @@ public class GetToDoItemEndpoint : BaseEndpoint,
     }
 
     public void AddRoute(IEndpointRouteBuilder app)
-    { 
+    {
         app.ToDoItemRouteV2()
             .MapGet("{id}", (long id, CancellationToken cancellationToken) =>
                 HandleAsync(id, cancellationToken))

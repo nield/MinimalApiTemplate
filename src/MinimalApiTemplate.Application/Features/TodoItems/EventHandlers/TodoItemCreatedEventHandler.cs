@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-
-namespace MinimalApiTemplate.Application.Features.TodoItems.EventHandlers;
+﻿namespace MinimalApiTemplate.Application.Features.TodoItems.EventHandlers;
 
 public class TodoItemCreatedEventHandler : INotificationHandler<TodoItemCreatedEvent>
 {
@@ -13,7 +11,7 @@ public class TodoItemCreatedEventHandler : INotificationHandler<TodoItemCreatedE
 
     public Task Handle(TodoItemCreatedEvent notification, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Domain Event: {DomainEvent}", notification.GetType().Name);
+        _logger.LogInformation("Domain Event: {DomainEvent}", nameof(TodoItemCreatedEvent));
 
         return Task.CompletedTask;
     }

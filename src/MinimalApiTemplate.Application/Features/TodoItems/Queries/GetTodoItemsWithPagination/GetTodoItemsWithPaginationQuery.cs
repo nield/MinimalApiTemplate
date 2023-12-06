@@ -1,6 +1,6 @@
 ﻿using AutoMapper.QueryableExtensions;
-using MinimalApiTemplate.Application.Common.Models;
 using Microsoft.EntityFrameworkCore;
+using MinimalApiTemplate.Application.Common.Models;
 
 namespace MinimalApiTemplate.Application.Features.TodoItems.Queries.GetTodoItemsWithPagination;
 

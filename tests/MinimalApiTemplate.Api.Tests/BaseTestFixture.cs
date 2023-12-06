@@ -5,11 +5,11 @@ using Microsoft.AspNetCore.OutputCaching;
 namespace MinimalApiTemplate.Api.Tests;
 
 [Collection("Mapping collection")]
-public abstract class BaseTestFixture<T> : BaseTestFixture where T: class
+public abstract class BaseTestFixture<T> : BaseTestFixture where T : class
 {
     protected readonly Mock<ILogger<T>> _loggerMock = new();
 
-    protected BaseTestFixture(MappingFixture mappingFixture) 
+    protected BaseTestFixture(MappingFixture mappingFixture)
         : base(mappingFixture)
     {
     }

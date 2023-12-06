@@ -5,7 +5,7 @@ using static MinimalApiTemplate.Application.Common.Constants;
 
 namespace MinimalApiTemplate.Api.Endpoints.V1.TodoItems;
 
-public class CreateToDoItemEndpoint : BaseEndpoint, 
+public class CreateToDoItemEndpoint : BaseEndpoint,
     IEndpoint<CreatedAtRoute<CreateTodoItemResponse>, CreateTodoItemRequest, CancellationToken>
 {
     private readonly IOutputCacheStore _outputCacheStore;
@@ -22,7 +22,7 @@ public class CreateToDoItemEndpoint : BaseEndpoint,
             .MapPost("", ([FromBody][Validate] CreateTodoItemRequest request, CancellationToken cancellationToken) =>
                 HandleAsync(request, cancellationToken))
             .WithDescription("Used to create a todo")
-            .Produces(StatusCodes.Status400BadRequest); 
+            .Produces(StatusCodes.Status400BadRequest);
     }
 
     public async Task<CreatedAtRoute<CreateTodoItemResponse>> HandleAsync(CreateTodoItemRequest request, CancellationToken cancellationToken)

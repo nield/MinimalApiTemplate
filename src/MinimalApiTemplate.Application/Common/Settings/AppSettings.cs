@@ -15,4 +15,4 @@ public class Performance
 {
     public bool LogSlowRunningHandlers { get; set; }
     public int SlowRunningHandlerThreshold { get; set; }
-} 
+}

@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
-using MinimalApiTemplate.Application.Common.Behaviours;
 using Microsoft.Extensions.Configuration;
+using MinimalApiTemplate.Application.Common.Behaviours;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
