@@ -13,6 +13,11 @@ public class TodoItemConfiguration : BaseConfiguration<TodoItem>
         builder.Property(x => x.Title)
             .HasMaxLength(200)
             .IsRequired();
+
+        builder.Property(x => x.Tags)
+            .HasMaxLength(1000)
+            .IsUnicode(false)
+            .IsRequired(false);
     }
 
     // Optional - Load default data
@@ -20,7 +25,7 @@ public class TodoItemConfiguration : BaseConfiguration<TodoItem>
     {
         return new List<TodoItem>()
         {
-            new TodoItem { Id = 1, Title = "Work work work", Priority = PriorityLevel.Medium }
+            new() { Id = 1, Title = "Work work work", Priority = PriorityLevel.Medium, Tags = ["work"] }
         };
     }
 }
