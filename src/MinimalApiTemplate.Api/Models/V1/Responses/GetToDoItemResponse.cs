@@ -13,4 +13,6 @@ public class GetToDoItemResponse
     public DateTimeOffset? Reminder { get; set; }
 
     public bool IsDone { get; set; }
+
+    public List<string> Tags { get; set; } = [];
 }

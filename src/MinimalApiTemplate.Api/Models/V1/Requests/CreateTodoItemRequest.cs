@@ -9,4 +9,6 @@ public class CreateTodoItemRequest
     public PriorityLevel Priority { get; set; }
 
     public DateTimeOffset? Reminder { get; set; }
+
+    public List<string> Tags { get; set; } = [];
 }

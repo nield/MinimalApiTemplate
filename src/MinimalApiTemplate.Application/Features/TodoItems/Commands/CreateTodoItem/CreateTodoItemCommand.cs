@@ -8,6 +8,7 @@ public record CreateTodoItemCommand : IRequest<long>
     public string? Note { get; set; }
     public PriorityLevel Priority { get; set; }
     public DateTimeOffset? Reminder { get; set; }
+    public List<string> Tags { get; set; } = [];
 }
 
 public class CreateTodoItemCommandHandler : IRequestHandler<CreateTodoItemCommand, long>

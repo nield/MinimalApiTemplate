@@ -11,4 +11,6 @@ public class TodoItem : BaseAuditableEntity
     public DateTimeOffset? Reminder { get; set; }
 
     public bool IsDone { get; set; }
+
+    public List<string> Tags { get; set; } = [];
 }
