@@ -11,4 +11,6 @@ public class GetToDoItemResponse
     public PriorityLevel Priority { get; set; }
 
     public bool IsDone { get; set; }
+
+    public List<string> Tags { get; set; } = [];
 }

@@ -8,5 +8,5 @@ public class UpdateTodoItemRequest
     
     public string? Note { get; set; }
 
-    public List<string> Tags { get; set; } = [];
+    public List<string>? Tags { get; set; }
 }

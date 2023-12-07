@@ -10,5 +10,5 @@ public class CreateTodoItemRequest
 
     public DateTimeOffset? Reminder { get; set; }
 
-    public List<string> Tags { get; set; } = [];
+    public List<string>? Tags { get; set; }
 }
