@@ -8,6 +8,7 @@ public record GetTodoItemsWithPaginationQuery : IRequest<PaginatedList<GetTodoIt
 {
     public int PageNumber { get; init; } = 1;
     public int PageSize { get; init; } = 10;
+    public string[] Tags { get; set; } = [];
 }
 
 public class GetTodoItemsWithPaginationQueryHandler : IRequestHandler<GetTodoItemsWithPaginationQuery, PaginatedList<GetTodoItemsDto>>
@@ -23,10 +24,18 @@ public class GetTodoItemsWithPaginationQueryHandler : IRequestHandler<GetTodoIte
 
     public async Task<PaginatedList<GetTodoItemsDto>> Handle(GetTodoItemsWithPaginationQuery request, CancellationToken cancellationToken)
     {
-        return await _context.TodoItems
-            .AsNoTracking()
-            .OrderBy(x => x.Title)
+        var querableToDoItems = _context.TodoItems.AsNoTracking();
+
+        if (request.Tags.Length != 0)
+        {
+            querableToDoItems = querableToDoItems.Where(x => 
+                request.Tags.Any(requestTag => x.Tags.Contains(requestTag)));
+        }
+
+        var pagedData = await querableToDoItems.OrderBy(x => x.Title)
             .ProjectTo<GetTodoItemsDto>(_mapper.ConfigurationProvider)
             .ToPaginatedListAsync(request.PageNumber, request.PageSize);
+
+        return pagedData;
     }
 }

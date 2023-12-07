@@ -25,11 +25,13 @@ public class GetTodoItemsWithPaginationEndpoint : BaseEndpoint,
             {
                 ops.Parameters[0].Description = "The current page number. The first page is 1";
                 ops.Parameters[1].Description = "The number of records on a page";
+                ops.Parameters[2].Description = "The tags to filter on. Not required";
 
                 return ops;
             })
             .CacheOutput(builder => builder.SetVaryByQuery(nameof(GetTodoItemsWithPaginationRequest.PageNumber),
-                                                            nameof(GetTodoItemsWithPaginationRequest.PageSize))
+                                                            nameof(GetTodoItemsWithPaginationRequest.PageSize),
+                                                            nameof(GetTodoItemsWithPaginationRequest.Tags))
                                             .Expire(TimeSpan.FromMinutes(5))
                                             .Tag(OutputCacheTags.ToDoList));
     }

@@ -9,4 +9,6 @@ public class GetTodoItemsWithPaginationRequest
 
     [DefaultValue(10)]
     public int PageSize { get; set; }
+
+    public string[]? Tags { get; set; }
 }
