@@ -1,4 +1,5 @@
 ﻿using MinimalApiTemplate.Application.Features.TodoItems.Queries.GetToDoItem;
+using NSubstitute.ExceptionExtensions;
 
 namespace MinimalApiTemplate.Application.Tests.Features.ToDoItems.Queries.GetToDoItem;
 
@@ -9,18 +10,19 @@ public class GetToDoItemQueryTests : BaseTestFixture
     public GetToDoItemQueryTests(MappingFixture mappingFixture)
         : base(mappingFixture)
     {
-        _handler = new GetToDoItemQueryHandler(_applicationDbContextMock.Object, _mapper);
+        _handler = new GetToDoItemQueryHandler(_applicationDbContextMock, _mapper);
     }
 
     [Fact]
-    public async Task When_ToDoItemIdDoesNotExists_Then_ExceptionIsThrown()
+    public void When_ToDoItemIdDoesNotExists_Then_ExceptionIsThrown()
     {
         var toDoItemsDbSetMock = new List<TodoItem>().AsQueryable().BuildMockDbSet();
 
-        _applicationDbContextMock.SetupGet(x => x.TodoItems)
-            .Returns(toDoItemsDbSetMock.Object);
+        _applicationDbContextMock.TodoItems
+            .Returns(toDoItemsDbSetMock);
 
-        await Assert.ThrowsAsync<NotFoundException>(() => _handler.Handle(new GetToDoItemQuery { Id = 1 }, CancellationToken.None));
+        _handler.Handle(new GetToDoItemQuery { Id = 1 }, CancellationToken.None)
+            .Should().Throws<NotFoundException>();
     }
 
     [Fact]
@@ -29,8 +31,8 @@ public class GetToDoItemQueryTests : BaseTestFixture
         var toDoItemsDbSetMock = Builder<TodoItem>.CreateListOfSize(1).Build()
                                     .AsQueryable().BuildMockDbSet();
 
-        _applicationDbContextMock.SetupGet(x => x.TodoItems)
-            .Returns(toDoItemsDbSetMock.Object);
+        _applicationDbContextMock.TodoItems
+            .Returns(toDoItemsDbSetMock);
 
         var sut = await _handler.Handle(new GetToDoItemQuery { Id = 1 }, CancellationToken.None);
 

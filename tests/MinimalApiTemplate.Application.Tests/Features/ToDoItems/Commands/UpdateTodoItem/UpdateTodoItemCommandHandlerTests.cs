@@ -1,4 +1,5 @@
 ﻿using MinimalApiTemplate.Application.Features.TodoItems.Commands.UpdateTodoItem;
+using NSubstitute.ReturnsExtensions;
 
 namespace MinimalApiTemplate.Application.Tests.Features.ToDoItems.Commands.UpdateTodoItem;
 
@@ -9,7 +10,7 @@ public class UpdateTodoItemCommandHandlerTests : BaseTestFixture<UpdateTodoItemC
     public UpdateTodoItemCommandHandlerTests(MappingFixture mappingFixture)
         : base(mappingFixture)
     {
-        _handler = new(_templateRepositoryMock.Object, _mapper);
+        _handler = new(_templateRepositoryMock, _mapper);
     }
 
     [Fact]
@@ -17,15 +18,16 @@ public class UpdateTodoItemCommandHandlerTests : BaseTestFixture<UpdateTodoItemC
     {
         var id = 1L;
 
-        _templateRepositoryMock.Setup(x => x.GetByIdAsync(id, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(() => null);
+        _templateRepositoryMock.GetByIdAsync(id, Arg.Any<CancellationToken>())
+            .ReturnsNull();
 
         await Assert.ThrowsAsync<NotFoundException>(() =>
                     _handler.Handle(Builder<UpdateTodoItemCommand>.CreateNew()
                                         .With(x => id)
                                         .Build(), CancellationToken.None));
 
-        _templateRepositoryMock.Verify(x => x.UpdateAsync(It.IsAny<TodoItem>(), It.IsAny<CancellationToken>()), Times.Never);
+        await _templateRepositoryMock.DidNotReceive()
+            .UpdateAsync(Arg.Any<TodoItem>(), Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -33,13 +35,14 @@ public class UpdateTodoItemCommandHandlerTests : BaseTestFixture<UpdateTodoItemC
     {
         var id = 1L;
 
-        _templateRepositoryMock.Setup(x => x.GetByIdAsync(1, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(Builder<TodoItem>.CreateNew().Build());
+        _templateRepositoryMock.GetByIdAsync(1, Arg.Any<CancellationToken>())
+            .Returns(Builder<TodoItem>.CreateNew().Build());
 
         await _handler.Handle(Builder<UpdateTodoItemCommand>.CreateNew()
                                         .With(x => id)
                                         .Build(), CancellationToken.None);
 
-        _templateRepositoryMock.Verify(x => x.UpdateAsync(It.IsAny<TodoItem>(), It.IsAny<CancellationToken>()), Times.Once);
+        await _templateRepositoryMock.Received()
+            .UpdateAsync(Arg.Any<TodoItem>(), Arg.Any<CancellationToken>());
     }
 }

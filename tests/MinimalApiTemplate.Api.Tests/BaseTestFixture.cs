@@ -1,5 +1,4 @@
-﻿
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.OutputCaching;
 
 namespace MinimalApiTemplate.Api.Tests;
@@ -7,7 +6,7 @@ namespace MinimalApiTemplate.Api.Tests;
 [Collection("Mapping collection")]
 public abstract class BaseTestFixture<T> : BaseTestFixture where T : class
 {
-    protected readonly Mock<ILogger<T>> _loggerMock = new();
+    protected readonly ILogger<T> _loggerMock = Substitute.For<ILogger<T>>();
 
     protected BaseTestFixture(MappingFixture mappingFixture)
         : base(mappingFixture)
@@ -19,8 +18,8 @@ public abstract class BaseTestFixture<T> : BaseTestFixture where T : class
 public abstract class BaseTestFixture
 {
     protected readonly IMapper _mapper;
-    protected readonly Mock<ISender> _senderMock = new();
-    protected readonly Mock<IOutputCacheStore> _outputCacheStoreMock = new();
+    protected readonly ISender _senderMock = Substitute.For<ISender>();
+    protected readonly IOutputCacheStore _outputCacheStoreMock = Substitute.For<IOutputCacheStore>();
 
     protected BaseTestFixture(MappingFixture mappingFixture)
     {

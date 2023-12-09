@@ -4,14 +4,13 @@ using MinimalApiTemplate.Infrastructure.Persistence.Interceptors;
 
 namespace MinimalApiTemplate.Infrastructure.Tests.Persistence.Interceptors;
 
-public class DispatchDomainEventsInterceptorTests
+public class DispatchDomainEventsInterceptorTests : BaseTestFixture
 {
     private readonly DispatchDomainEventsInterceptor _interceptor;
-    private readonly Mock<IMediator> _mediatorMock = new();
 
     public DispatchDomainEventsInterceptorTests()
     {
-        _interceptor = new(_mediatorMock.Object);
+        _interceptor = new(_mediatorMock);
     }
 
     [Fact]
@@ -28,7 +27,8 @@ public class DispatchDomainEventsInterceptorTests
 
         await _interceptor.DispatchDomainEvents(dbContext);
 
-        _mediatorMock.Verify(x => x.Publish(It.IsAny<BaseEvent>(), It.IsAny<CancellationToken>()), Times.Once);
+        await _mediatorMock.Received()
+            .Publish(Arg.Any<BaseEvent>(), Arg.Any<CancellationToken>());
 
         entity.DomainEvents.Should().HaveCount(0);
     }

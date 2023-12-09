@@ -7,8 +7,8 @@ namespace MinimalApiTemplate.Application.Tests.Common.Behaviours;
 public class ValidationBehaviourTests
 {
     private readonly ValidationBehaviour<ValidationBehaviourTestInput, Unit> _validationBehaviour;
-    private readonly Mock<RequestHandlerDelegate<Unit>> _pipelineBehaviourDelegateMock = new();
-    private readonly Mock<IValidator<ValidationBehaviourTestInput>> _validatorMock = new();
+    private readonly RequestHandlerDelegate<Unit> _pipelineBehaviourDelegateMock = Substitute.For<RequestHandlerDelegate<Unit>>();
+    private readonly IValidator<ValidationBehaviourTestInput> _validatorMock = Substitute.For<IValidator<ValidationBehaviourTestInput>>();
 
     public ValidationBehaviourTests()
     {
@@ -17,20 +17,20 @@ public class ValidationBehaviourTests
             { new ValidationFailure("prop1", "required") }
         };
 
-        _validatorMock.Setup(x => x.ValidateAsync(It.IsAny<IValidationContext>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new ValidationResult(failures));
+        _validatorMock.ValidateAsync(Arg.Any<IValidationContext>(), Arg.Any<CancellationToken>())
+            .Returns(new ValidationResult(failures));
 
-        _validationBehaviour = new(new[] { _validatorMock.Object });
+        _validationBehaviour = new(new[] { _validatorMock });
     }
 
     [Fact]
     public async Task When_ValidationExists_Then_ReturnTheErrorMessage()
     {
-        _pipelineBehaviourDelegateMock.Setup(m => m())
-            .ReturnsAsync(() => Unit.Value).Verifiable();
+        _pipelineBehaviourDelegateMock.Invoke()
+            .Returns(Unit.Value);
 
         var sut = await Assert.ThrowsAsync<Application.Common.Exceptions.ValidationException>(() => _validationBehaviour.Handle(new ValidationBehaviourTestInput(),
-                                            _pipelineBehaviourDelegateMock.Object,
+                                            _pipelineBehaviourDelegateMock,
                                             CancellationToken.None));
 
         sut.Errors.Count.Should().Be(1);

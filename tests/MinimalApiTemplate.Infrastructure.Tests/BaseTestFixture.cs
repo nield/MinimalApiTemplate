@@ -4,10 +4,10 @@ namespace MinimalApiTemplate.Infrastructure.Tests;
 
 public abstract class BaseTestFixture<T> : BaseTestFixture where T : class
 {
-    protected readonly Mock<ILogger<T>> _logger = new();
+    protected readonly ILogger<T> _loggerMock = Substitute.For<ILogger<T>>();
 }
 
 public abstract class BaseTestFixture
 {
-    protected readonly Mock<IMediator> _mediator = new();
+    protected readonly IMediator _mediatorMock = Substitute.For<IMediator>();
 }

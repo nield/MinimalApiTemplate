@@ -11,7 +11,7 @@ public class GetTodoItemsWithPaginationEndpointTests : BaseTestFixture
     public GetTodoItemsWithPaginationEndpointTests(MappingFixture mappingFixture)
         : base(mappingFixture)
     {
-        _endpoint = new(_senderMock.Object, _mapper);
+        _endpoint = new(_senderMock, _mapper);
     }
 
     [Fact]
@@ -19,8 +19,8 @@ public class GetTodoItemsWithPaginationEndpointTests : BaseTestFixture
     {
         var data = Builder<GetTodoItemsDto>.CreateListOfSize(1).Build();
 
-        _senderMock.Setup(x => x.Send(It.IsAny<GetTodoItemsWithPaginationQuery>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new PaginatedList<GetTodoItemsDto>(data, 10, 1, 10));
+        _senderMock.Send(Arg.Any<GetTodoItemsWithPaginationQuery>(), Arg.Any<CancellationToken>())
+            .Returns(new PaginatedList<GetTodoItemsDto>(data, 10, 1, 10));
 
         var query = Builder<GetTodoItemsWithPaginationRequest>.CreateNew().Build();
 
