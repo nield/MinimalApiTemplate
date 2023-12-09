@@ -10,7 +10,7 @@ public class GetToDoItemEndpointTests : BaseTestFixture
     public GetToDoItemEndpointTests(MappingFixture mappingFixture)
         : base(mappingFixture)
     {
-        _endpoint = new(_senderMock.Object, _mapper);
+        _endpoint = new(_senderMock, _mapper);
     }
 
     [Fact]
@@ -18,8 +18,8 @@ public class GetToDoItemEndpointTests : BaseTestFixture
     {
         var data = Builder<GetToDoItemDto>.CreateNew().Build();
 
-        _senderMock.Setup(x => x.Send(It.IsAny<GetToDoItemQuery>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(data);
+        _senderMock.Send(Arg.Any<GetToDoItemQuery>(), Arg.Any<CancellationToken>())
+            .Returns(data);
 
         var sut = await _endpoint.HandleAsync(1, CancellationToken.None);
 

@@ -1,27 +1,18 @@
-﻿
-using MinimalApiTemplate.Application.Common.Interfaces.Metrics;
+﻿using MinimalApiTemplate.Application.Common.Interfaces.Metrics;
 
 namespace MinimalApiTemplate.Application.Tests;
 
 [Collection("Mapping collection")]
 public abstract class BaseTestFixture<T> : BaseTestFixture where T : class
 {
-    protected readonly Mock<ILogger<T>> _logger = new();
-    protected readonly Mock<IToDoItemRepository> _templateRepositoryMock = new();
-    protected readonly Mock<IToDoItemMetrics> _toDoMetricMock = new();
+    protected readonly ILogger<T> _logger = Substitute.For<ILogger<T>>();
+    protected readonly IToDoItemRepository _templateRepositoryMock = Substitute.For<IToDoItemRepository>();
+    protected readonly IToDoItemMetrics _toDoMetricMock = Substitute.For<IToDoItemMetrics>();
 
     protected BaseTestFixture(MappingFixture mappingFixture)
         : base(mappingFixture)
     {
 
-    }
-
-    protected override void DisposeCore()
-    {
-        base.DisposeCore();
-
-        _templateRepositoryMock.VerifyAll();
-        _toDoMetricMock.VerifyAll();
     }
 }
 
@@ -29,8 +20,8 @@ public abstract class BaseTestFixture<T> : BaseTestFixture where T : class
 public abstract class BaseTestFixture : IDisposable
 {
     protected readonly IMapper _mapper;
-    protected readonly Mock<IApplicationDbContext> _applicationDbContextMock = new();
-    protected readonly Mock<IPublishMessageService> _publishMessageServiceMock = new();
+    protected readonly IApplicationDbContext _applicationDbContextMock = Substitute.For<IApplicationDbContext>();
+    protected readonly IPublishMessageService _publishMessageServiceMock = Substitute.For<IPublishMessageService>();
     protected bool _disposedValue;
 
     protected BaseTestFixture(MappingFixture mappingFixture)

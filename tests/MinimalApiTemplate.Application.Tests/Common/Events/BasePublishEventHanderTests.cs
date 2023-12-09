@@ -10,7 +10,7 @@ public class BasePublishEventHanderTests : BaseTestFixture<FakePublishEventHande
     public BasePublishEventHanderTests(MappingFixture mappingFixture)
         : base(mappingFixture)
     {
-        _hander = new(_publishMessageServiceMock.Object);
+        _hander = new(_publishMessageServiceMock);
     }
 
     [Fact]
@@ -20,7 +20,8 @@ public class BasePublishEventHanderTests : BaseTestFixture<FakePublishEventHande
 
         await _hander.Handle(testEvent, CancellationToken.None);
 
-        _publishMessageServiceMock.Verify(x => x.Publish<FakeTestEvent, FakeTestMessage>(testEvent, It.IsAny<CancellationToken>()), Times.Once);
+        await _publishMessageServiceMock.Received(1)
+            .Publish<FakeTestEvent, FakeTestMessage>(testEvent, Arg.Any<CancellationToken>());
     }
 }
 

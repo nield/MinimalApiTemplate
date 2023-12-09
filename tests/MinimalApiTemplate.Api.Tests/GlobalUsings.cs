@@ -3,5 +3,5 @@ global using FizzWare.NBuilder;
 global using FluentAssertions;
 global using FluentValidation.TestHelper;
 global using Microsoft.Extensions.Logging;
-global using Moq;
+global using NSubstitute;
 global using Xunit;

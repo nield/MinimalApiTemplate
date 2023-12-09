@@ -9,7 +9,7 @@ public class GetTodoItemsWithPaginationQueryHandlerTests : BaseTestFixture
     public GetTodoItemsWithPaginationQueryHandlerTests(MappingFixture mappingFixture)
         : base(mappingFixture)
     {
-        _handler = new(_applicationDbContextMock.Object, _mapper);
+        _handler = new(_applicationDbContextMock, _mapper);
     }
 
     [Fact]
@@ -18,8 +18,8 @@ public class GetTodoItemsWithPaginationQueryHandlerTests : BaseTestFixture
         var toDoItemsDbSetMock = Builder<TodoItem>.CreateListOfSize(1).Build()
                                     .AsQueryable().BuildMockDbSet();
 
-        _applicationDbContextMock.SetupGet(x => x.TodoItems)
-            .Returns(toDoItemsDbSetMock.Object);
+        _applicationDbContextMock.TodoItems
+            .Returns(toDoItemsDbSetMock);
 
         var sut = await _handler.Handle(new GetTodoItemsWithPaginationQuery(), CancellationToken.None);
 

@@ -9,6 +9,6 @@ global using MinimalApiTemplate.Application.Common.Exceptions;
 global using MinimalApiTemplate.Application.Common.Interfaces;
 global using MinimalApiTemplate.Application.Common.Interfaces.Repositories;
 global using MinimalApiTemplate.Domain.Entities;
-global using MockQueryable.Moq;
-global using Moq;
+global using NSubstitute;
 global using Xunit;
+global using MockQueryable.NSubstitute;

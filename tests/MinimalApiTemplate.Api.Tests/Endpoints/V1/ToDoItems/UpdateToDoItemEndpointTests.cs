@@ -10,7 +10,7 @@ public class UpdateToDoItemEndpointTests : BaseTestFixture
     public UpdateToDoItemEndpointTests(MappingFixture mappingFixture)
         : base(mappingFixture)
     {
-        _endpoint = new(_senderMock.Object, _mapper, _outputCacheStoreMock.Object);
+        _endpoint = new(_senderMock, _mapper, _outputCacheStoreMock);
     }
 
     [Fact]
@@ -22,6 +22,7 @@ public class UpdateToDoItemEndpointTests : BaseTestFixture
 
         sut.Should().NotBeNull();
 
-        _senderMock.Verify(x => x.Send(It.IsAny<UpdateTodoItemCommand>(), It.IsAny<CancellationToken>()), Times.Once);
+        await _senderMock.Received(1)
+            .Send(Arg.Any<UpdateTodoItemCommand>(), Arg.Any<CancellationToken>());
     }
 }

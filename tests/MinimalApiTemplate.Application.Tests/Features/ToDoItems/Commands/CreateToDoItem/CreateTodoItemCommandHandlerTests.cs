@@ -9,7 +9,7 @@ public class CreateToDoItemCommandHandlerTests : BaseTestFixture<CreateTodoItemC
     public CreateToDoItemCommandHandlerTests(MappingFixture mappingFixture)
         : base(mappingFixture)
     {
-        _handler = new(_templateRepositoryMock.Object, _mapper, _toDoMetricMock.Object);
+        _handler = new(_templateRepositoryMock, _mapper, _toDoMetricMock);
     }
 
     [Fact]
@@ -19,6 +19,7 @@ public class CreateToDoItemCommandHandlerTests : BaseTestFixture<CreateTodoItemC
 
         await _handler.Handle(toDoItem, CancellationToken.None);
 
-        _templateRepositoryMock.Verify(x => x.AddAsync(It.IsAny<TodoItem>(), It.IsAny<CancellationToken>()), Times.Once);
+        await _templateRepositoryMock.Received(1)
+            .AddAsync(Arg.Any<TodoItem>(), Arg.Any<CancellationToken>());
     }
 }

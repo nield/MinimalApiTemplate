@@ -28,6 +28,8 @@ public static class Constants
     public static class MetricMeters
     {
         public const string GeneralMeter = "MinimalTemplate";
+        public const string AspNetCoreHosting = "Microsoft.AspNetCore.Hosting";
+        public const string AspNetCoreKestrel = "Microsoft.AspNetCore.Server.Kestrel";
     }
 
     public static class Headers

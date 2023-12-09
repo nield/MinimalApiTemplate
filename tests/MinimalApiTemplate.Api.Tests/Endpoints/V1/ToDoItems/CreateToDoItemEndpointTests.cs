@@ -11,7 +11,7 @@ public class CreateToDoItemEndpointTests : BaseTestFixture
     public CreateToDoItemEndpointTests(MappingFixture mappingFixture)
         : base(mappingFixture)
     {
-        _endpoint = new(_senderMock.Object, _mapper, _outputCacheStoreMock.Object);
+        _endpoint = new(_senderMock, _mapper, _outputCacheStoreMock);
     }
 
     [Fact]
@@ -20,8 +20,8 @@ public class CreateToDoItemEndpointTests : BaseTestFixture
         var newId = 1L;
         var request = Builder<CreateTodoItemRequest>.CreateNew().Build();
 
-        _senderMock.Setup(x => x.Send(It.IsAny<CreateTodoItemCommand>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(newId);
+        _senderMock.Send(Arg.Any<CreateTodoItemCommand>(), Arg.Any<CancellationToken>())
+            .Returns(newId);
 
         var sut = await _endpoint.HandleAsync(request, CancellationToken.None);
 

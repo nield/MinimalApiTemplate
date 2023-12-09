@@ -6,12 +6,12 @@ namespace MinimalApiTemplate.Infrastructure.Tests.Persistence.Interceptors;
 public class AuditableEntitySaveChangesInterceptorTests
 {
     private readonly AuditableEntitySaveChangesInterceptor _interceptor;
-    private readonly Mock<ICurrentUserService> _userServiceMock = new();
-    private readonly Mock<TimeProvider> _timeProviderMock = new();
+    private readonly ICurrentUserService _userServiceMock = Substitute.For<ICurrentUserService>();
+    private readonly TimeProvider _timeProviderMock = Substitute.For<TimeProvider>();
 
     public AuditableEntitySaveChangesInterceptorTests()
     {
-        _interceptor = new(_userServiceMock.Object, _timeProviderMock.Object);
+        _interceptor = new(_userServiceMock, _timeProviderMock);
     }
 
     [Fact]
@@ -20,9 +20,9 @@ public class AuditableEntitySaveChangesInterceptorTests
         var userId = "1";
         var dateTime = new DateTimeOffset(2023, 12, 1, 1, 0, 0, TimeSpan.Zero);
 
-        _userServiceMock.SetupGet(x => x.UserId).Returns(userId);
+        _userServiceMock.UserId.Returns(userId);
 
-        _timeProviderMock.Setup(x => x.GetUtcNow()).Returns(dateTime);
+        _timeProviderMock.GetUtcNow().Returns(dateTime);
 
         var dbContext = new FakeEntityDbContext();
 
@@ -48,9 +48,9 @@ public class AuditableEntitySaveChangesInterceptorTests
         var userId = "1";
         var dateTime = new DateTimeOffset(2023, 12, 1, 1, 0, 0, TimeSpan.Zero);
 
-        _userServiceMock.SetupGet(x => x.UserId).Returns(userId);
+        _userServiceMock.UserId.Returns(userId);
 
-        _timeProviderMock.Setup(x => x.GetUtcNow()).Returns(dateTime);
+        _timeProviderMock.GetUtcNow().Returns(dateTime);
 
         var dbContext = new FakeEntityDbContext();
         dbContext.FakeEntities.Add(new FakeEntity { Name = "update1" });

@@ -10,7 +10,7 @@ public class DeleteToDoItemEndpointTests : BaseTestFixture
     public DeleteToDoItemEndpointTests(MappingFixture mappingFixture)
         : base(mappingFixture)
     {
-        _endpoint = new(_senderMock.Object, _mapper, _outputCacheStoreMock.Object);
+        _endpoint = new(_senderMock, _mapper, _outputCacheStoreMock);
     }
 
     [Fact]
@@ -20,6 +20,7 @@ public class DeleteToDoItemEndpointTests : BaseTestFixture
 
         sut.Should().NotBeNull();
 
-        _senderMock.Verify(x => x.Send(It.IsAny<DeleteTodoItemCommand>(), It.IsAny<CancellationToken>()), Times.Once);
+        await _senderMock.Received(1)
+            .Send(Arg.Any<DeleteTodoItemCommand>(), Arg.Any<CancellationToken>());
     }
 }

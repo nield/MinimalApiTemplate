@@ -8,11 +8,11 @@ namespace MinimalApiTemplate.Api.Tests.Services;
 public class CurrentUserServiceTests
 {
     private readonly CurrentUserService _currentUserService;
-    private readonly Mock<IHttpContextAccessor> _httpContextAccessorMock = new();
+    private readonly IHttpContextAccessor _httpContextAccessorMock = Substitute.For<IHttpContextAccessor>();
 
     public CurrentUserServiceTests()
     {
-        _currentUserService = new(_httpContextAccessorMock.Object);
+        _currentUserService = new(_httpContextAccessorMock);
     }
 
     [Fact]
@@ -26,7 +26,7 @@ public class CurrentUserServiceTests
             }))
         };
 
-        _httpContextAccessorMock.SetupGet(x => x.HttpContext).Returns(context);
+        _httpContextAccessorMock.HttpContext.Returns(context);
 
         _currentUserService.UserId.Should().Be("1");
     }
@@ -36,7 +36,7 @@ public class CurrentUserServiceTests
     {
         var context = new DefaultHttpContext();
 
-        _httpContextAccessorMock.SetupGet(x => x.HttpContext).Returns(context);
+        _httpContextAccessorMock.HttpContext.Returns(context);
 
         _currentUserService.UserId.Should().BeNull();
     }
@@ -52,7 +52,7 @@ public class CurrentUserServiceTests
             }))
         };
 
-        _httpContextAccessorMock.SetupGet(x => x.HttpContext).Returns(context);
+        _httpContextAccessorMock.HttpContext.Returns(context);
 
         _currentUserService.UserProfileId.Should().Be("1");
     }
@@ -62,7 +62,7 @@ public class CurrentUserServiceTests
     {
         var context = new DefaultHttpContext();
 
-        _httpContextAccessorMock.SetupGet(x => x.HttpContext).Returns(context);
+        _httpContextAccessorMock.HttpContext.Returns(context);
 
         _currentUserService.UserProfileId.Should().BeNull();
     }
@@ -78,7 +78,7 @@ public class CurrentUserServiceTests
             }))
         };
 
-        _httpContextAccessorMock.SetupGet(x => x.HttpContext).Returns(context);
+        _httpContextAccessorMock.HttpContext.Returns(context);
 
         _currentUserService.CorrelationId.Should().Be("1");
     }
@@ -88,7 +88,7 @@ public class CurrentUserServiceTests
     {
         var context = new DefaultHttpContext();
 
-        _httpContextAccessorMock.SetupGet(x => x.HttpContext).Returns(context);
+        _httpContextAccessorMock.HttpContext.Returns(context);
 
         _currentUserService.CorrelationId.Should().BeNull();
     }
@@ -100,7 +100,7 @@ public class CurrentUserServiceTests
 
         context.Request.Headers.Append(Headers.Authorization, "token");
 
-        _httpContextAccessorMock.SetupGet(x => x.HttpContext).Returns(context);
+        _httpContextAccessorMock.HttpContext.Returns(context);
 
         _currentUserService.Token.Should().Be("token");
     }
@@ -110,7 +110,7 @@ public class CurrentUserServiceTests
     {
         var context = new DefaultHttpContext();
 
-        _httpContextAccessorMock.SetupGet(x => x.HttpContext).Returns(context);
+        _httpContextAccessorMock.HttpContext.Returns(context);
 
         _currentUserService.Token.Should().BeNull();
     }
