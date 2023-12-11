@@ -1,6 +1,4 @@
-﻿using static MinimalApiTemplate.Application.Common.Constants;
-
-namespace MinimalApiTemplate.Infrastructure.Metrics;
+﻿namespace MinimalApiTemplate.Infrastructure.Metrics;
 
 public abstract class BaseMetric
 {
@@ -8,10 +6,10 @@ public abstract class BaseMetric
 
     protected readonly Meter _meter;
 
-    protected BaseMetric(IMeterFactory meterFactory)
+    protected BaseMetric(IMeterFactory meterFactory, string meterName)
     {
         _meterFactory = meterFactory;
 
-        _meter = meterFactory.Create(MetricMeters.GeneralMeter);
+        _meter = meterFactory.Create(meterName);
     }
 }

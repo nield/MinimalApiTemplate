@@ -5,7 +5,7 @@ public class ToDoItemMetrics : BaseMetric, IToDoItemMetrics
     private readonly Counter<int> _toDoCreatedCounter;
 
     public ToDoItemMetrics(IMeterFactory meterFactory)
-        : base(meterFactory)
+        : base(meterFactory, Constants.MetricMeters.GeneralMeter)
     {
         _toDoCreatedCounter = _meter.CreateCounter<int>("minimaltemplate.todo.created");
     }
