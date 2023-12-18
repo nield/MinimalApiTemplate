@@ -1,0 +1,35 @@
+{
+    "$schema": "http://json.schemastore.org/template",
+    "classifications": [
+      "Micro Services",
+      ".NET",
+      "Clean Architecture"
+    ],
+    "name": "Clean Architecture Template",
+    "description":  "Clean Architecture Template",
+    "identity": "Clean.Architecture.Template",
+    "shortName": "ca-template",
+    "sourceName": "MinimalApiTemplate",
+    "tags": {
+      "language": "C#",
+      "type": "project"
+    },
+    "preferNameDirectory": true,
+    "sources": [
+      {
+        "source": "./",
+        "target": "./",
+        "exclude": [
+          "README.md",
+          "**/[Bb]in/**",
+          "**/[Oo]bj/**",
+          ".template.config/**/*",
+          ".vs/**/*",
+          "**/*.filelist",
+          "**/*.user",
+          "**/*.lock.json",
+          "**/.git/**"
+        ]
+      }
+    ]
+  }

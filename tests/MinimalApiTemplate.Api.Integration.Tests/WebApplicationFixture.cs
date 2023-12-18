@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Headers;
+using Microsoft.Extensions.DependencyInjection;
 using MinimalApiTemplate.Api.Integration.Tests.Containers;
 using MinimalApiTemplate.Infrastructure.Persistence;
 using Respawn;
@@ -29,12 +30,23 @@ public class WebApplicationFixture : IAsyncLifetime
         Respawner = await Respawner.CreateAsync(_databaseConnectionString, new RespawnerOptions
         {
             SchemasToInclude = [ApplicationDbContext.DbSchema],
-            TablesToIgnore = [ApplicationDbContext.MigrationTableName]
+            TablesToIgnore = [ApplicationDbContext.MigrationTableName],
+            WithReseed = true
         });
     }
 
-    public async Task ResetDatabaseAsync() =>
+    public async Task ResetDatabaseAsync()
+    {
         await Respawner.ResetAsync(_databaseConnectionString!);
+
+        using var scope = _factory.Services.CreateScope();
+
+        var dbContextInitialiser = scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitialiser>();
+
+        await dbContextInitialiser.MigrateDatabaseAsync();
+        await dbContextInitialiser.SeedDataAsync();
+    }
+        
 
     public Task DisposeAsync()
     {
