@@ -11,7 +11,6 @@ WORKDIR /src
 COPY ./NuGet.config /src
 
 COPY ["src/MinimalApiTemplate.Api/MinimalApiTemplate.Api.csproj", "src/MinimalApiTemplate.Api/"]
-COPY ["src/MinimalApiTemplate.Api.Models/MinimalApiTemplate.Api.Models.csproj", "src/MinimalApiTemplate.Api.Models/"]
 COPY ["src/MinimalApiTemplate.Application/MinimalApiTemplate.Application.csproj", "src/MinimalApiTemplate.Application/"]
 COPY ["src/MinimalApiTemplate.Domain/MinimalApiTemplate.Domain.csproj", "src/MinimalApiTemplate.Domain/"]
 COPY ["src/MinimalApiTemplate.Infrastructure/MinimalApiTemplate.Infrastructure.csproj", "src/MinimalApiTemplate.Infrastructure/"]

@@ -3,9 +3,9 @@ using static MinimalApiTemplate.Application.Common.Constants;
 
 namespace MinimalApiTemplate.Api.Configurations;
 
-public static class Metrics
+public static class OpenTelemetry
 {
-    public static void ConfigureMetrics(this IServiceCollection services)
+    public static void ConfigureOpenTelemetry(this IServiceCollection services)
     {
         services.AddOpenTelemetry()
             .WithMetrics(builder =>            
