@@ -35,7 +35,7 @@ public static class ConfigureServices
 
         services.ConfigureHeaderPropagation();
 
-        services.ConfigureMetrics();
+        services.ConfigureOpenTelemetry();
 
         return services;
     }
