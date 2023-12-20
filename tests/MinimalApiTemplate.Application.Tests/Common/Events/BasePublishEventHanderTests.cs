@@ -37,6 +37,14 @@ public class FakePublishEventHander
         : base(publishMessageService, mapper, logger)
     {
     }
+
+    protected override FakeTestMessage MapMessage(FakeTestEvent notification)
+    {
+        return new FakeTestMessage
+        {
+            Id = notification.Id
+        };
+    }
 }
 
 
@@ -44,5 +52,5 @@ public record FakeTestEvent(long Id) : INotification;
 
 public class FakeTestMessage : BaseMessage
 {
-    public int Id { get; set; }
+    public long Id { get; set; }
 }
