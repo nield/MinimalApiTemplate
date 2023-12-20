@@ -8,6 +8,8 @@
 
     <ItemGroup>
       <PackageReference Include="Audit.NET.SqlServer" Version="22.1.0" />
+      <PackageReference Include="MassTransit.Extensions.DependencyInjection" Version="7.3.1" />
+      <PackageReference Include="MassTransit.RabbitMQ" Version="8.1.2" />
       <PackageReference Include="Microsoft.AspNetCore.HeaderPropagation" Version="8.0.0" />
       <PackageReference Include="Microsoft.AspNetCore.OutputCaching.StackExchangeRedis" Version="8.0.0" />
       <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.0" />

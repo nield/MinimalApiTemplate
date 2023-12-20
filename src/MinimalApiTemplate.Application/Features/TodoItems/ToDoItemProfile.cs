@@ -2,6 +2,7 @@
 using MinimalApiTemplate.Application.Features.TodoItems.Commands.UpdateTodoItem;
 using MinimalApiTemplate.Application.Features.TodoItems.Queries.GetToDoItem;
 using MinimalApiTemplate.Application.Features.TodoItems.Queries.GetTodoItemsWithPagination;
+using MinimalApiTemplate.Messages.V1;
 
 namespace MinimalApiTemplate.Application.Features.TodoItems;
 
@@ -35,5 +36,7 @@ public class ToDoItemProfile : Profile
         CreateMap<TodoItem, GetToDoItemDto>();
 
         CreateMap<TodoItem, TodoItemCreatedEvent>();
+
+        CreateMap<TodoItemCreatedEvent, ToDoItemCreated>();
     }
 }

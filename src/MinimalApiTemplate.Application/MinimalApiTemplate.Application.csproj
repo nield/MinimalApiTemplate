@@ -19,6 +19,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\MinimalApiTemplate.Domain\MinimalApiTemplate.Domain.csproj" />
+      <ProjectReference Include="..\MinimalApiTemplate.Messages\MinimalApiTemplate.Messages.csproj" />
     </ItemGroup>
 
 </Project>

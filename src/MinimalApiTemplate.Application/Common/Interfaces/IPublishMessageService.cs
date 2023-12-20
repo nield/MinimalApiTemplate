@@ -2,7 +2,6 @@
 
 public interface IPublishMessageService
 {
-    Task Publish<TNotification, TMessage>(TNotification notification, CancellationToken cancellationToken = default)
-        where TNotification : INotification
-        where TMessage : class;
+    Task Publish<TMessage>(TMessage message, CancellationToken cancellationToken = default)
+        where TMessage : BaseMessage;
 }
