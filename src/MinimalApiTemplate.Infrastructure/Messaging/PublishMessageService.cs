@@ -1,6 +1,4 @@
-﻿using MassTransit;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using MinimalApiTemplate.Application.Common.Settings;
 
 namespace MinimalApiTemplate.Infrastructure.Messaging;
