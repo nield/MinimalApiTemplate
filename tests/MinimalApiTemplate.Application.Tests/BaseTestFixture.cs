@@ -22,6 +22,7 @@ public abstract class BaseTestFixture : IDisposable
     protected readonly IMapper _mapper;
     protected readonly IApplicationDbContext _applicationDbContextMock = Substitute.For<IApplicationDbContext>();
     protected readonly IPublishMessageService _publishMessageServiceMock = Substitute.For<IPublishMessageService>();
+    protected readonly ICurrentUserService _currentUserServiceMock = Substitute.For<ICurrentUserService>();
     protected bool _disposedValue;
 
     protected BaseTestFixture(MappingFixture mappingFixture)

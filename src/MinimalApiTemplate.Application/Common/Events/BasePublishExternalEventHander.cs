@@ -5,13 +5,15 @@ public abstract class BasePublishExternalEventHander<TNotification, TMessage, TH
     where TMessage : BaseMessage
 {
     private readonly IPublishMessageService _publishMessageService;
+    private readonly ICurrentUserService _currentUserService;
     private readonly ILogger<THandler> _logger;
     private readonly IMapper _mapper;
 
     protected BasePublishExternalEventHander(IPublishMessageService publishMessageService,
-        IMapper mapper, ILogger<THandler> logger)
+        ICurrentUserService currentUserService, IMapper mapper, ILogger<THandler> logger)
     {
         _publishMessageService = publishMessageService;
+        _currentUserService = currentUserService;
         _mapper = mapper;
         _logger = logger;
     }
@@ -27,7 +29,11 @@ public abstract class BasePublishExternalEventHander<TNotification, TMessage, TH
     {
         try
         {
-            return _mapper.Map<TMessage>(notification);
+            var message = _mapper.Map<TMessage>(notification);
+
+            SetMessageDefaults(message);
+
+            return message;
         }
         catch (Exception ex)
         {
@@ -36,5 +42,10 @@ public abstract class BasePublishExternalEventHander<TNotification, TMessage, TH
 
             throw new InvalidMappingException(typeof(TNotification), typeof(TMessage));
         }
+    }
+
+    protected void SetMessageDefaults(TMessage message)
+    {
+        message.CorrelationId = _currentUserService.CorrelationId ?? Guid.NewGuid().ToString();
     }
 }

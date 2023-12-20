@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using MinimalApiTemplate.Api.Services;
+using MinimalApiTemplate.Application.Common;
 using static MinimalApiTemplate.Application.Common.Constants;
 
 namespace MinimalApiTemplate.Api.Tests.Services;
@@ -70,17 +71,14 @@ public class CurrentUserServiceTests
     [Fact]
     public void Given_CorrelationIdClaimExists_When_FetchingCorrelationId_Then_ReturnsCorrelationIdFromClaim()
     {
-        var context = new DefaultHttpContext
-        {
-            User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
-            {
-                new(Headers.CorrelationId, "1")
-            }))
-        };
+        var correlationId = Guid.NewGuid().ToString();
+
+        var context = new DefaultHttpContext();
+        context.Request.Headers[Headers.CorrelationId] = correlationId;
 
         _httpContextAccessorMock.HttpContext.Returns(context);
 
-        _currentUserService.CorrelationId.Should().Be("1");
+        _currentUserService.CorrelationId.Should().Be(correlationId);
     }
 
     [Fact]

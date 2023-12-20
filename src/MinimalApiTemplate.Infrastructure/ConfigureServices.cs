@@ -114,16 +114,20 @@ public static class ConfigureServices
 
     private static void SetupMassTransit(this IServiceCollection services, IConfiguration configuration)
     {
+        MessageCorrelation.UseCorrelationId<BaseMessage>(x => Guid.Parse(x.CorrelationId));
+
         if (!IsMassTransitEnabled(configuration))
         {
             services.AddScoped<IPublishMessageService, MockPublishMessageService>();
             return;
         }
-        
+       
         services.AddScoped<IPublishMessageService, PublishMessageService>();
 
         services.AddMassTransit(config =>
         {
+            config.AddTelemetryListener(true);
+
             config.UsingRabbitMq((context, rabbitConfig) =>
             {
                 var rabbitUri = configuration["MassTransit:RabbitMq:Uri"];
