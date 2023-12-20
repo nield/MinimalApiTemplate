@@ -29,7 +29,7 @@ public class PublishMessageService : IPublishMessageService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Failed publishing message. Message: {Message}", message);
+            _logger.LogError(ex, "Failed publishing message. Message: {Message}. CorrelationId: {CorrelationId}", message, message.CorrelationId);
             throw;
         }
     }

@@ -11,7 +11,7 @@ public class BasePublishEventHanderTests : BaseTestFixture<FakePublishEventHande
     public BasePublishEventHanderTests(MappingFixture mappingFixture)
         : base(mappingFixture)
     {
-        _hander = new(_publishMessageServiceMock, _mapper, _logger);
+        _hander = new(_publishMessageServiceMock, _currentUserServiceMock, _mapper, _logger);
     }
 
     [Fact]
@@ -32,9 +32,10 @@ public class FakePublishEventHander
 {
     public FakePublishEventHander(
         IPublishMessageService publishMessageService, 
+        ICurrentUserService currentUserService,
         IMapper mapper, 
         ILogger<FakePublishEventHander> logger) 
-        : base(publishMessageService, mapper, logger)
+        : base(publishMessageService, currentUserService, mapper, logger)
     {
     }
 
@@ -42,7 +43,8 @@ public class FakePublishEventHander
     {
         return new FakeTestMessage
         {
-            Id = notification.Id
+            Id = notification.Id,
+            CorrelationId = Guid.NewGuid().ToString(),
         };
     }
 }

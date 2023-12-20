@@ -37,6 +37,7 @@ public class ToDoItemProfile : Profile
 
         CreateMap<TodoItem, TodoItemCreatedEvent>();
 
-        CreateMap<TodoItemCreatedEvent, ToDoItemCreated>();
+        CreateMap<TodoItemCreatedEvent, ToDoItemCreated>()
+            .ForMember(dest => dest.CorrelationId, opt => opt.Ignore());
     }
 }

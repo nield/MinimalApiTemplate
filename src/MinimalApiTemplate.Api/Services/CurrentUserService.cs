@@ -18,8 +18,21 @@ public class CurrentUserService : ICurrentUserService
     public string? UserProfileId =>
         _httpContextAccessor.HttpContext?.User?.FindFirstValue(Headers.UserProfileId);
 
-    public string? CorrelationId =>
-        _httpContextAccessor.HttpContext?.User?.FindFirstValue(Headers.CorrelationId);
+    public string? CorrelationId
+    {
+        get 
+        {
+            var correlationId = _httpContextAccessor.HttpContext?.GetCorrelationId(allowEmpty: true);
+
+            if (!string.IsNullOrWhiteSpace(correlationId)) 
+            { 
+                return correlationId;
+            }
+
+            return null;
+        }
+    }
+        
 
     public string? Token =>
         _httpContextAccessor.HttpContext
