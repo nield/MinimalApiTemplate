@@ -1,6 +1,6 @@
 ﻿using MinimalApiTemplate.Messages.V1;
 
-namespace MinimalApiTemplate.Worker.Consumers;
+namespace MinimalApiTemplate.Infrastructure.Messaging.Consumers;
 
 public class ToDoItemCreatedConsumer : IConsumer<ToDoItemCreated>
 {
