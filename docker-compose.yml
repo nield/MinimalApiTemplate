@@ -13,9 +13,24 @@ services:
       - minimalapitemplate.db
       - minimalapitemplate.cache
       - minimalapitemplate.seq
+      - minimalapitemplate.rabbit
     build:
       context: .
       dockerfile: src/MinimalApiTemplate.Api/Dockerfile
+
+  minimalapitemplate.worker:
+    image: ${DOCKER_REGISTRY-}minimalapitemplate.worker
+    container_name: minimalapitemplate.worker
+    environment:
+      - MassTransit__ConsumerEnabled=true
+    networks:
+      - shared-network
+    depends_on:
+      - minimalapitemplate.rabbit
+      - minimalapitemplate.seq
+    build:
+      context: .
+      dockerfile: src/MinimalApiTemplate.Worker/Dockerfile
 
   minimalapitemplate.db:
     image: mcr.microsoft.com/mssql/server:2022-latest

@@ -35,6 +35,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinimalApiTemplate.Sdk", "s
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinimalApiTemplate.Messages", "src\MinimalApiTemplate.Messages\MinimalApiTemplate.Messages.csproj", "{537FE4DF-F4B6-40AC-A771-059E7276F27B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinimalApiTemplate.Worker", "src\MinimalApiTemplate.Worker\MinimalApiTemplate.Worker.csproj", "{EBEFEB28-C292-48F1-A7CD-6CACFB7EDF02}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -85,6 +87,10 @@ Global
 		{537FE4DF-F4B6-40AC-A771-059E7276F27B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{537FE4DF-F4B6-40AC-A771-059E7276F27B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{537FE4DF-F4B6-40AC-A771-059E7276F27B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBEFEB28-C292-48F1-A7CD-6CACFB7EDF02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBEFEB28-C292-48F1-A7CD-6CACFB7EDF02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBEFEB28-C292-48F1-A7CD-6CACFB7EDF02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBEFEB28-C292-48F1-A7CD-6CACFB7EDF02}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -100,6 +106,7 @@ Global
 		{0FC868B0-5EE0-467C-A08E-C32994FCE4B7} = {664D406C-2F83-48F0-BFC3-408D5CB53C65}
 		{C4386161-9B1F-4B79-829D-08C0C3EB88C7} = {6ED356A7-8B47-4613-AD01-C85CF28491BD}
 		{537FE4DF-F4B6-40AC-A771-059E7276F27B} = {6ED356A7-8B47-4613-AD01-C85CF28491BD}
+		{EBEFEB28-C292-48F1-A7CD-6CACFB7EDF02} = {6ED356A7-8B47-4613-AD01-C85CF28491BD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3CB609D9-5D54-4C11-A371-DAAC8B74E430}
