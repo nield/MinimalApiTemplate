@@ -14,6 +14,7 @@ COPY ["src/MinimalApiTemplate.Api/MinimalApiTemplate.Api.csproj", "src/MinimalAp
 COPY ["src/MinimalApiTemplate.Application/MinimalApiTemplate.Application.csproj", "src/MinimalApiTemplate.Application/"]
 COPY ["src/MinimalApiTemplate.Domain/MinimalApiTemplate.Domain.csproj", "src/MinimalApiTemplate.Domain/"]
 COPY ["src/MinimalApiTemplate.Infrastructure/MinimalApiTemplate.Infrastructure.csproj", "src/MinimalApiTemplate.Infrastructure/"]
+COPY ["src/MinimalApiTemplate.Messages/MinimalApiTemplate.Messages.csproj", "src/MinimalApiTemplate.Messages/"]
 RUN dotnet restore "src/MinimalApiTemplate.Api/MinimalApiTemplate.Api.csproj" --configfile /src/NuGet.config
 COPY . .
 WORKDIR "/src/src/MinimalApiTemplate.Api"

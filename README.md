@@ -9,7 +9,8 @@ It also include the following:
 - .Net 8 ExceptionHandlers
 - CorrelationId handling using HeaderPropagation
 - OpenTelemetry with custom metrics
-- Integration tests using Testcontainers
+- Integration tests using TestContainers
+- Pub Sub using MassTransit
 - API versioning
 - Auditing using Audit.Net
 

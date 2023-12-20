@@ -1,8 +1,10 @@
 ﻿using Audit.Core;
+using MassTransit;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using MinimalApiTemplate.Infrastructure.Common;
+using MinimalApiTemplate.Infrastructure.Messaging;
 using MinimalApiTemplate.Infrastructure.Persistence;
 using MinimalApiTemplate.Infrastructure.Persistence.Interceptors;
 
@@ -17,6 +19,7 @@ public static class ConfigureServices
         services.SetupCaching(configuration);
         services.SetupRepositories();
         services.SetupMetrics();
+        services.SetupMassTransit(configuration);
         services.SetupAuditing(configuration);
         services.SetupHttpClients(configuration);
 
@@ -109,6 +112,29 @@ public static class ConfigureServices
         services.AddOutputCache();
     }
 
+    private static void SetupMassTransit(this IServiceCollection services, IConfiguration configuration)
+    {
+        if (!IsMassTransitEnabled(configuration))
+        {
+            services.AddScoped<IPublishMessageService, MockPublishMessageService>();
+            return;
+        }
+        
+        services.AddScoped<IPublishMessageService, PublishMessageService>();
+
+        services.AddMassTransit(config =>
+        {
+            config.UsingRabbitMq((context, rabbitConfig) =>
+            {
+                var rabbitUri = configuration["MassTransit:RabbitMq:Uri"];
+
+                ArgumentException.ThrowIfNullOrWhiteSpace(rabbitUri);
+
+                rabbitConfig.Host(new Uri(rabbitUri));
+            });
+        });                  
+    }
+
     private static void SetupAuditing(this IServiceCollection services, IConfiguration configuration)
     {
         Audit.Core.Configuration.Setup()
@@ -121,4 +147,6 @@ public static class ConfigureServices
                 .LastUpdatedColumnName("LastUpdatedDate")
                 .CustomColumn("EventType", ev => ev.EventType));
     }
+    private static bool IsMassTransitEnabled(IConfiguration configuration)
+        => configuration.GetValue<bool>("MassTransit:PublishEnabled");
 }

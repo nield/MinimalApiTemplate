@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using MinimalApiTemplate.Application.Common.Events;
+using MinimalApiTemplate.Messages.Common;
 
 namespace MinimalApiTemplate.Application.Tests.Common.Events;
 
@@ -10,7 +11,7 @@ public class BasePublishEventHanderTests : BaseTestFixture<FakePublishEventHande
     public BasePublishEventHanderTests(MappingFixture mappingFixture)
         : base(mappingFixture)
     {
-        _hander = new(_publishMessageServiceMock);
+        _hander = new(_publishMessageServiceMock, _mapper, _logger);
     }
 
     [Fact]
@@ -21,21 +22,35 @@ public class BasePublishEventHanderTests : BaseTestFixture<FakePublishEventHande
         await _hander.Handle(testEvent, CancellationToken.None);
 
         await _publishMessageServiceMock.Received(1)
-            .Publish<FakeTestEvent, FakeTestMessage>(testEvent, Arg.Any<CancellationToken>());
+            .Publish<FakeTestMessage>(Arg.Any<FakeTestMessage>(), Arg.Any<CancellationToken>());
     }
 }
 
 
-public class FakePublishEventHander : BasePublishEventHander<FakeTestEvent, FakeTestMessage>
+public class FakePublishEventHander
+    : BasePublishExternalEventHander<FakeTestEvent, FakeTestMessage, FakePublishEventHander>
 {
-    public FakePublishEventHander(IPublishMessageService publishMessageService)
-        : base(publishMessageService)
+    public FakePublishEventHander(
+        IPublishMessageService publishMessageService, 
+        IMapper mapper, 
+        ILogger<FakePublishEventHander> logger) 
+        : base(publishMessageService, mapper, logger)
     {
+    }
 
+    protected override FakeTestMessage MapMessage(FakeTestEvent notification)
+    {
+        return new FakeTestMessage
+        {
+            Id = notification.Id
+        };
     }
 }
 
 
 public record FakeTestEvent(long Id) : INotification;
 
-public record FakeTestMessage(long Id);
+public class FakeTestMessage : BaseMessage
+{
+    public long Id { get; set; }
+}

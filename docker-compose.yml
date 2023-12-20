@@ -3,6 +3,8 @@ services:
   minimalapitemplate.api:
     image: ${DOCKER_REGISTRY-}minimalapitemplate.api
     container_name: minimalapitemplate.api
+    environment:
+      - MassTransit__PublishEnabled=true
     ports:
       - "8901:443"
     networks:
@@ -11,9 +13,24 @@ services:
       - minimalapitemplate.db
       - minimalapitemplate.cache
       - minimalapitemplate.seq
+      - minimalapitemplate.rabbit
     build:
       context: .
       dockerfile: src/MinimalApiTemplate.Api/Dockerfile
+
+  minimalapitemplate.worker:
+    image: ${DOCKER_REGISTRY-}minimalapitemplate.worker
+    container_name: minimalapitemplate.worker
+    environment:
+      - MassTransit__ConsumerEnabled=true
+    networks:
+      - shared-network
+    depends_on:
+      - minimalapitemplate.rabbit
+      - minimalapitemplate.seq
+    build:
+      context: .
+      dockerfile: src/MinimalApiTemplate.Worker/Dockerfile
 
   minimalapitemplate.db:
     image: mcr.microsoft.com/mssql/server:2022-latest
@@ -43,6 +60,18 @@ services:
     container_name: minimalapitemplate.cache
     ports:
       - "8904:6379"
+    networks:
+      - shared-network
+
+  minimalapitemplate.rabbit:
+    image: rabbitmq:3-management
+    container_name: minimalapitemplate.rabbit
+    environment:
+      - RABBITMQ_DEFAULT_USER=user
+      - RABBITMQ_DEFAULT_PASS=password
+    ports:
+      - "8905:15672"
+      - "8906:5672"
     networks:
       - shared-network
 
