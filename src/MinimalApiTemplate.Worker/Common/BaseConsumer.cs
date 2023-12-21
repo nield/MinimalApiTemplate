@@ -1,4 +1,4 @@
-﻿namespace MinimalApiTemplate.Infrastructure.Messaging.Consumers;
+﻿namespace MinimalApiTemplate.Worker.Common;
 
 public abstract class BaseConsumer<TMessage, TConsumer> : IConsumer<TMessage>
     where TMessage : BaseMessage
