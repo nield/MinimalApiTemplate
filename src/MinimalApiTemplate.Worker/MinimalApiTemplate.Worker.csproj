@@ -27,6 +27,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MinimalApiTemplate.Application\MinimalApiTemplate.Application.csproj" />
     <ProjectReference Include="..\MinimalApiTemplate.Infrastructure\MinimalApiTemplate.Infrastructure.csproj" />
+    <ProjectReference Include="..\MinimalApiTemplate.Messages\MinimalApiTemplate.Messages.csproj" />
   </ItemGroup>
 </Project>

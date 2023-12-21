@@ -26,6 +26,15 @@ public static class ConfigureServices
         return services;
     }
 
+    public static IServiceCollection AddWorkerInfrastructureServices(this IServiceCollection services,
+        IConfiguration configuration, IHostEnvironment hostEnvironment)
+    {
+        services.SetupMetrics();
+        services.SetupHttpClients(configuration);
+
+        return services;
+    }
+
     private static void SetupHttpClients(this IServiceCollection services, IConfiguration configuration)
     {
         services

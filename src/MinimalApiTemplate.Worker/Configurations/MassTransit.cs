@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using MinimalApiTemplate.Infrastructure.Common;
+using System.Reflection;
 
 namespace MinimalApiTemplate.Worker.Configurations;
 
@@ -12,7 +12,7 @@ public static class MassTransit
 
         services.AddMassTransit(config =>
         {
-            config.AddConsumers(typeof(IInfrastructureMarker).Assembly);
+            config.AddConsumers(Assembly.GetEntryAssembly());
 
             config.UsingRabbitMq((context, rabbitConfig) =>
             {
