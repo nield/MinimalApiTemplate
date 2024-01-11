@@ -18,7 +18,7 @@ public class GetTodoItemsWithPaginationEndpoint : BaseEndpoint,
     {
         app.ToDoItemRouteV1()
             .MapGet("",
-                ([AsParameters] GetTodoItemsWithPaginationRequest request, CancellationToken cancellationToken) =>
+                ([Validate][AsParameters] GetTodoItemsWithPaginationRequest request, CancellationToken cancellationToken) =>
                     HandleAsync(request, cancellationToken))
             .WithDescription("Used to get a list of todos")
             .WithOpenApi(ops =>

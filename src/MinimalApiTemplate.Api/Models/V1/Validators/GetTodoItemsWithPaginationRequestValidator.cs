@@ -1,8 +1,10 @@
-﻿namespace MinimalApiTemplate.Application.Features.TodoItems.Queries.GetTodoItemsWithPagination;
+﻿using MinimalApiTemplate.Api.Models.V1.Requests;
 
-public class GetTodoItemsWithPaginationQueryValidator : AbstractValidator<GetTodoItemsWithPaginationQuery>
+namespace MinimalApiTemplate.Api.Models.V1.Validators;
+
+public class GetTodoItemsWithPaginationRequestValidator : AbstractValidator<GetTodoItemsWithPaginationRequest>
 {
-    public GetTodoItemsWithPaginationQueryValidator()
+    public GetTodoItemsWithPaginationRequestValidator()
     {
         RuleFor(x => x.PageNumber)
             .GreaterThanOrEqualTo(1).WithMessage("{PropertyName} at least greater than or equal to 1.");
@@ -11,3 +13,4 @@ public class GetTodoItemsWithPaginationQueryValidator : AbstractValidator<GetTod
             .GreaterThanOrEqualTo(1).WithMessage("{PropertyName} at least greater than or equal to 1.");
     }
 }
+

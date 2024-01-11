@@ -2,7 +2,7 @@
 
 namespace MinimalApiTemplate.Api.ExceptionHandlers;
 
-public class ForbiddenAccessExceptionHandler : BaseExceptionHandler<ForbiddenAccessException>
+public class ForbiddenAccessExceptionHandler : BaseExceptionHandler<ForbiddenAccessException, ProblemDetails>
 {
     public override HttpStatusCode HttpStatusCode => HttpStatusCode.Forbidden;
 

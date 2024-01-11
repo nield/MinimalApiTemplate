@@ -1,6 +1,6 @@
 ﻿namespace MinimalApiTemplate.Api.ExceptionHandlers;
 
-public class UnhandledExceptionHandler : BaseExceptionHandler<Exception>
+public class UnhandledExceptionHandler : BaseExceptionHandler<Exception, ProblemDetails>
 {
     private readonly IWebHostEnvironment _webHostEnvironment;
 

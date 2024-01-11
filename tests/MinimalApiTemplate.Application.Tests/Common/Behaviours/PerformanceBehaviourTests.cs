@@ -10,7 +10,7 @@ public class PerformanceBehaviourTests
     private PerformanceBehaviour<PerformanceBehaviourTestInput, Unit>? _performanceBehaviour;
     private readonly ILogger<PerformanceBehaviourTestInput> _loggerMock = Substitute.For<ILogger<PerformanceBehaviourTestInput>>();
     private readonly ICurrentUserService _currentUserServiceMock = Substitute.For<ICurrentUserService>();
-    private RequestHandlerDelegate<Unit> _pipelineBehaviourDelegateMock;
+    private RequestHandlerDelegate<Unit>? _pipelineBehaviourDelegateMock = null;
 
     public PerformanceBehaviourTests()
     {
