@@ -25,26 +25,17 @@ internal sealed class DatabaseContainer : BaseContainer<DatabaseContainer>
     public override string GetConnectionString() =>
         $"Server={_container!.Hostname},{_container.GetMappedPublicPort(DatabaseDefaultPort)};Database={DatabaseName};User Id={DatabaseUsername};Password={DatabasePassword};TrustServerCertificate=True";
 
-    public override async Task StartContainerAsync()
+    public override async Task StartContainerAsync(int millisecondsTimeout = 10000)
     {
-        await base.StartContainerAsync();
+        await base.StartContainerAsync(millisecondsTimeout);
 
-        var seconds = 0;
-
-        while (!await IsServerConnectedAsync())
+        if (!await IsServerConnectedAsync(millisecondsTimeout))
         {
-            Thread.Sleep(1000);
-
-            seconds += 1000;
-
-            if (seconds >= 100000)
-            {
-                throw new OperationCanceledException("The containers did not start in time");
-            }
+            throw new OperationCanceledException("The container connection was not open in time");
         }
     }
 
-    private async Task<bool> IsServerConnectedAsync()
+    private async Task<bool> IsServerConnectedAsync(int millisecondsTimeout)
     {
         var dbConnectionString = GetConnectionString();
 
@@ -52,6 +43,22 @@ internal sealed class DatabaseContainer : BaseContainer<DatabaseContainer>
 
         using var connection = new SqlConnection(dbMasterConnectionString);
 
+        int seconds = 0;
+
+        while (!await CheckConnection(connection))
+        {
+            Thread.Sleep(1000);
+
+            seconds += 1000;
+
+            if (seconds >= millisecondsTimeout) return false;
+        }
+
+        return true;
+    }
+
+    private static async Task<bool> CheckConnection(SqlConnection connection)
+    {
         try
         {
             await connection.OpenAsync();

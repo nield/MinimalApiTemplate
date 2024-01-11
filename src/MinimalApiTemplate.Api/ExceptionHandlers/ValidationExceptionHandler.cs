@@ -2,14 +2,15 @@
 
 namespace MinimalApiTemplate.Api.ExceptionHandlers;
 
-public class ValidationExceptionHandler : BaseExceptionHandler<ValidationException>
+public class ValidationExceptionHandler : BaseExceptionHandler<DataValidationFailureException, ValidationProblemDetails>
 {
     public override HttpStatusCode HttpStatusCode => HttpStatusCode.BadRequest;
 
-    public override ProblemDetails GenerateProblemDetails(ValidationException exception)
+    public override ValidationProblemDetails GenerateProblemDetails(DataValidationFailureException exception)
     {
         return new ValidationProblemDetails(exception.Errors)
         {
+            Status = (int)HttpStatusCode,
             Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1"
         };
     }

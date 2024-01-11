@@ -20,14 +20,19 @@ internal abstract class BaseContainer<TContainer>
 
     public abstract string GetConnectionString();
 
-    public async virtual Task StartContainerAsync()
+    public async virtual Task StartContainerAsync(int millisecondsTimeout = 10000)
     {
         await _container.StartAsync();
 
-        WaitForRunningContainer();
+        var containerRunning = IsContainerRunning(millisecondsTimeout);
+
+        if (!containerRunning)
+        {
+            throw new OperationCanceledException("The containers did not start in time");
+        }
     }
 
-    private void WaitForRunningContainer()
+    private bool IsContainerRunning(int millisecondsTimeout)
     {
         var seconds = 0;
 
@@ -37,10 +42,9 @@ internal abstract class BaseContainer<TContainer>
 
             seconds += 1000;
 
-            if (seconds >= 10000)
-            {
-                throw new OperationCanceledException("The containers did not start in time");
-            }
+            if (seconds >= millisecondsTimeout) return false;
         }
+
+        return true;
     }
 }

@@ -21,7 +21,7 @@ public class DispatchDomainEventsInterceptor : SaveChangesInterceptor
 
     public override async ValueTask<int> SavedChangesAsync(SaveChangesCompletedEventData eventData, int result, CancellationToken cancellationToken = default)
     {
-        await DispatchDomainEvents(eventData.Context!);
+        await DispatchDomainEvents(eventData.Context!, cancellationToken);
 
         return await base.SavedChangesAsync(eventData, result, cancellationToken);
     }

@@ -1,6 +1,6 @@
 ﻿namespace MinimalApiTemplate.Api.ExceptionHandlers;
 
-public class UnauthorizedAccessExceptionHandler : BaseExceptionHandler<UnauthorizedAccessException>
+public class UnauthorizedAccessExceptionHandler : BaseExceptionHandler<UnauthorizedAccessException, ProblemDetails>
 {
     public override HttpStatusCode HttpStatusCode => HttpStatusCode.Unauthorized;
 

@@ -29,7 +29,7 @@ public class ValidationBehaviourTests
         _pipelineBehaviourDelegateMock.Invoke()
             .Returns(Unit.Value);
 
-        var sut = await Assert.ThrowsAsync<Application.Common.Exceptions.ValidationException>(() => _validationBehaviour.Handle(new ValidationBehaviourTestInput(),
+        var sut = await Assert.ThrowsAsync<Application.Common.Exceptions.DataValidationFailureException>(() => _validationBehaviour.Handle(new ValidationBehaviourTestInput(),
                                             _pipelineBehaviourDelegateMock,
                                             CancellationToken.None));
 

@@ -2,9 +2,11 @@
 
 namespace MinimalApiTemplate.Api.ExceptionHandlers;
 
-public abstract class BaseExceptionHandler<TException> : IExceptionHandler where TException : Exception
+public abstract class BaseExceptionHandler<TException, TProblem> : IExceptionHandler 
+    where TException : Exception
+    where TProblem : ProblemDetails
 {
-    public abstract ProblemDetails GenerateProblemDetails(TException exception);
+    public abstract TProblem GenerateProblemDetails(TException exception);
 
     public abstract HttpStatusCode HttpStatusCode { get; }
 
@@ -25,11 +27,11 @@ public abstract class BaseExceptionHandler<TException> : IExceptionHandler where
         return false;
     }
 
-    protected static async Task WriteErrorMessageToContext<T>(
+    protected virtual async Task WriteErrorMessageToContext(
         HttpContext context,
         HttpStatusCode httpStatusCode,
-        T problemDetails,
-        CancellationToken cancellationToken) where T : ProblemDetails
+        TProblem problemDetails,
+        CancellationToken cancellationToken)
     {
         context.Response.StatusCode = (int)httpStatusCode;
 

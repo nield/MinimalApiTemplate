@@ -1,6 +1,4 @@
-﻿using ValidationException = MinimalApiTemplate.Application.Common.Exceptions.ValidationException;
-
-namespace MinimalApiTemplate.Application.Common.Behaviours;
+﻿namespace MinimalApiTemplate.Application.Common.Behaviours;
 
 public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
      where TRequest : IRequest<TResponse>
@@ -28,7 +26,7 @@ public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TReque
                 .ToList();
 
             if (failures.Count != 0)
-                throw new ValidationException(failures);
+                throw new DataValidationFailureException(failures);
         }
         return await next();
     }

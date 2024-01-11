@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using MinimalApiTemplate.Api.Models.V1.Requests;
+﻿using MinimalApiTemplate.Api.Models.V1.Requests;
 
 namespace MinimalApiTemplate.Api.Models.V1.Validators;
 
