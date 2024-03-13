@@ -75,8 +75,35 @@ services:
     networks:
       - shared-network
 
+  minimalapitemplate.grafana:
+    image: grafana/grafana
+    container_name: minimalapitemplate.grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/etc/grafana
+      - grafana_dashboards:/var/lib/grafana/dashboards
+      - grafana_certs:/certs
+    networks:
+      - shared-network
+
+  minimalapitemplate.prometheus:
+    image: prom/prometheus
+    container_name: minimalapitemplate.prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - prometheus_data:/prometheus
+      - ./scripts/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - shared-network
+
 volumes:
   seq_data:
+  grafana_data:
+  grafana_dashboards:
+  grafana_certs:
+  prometheus_data:
 
 networks:
   shared-network:
