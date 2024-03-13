@@ -11,9 +11,10 @@ public static class OpenTelemetry
             .WithMetrics(builder =>            
                 builder
                     .AddPrometheusExporter()
-                    .AddMeter(MetricMeters.AspNetCoreHosting,
-                                MetricMeters.AspNetCoreKestrel,
-                                MetricMeters.GeneralMeter)
+                    .AddAspNetCoreInstrumentation()
+                    .AddHttpClientInstrumentation()
+                    .AddRuntimeInstrumentation()
+                    .AddMeter(MetricMeters.GeneralMeter)
                     .AddView("http.server.request.duration",
                         new ExplicitBucketHistogramConfiguration
                         {
