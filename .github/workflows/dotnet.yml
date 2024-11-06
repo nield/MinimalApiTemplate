@@ -46,6 +46,8 @@ jobs:
         args: >
           -Dsonar.cs.opencover.reportsPaths='${{ github.workspace }}/tests/*Tests*/coverage.cobertura.xml'
           -Dsonar.coverage.exclusions=**/Migrations/**
+          -Dsonar.organization=nield
+          -Dsonar.projectKey=nield_MinimalApiTemplate
         
     - name: Upload Badge
       uses: exuanbo/actions-deploy-gist@v1.1.4
