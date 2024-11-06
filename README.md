@@ -1,5 +1,6 @@
 # MinimalApiTemplate
 [![.NET](https://github.com/nield/MinimalApiTemplate/actions/workflows/dotnet.yml/badge.svg)](https://github.com/nield/MinimalApiTemplate/actions/workflows/dotnet.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=nield_MinimalApiTemplate&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=nield_MinimalApiTemplate)
 ![badge](https://gist.githubusercontent.com/nield/036191e91ff7da1f940618f701c0ad9f/raw/badge_combined.svg?)
 
 An example Minimal Api application with OpenAPI, Swashbuckle, and API versioning using clean architecture.
