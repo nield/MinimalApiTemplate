@@ -8,7 +8,7 @@ public static class FluentValidator
     public static void ConfigureFluentValidator(this IServiceCollection services)
     {
         services.AddValidatorsFromAssemblies(
-[
+        [
             Assembly.GetExecutingAssembly(),
             typeof(IApplicationMarker).Assembly
         ], ServiceLifetime.Singleton);
