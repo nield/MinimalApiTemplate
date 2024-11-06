@@ -1,6 +1,6 @@
 ﻿namespace MinimalApiTemplate.Application.Common.Exceptions;
 
-public class NotFoundException : ApplicationException
+public class NotFoundException : Exception
 {
     public NotFoundException()
         : base()

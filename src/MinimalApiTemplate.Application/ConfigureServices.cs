@@ -1,12 +1,11 @@
 ﻿using System.Reflection;
-using Microsoft.Extensions.Configuration;
 using MinimalApiTemplate.Application.Common.Behaviours;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
 public static class ConfigureServices
 {
-    public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         services.AddMediatR(options =>
         {

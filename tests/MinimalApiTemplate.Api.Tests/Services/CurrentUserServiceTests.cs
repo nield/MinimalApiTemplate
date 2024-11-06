@@ -21,10 +21,10 @@ public class CurrentUserServiceTests
     {
         var context = new DefaultHttpContext
         {
-            User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
-            {
+            User = new ClaimsPrincipal(new ClaimsIdentity(
+            [
                 new(Headers.UserProfileId, "1")
-            }))
+            ]))
         };
 
         _httpContextAccessorMock.HttpContext.Returns(context);
@@ -47,10 +47,10 @@ public class CurrentUserServiceTests
     {
         var context = new DefaultHttpContext
         {
-            User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
-            {
+            User = new ClaimsPrincipal(new ClaimsIdentity(
+            [
                 new(Headers.UserProfileId, "1")
-            }))
+            ]))
         };
 
         _httpContextAccessorMock.HttpContext.Returns(context);

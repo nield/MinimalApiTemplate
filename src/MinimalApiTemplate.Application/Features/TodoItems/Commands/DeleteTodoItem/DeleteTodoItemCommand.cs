@@ -13,14 +13,10 @@ public class DeleteTodoItemCommandHandler : IRequestHandler<DeleteTodoItemComman
 
     public async Task Handle(DeleteTodoItemCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _toDoItemRepository.GetByIdAsync(request.Id, cancellationToken);
-
-        if (entity is null)
-        {
-            throw new NotFoundException(nameof(TodoItem), request.Id);
-        }
-
-        using (AuditScope.Create("ToDoItem:Delete", () => entity))
+        var entity = await _toDoItemRepository.GetByIdAsync(request.Id, cancellationToken) 
+            ?? throw new NotFoundException(nameof(TodoItem), request.Id);
+        
+        using (await AuditScope.CreateAsync("ToDoItem:Delete", () => entity, cancellationToken: cancellationToken))
         {
             // Example adding event
             entity.AddDomainEvent(new TodoItemDeletedEvent { Id = request.Id });

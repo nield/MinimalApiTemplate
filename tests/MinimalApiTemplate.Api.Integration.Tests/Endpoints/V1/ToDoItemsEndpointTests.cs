@@ -1,7 +1,7 @@
 ﻿using MinimalApiTemplate.Api.Models.V1.Requests;
 using MinimalApiTemplate.Api.Models.V1.Responses;
 
-namespace MinimalApiTemplate.Api.Integration.Tests.Controllers.V1;
+namespace MinimalApiTemplate.Api.Integration.Tests.Endpoints.V1;
 
 [Collection("WebApplicationCollection")]
 public class ToDoItemsEndpointTests

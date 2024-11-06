@@ -13,7 +13,9 @@ public class PerformanceBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequ
     private readonly AppSettings _appSettings;
 
     public PerformanceBehaviour(
+#pragma warning disable S6672 // Generic logger injection should match enclosing type
         ILogger<TRequest> logger,
+#pragma warning restore S6672 // Generic logger injection should match enclosing type
         ICurrentUserService currentUserService,
         IOptions<AppSettings> appSettings)
     {

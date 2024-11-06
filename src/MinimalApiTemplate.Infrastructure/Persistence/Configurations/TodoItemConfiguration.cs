@@ -23,9 +23,9 @@ public class TodoItemConfiguration : BaseConfiguration<TodoItem>
     // Optional - Load default data
     protected override IList<TodoItem> SeedData()
     {
-        return new List<TodoItem>()
-        {
+        return
+        [
             new() { Id = 1, Title = "Work work work", Priority = PriorityLevel.Medium, Tags = ["work"] }
-        };
+        ];
     }
 }

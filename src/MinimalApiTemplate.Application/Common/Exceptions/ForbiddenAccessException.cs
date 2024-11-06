@@ -1,6 +1,6 @@
 ﻿namespace MinimalApiTemplate.Application.Common.Exceptions;
 
-public class ForbiddenAccessException : ApplicationException
+public class ForbiddenAccessException : Exception
 {
     public ForbiddenAccessException()
         : base()

@@ -28,11 +28,6 @@ public class GetToDoItemQueryHandler : IRequestHandler<GetToDoItemQuery, GetToDo
                             .ProjectTo<GetToDoItemDto>(_mapper.ConfigurationProvider)
                             .FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
-        if (data is null)
-        {
-            throw new NotFoundException(nameof(TodoItem), request.Id);
-        }
-
-        return data;
+        return data ?? throw new NotFoundException(nameof(TodoItem), request.Id);
     }
 }

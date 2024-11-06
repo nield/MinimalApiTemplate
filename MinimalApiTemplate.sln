@@ -33,9 +33,9 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinimalApiTemplate.Sdk", "src\MinimalApiTemplate.Sdk\MinimalApiTemplate.Sdk.csproj", "{C4386161-9B1F-4B79-829D-08C0C3EB88C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinimalApiTemplate.Messages", "src\MinimalApiTemplate.Messages\MinimalApiTemplate.Messages.csproj", "{537FE4DF-F4B6-40AC-A771-059E7276F27B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinimalApiTemplate.Messages", "src\MinimalApiTemplate.Messages\MinimalApiTemplate.Messages.csproj", "{537FE4DF-F4B6-40AC-A771-059E7276F27B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinimalApiTemplate.Worker", "src\MinimalApiTemplate.Worker\MinimalApiTemplate.Worker.csproj", "{EBEFEB28-C292-48F1-A7CD-6CACFB7EDF02}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinimalApiTemplate.Worker", "src\MinimalApiTemplate.Worker\MinimalApiTemplate.Worker.csproj", "{EBEFEB28-C292-48F1-A7CD-6CACFB7EDF02}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -21,16 +21,12 @@
       <PackageReference Include="Serilog" Version="4.1.0" />
     </ItemGroup>
 
-
     <ItemGroup>
       <Folder Include="Persistence\Migrations\" />
     </ItemGroup>
-
 
     <ItemGroup>
       <ProjectReference Include="..\MinimalApiTemplate.Application\MinimalApiTemplate.Application.csproj" />
       <ProjectReference Include="..\MinimalApiTemplate.Domain\MinimalApiTemplate.Domain.csproj" />
     </ItemGroup>
-
-
 </Project>

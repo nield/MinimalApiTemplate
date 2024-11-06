@@ -24,12 +24,7 @@ public class CurrentUserService : ICurrentUserService
         {
             var correlationId = _httpContextAccessor.HttpContext?.GetCorrelationId(allowEmpty: true);
 
-            if (!string.IsNullOrWhiteSpace(correlationId)) 
-            { 
-                return correlationId;
-            }
-
-            return null;
+            return correlationId;
         }
     }
         

@@ -25,7 +25,7 @@ public static class ConfigureServices
 
         services.AddApiEndpoints();
 
-        services.ConfigureSwagger(config);
+        services.ConfigureSwagger();
 
         services.ConfigureVersioning();
 

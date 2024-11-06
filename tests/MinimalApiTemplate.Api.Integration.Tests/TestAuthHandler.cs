@@ -32,7 +32,7 @@ public class TestAuthHandler : AuthenticationHandler<TestAuthHandlerOptions>
             new(Headers.UserProfileId, "1")
         };
 
-        // TODO: Add as many claims as you need here
+        // Add as many claims as you need here
 
         var identity = new ClaimsIdentity(claims, AuthenticationScheme);
         var principal = new ClaimsPrincipal(identity);

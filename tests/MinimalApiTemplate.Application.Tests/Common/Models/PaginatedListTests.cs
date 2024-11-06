@@ -8,10 +8,10 @@ public class PaginatedListTests
 
     public PaginatedListTests()
     {
-        _items = new List<SampleTestModel>
-        {
+        _items =
+        [
             new SampleTestModel { Id = 1 }
-        };
+        ];
     }
 
     [Theory]
