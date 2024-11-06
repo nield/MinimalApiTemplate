@@ -1,5 +1,4 @@
 ﻿using Audit.Core;
-using MassTransit;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -19,15 +18,16 @@ public static class ConfigureServices
         services.SetupCaching(configuration);
         services.SetupRepositories();
         services.SetupMetrics();
-        services.SetupMassTransit(configuration);
-        services.SetupAuditing(configuration);
+        services.SetupMassTransit(configuration);        
         services.SetupHttpClients(configuration);
+
+        SetupAuditing(configuration);
 
         return services;
     }
 
     public static IServiceCollection AddWorkerInfrastructureServices(this IServiceCollection services,
-        IConfiguration configuration, IHostEnvironment hostEnvironment)
+        IConfiguration configuration)
     {
         services.SetupMetrics();
         services.SetupHttpClients(configuration);
@@ -148,7 +148,7 @@ public static class ConfigureServices
         });                  
     }
 
-    private static void SetupAuditing(this IServiceCollection services, IConfiguration configuration)
+    private static void SetupAuditing(IConfiguration configuration)
     {
         Audit.Core.Configuration.Setup()
             .UseSqlServer(config => config

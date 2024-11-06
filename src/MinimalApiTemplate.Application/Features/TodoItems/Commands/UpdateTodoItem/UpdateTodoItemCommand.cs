@@ -22,14 +22,10 @@ public class UpdateTodoItemCommandHandler : IRequestHandler<UpdateTodoItemComman
 
     public async Task Handle(UpdateTodoItemCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _toDoItemRepository.GetByIdAsync(request.Id, cancellationToken);
-
-        if (entity is null)
-        {
-            throw new NotFoundException(nameof(TodoItem), request.Id);
-        }
-
-        using (AuditScope.Create("ToDoItem:Update", () => entity))
+        var entity = await _toDoItemRepository.GetByIdAsync(request.Id, cancellationToken)
+            ?? throw new NotFoundException(nameof(TodoItem), request.Id);
+        
+        using (await AuditScope.CreateAsync("ToDoItem:Update", () => entity, cancellationToken: cancellationToken))
         {
             _mapper.Map(request, entity);
 

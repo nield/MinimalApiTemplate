@@ -6,7 +6,12 @@ public abstract class BaseConsumer<TMessage, TConsumer> : IConsumer<TMessage>
 {
     protected readonly ILogger<TConsumer> _logger;
 
-    protected BaseConsumer(ILogger<TConsumer> logger)
+    protected BaseConsumer(
+#pragma warning disable S6672 // Generic logger injection should match enclosing type
+        ILogger<TConsumer> logger
+#pragma warning restore S6672 // Generic logger injection should match enclosing type
+        )
+
     {
         _logger = logger;
     }

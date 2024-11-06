@@ -27,7 +27,7 @@ public class ApplicationDbContextInitialiser
     {
         try
         {
-            if (_context.Database.GetPendingMigrations().Any())
+            if ((await _context.Database.GetPendingMigrationsAsync()).Any())
             {
                 await _context.Database.MigrateAsync();
             }
@@ -55,7 +55,7 @@ public class ApplicationDbContextInitialiser
     private async Task TrySeedAsync()
     {
         // Ensure existing seed data is saved before adding new data.
-        _context.Database.EnsureCreated();
+        await _context.Database.EnsureCreatedAsync();
 
         if (_hostEnvironment.IsTest())
         {

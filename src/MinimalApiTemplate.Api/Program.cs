@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.ConfigureLogging();
 
 // Add services to the container.
-builder.Services.AddApplicationServices(builder.Configuration);
+builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration, builder.Environment);
 builder.Services.AddApiServices(builder.Configuration);
 
@@ -30,7 +30,7 @@ app.MapEndpoints();
 
 if (!app.Environment.IsProduction())
 {
-    app.UseApiDocumentation(app.Configuration);
+    app.UseApiDocumentation();
 }
 
 app.MapHealthChecks("/health", new HealthCheckOptions
@@ -45,7 +45,7 @@ app.MapGet("/ping", () => "Working as expected")
 
 await app.ApplyMigrations();
 
-app.Run();
+await app.RunAsync();
 
 // Make the implicit Program class public so test projects can access it
 public partial class Program

@@ -5,14 +5,13 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 namespace MinimalApiTemplate.Api.Configurations;
 public static class Swagger
 {
-    public static void ConfigureSwagger(this IServiceCollection services,
-        IConfiguration configuration)
+    public static void ConfigureSwagger(this IServiceCollection services)
     {
         services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
         services.AddSwaggerGen(options => options.OperationFilter<SwaggerDefaultValues>());
     }
 
-    public static void UseApiDocumentation(this WebApplication app, IConfiguration configuration)
+    public static void UseApiDocumentation(this WebApplication app)
     {
         app.UseSwagger();
         app.UseSwaggerUI(options =>
@@ -20,10 +19,10 @@ public static class Swagger
             var descriptions = app.DescribeApiVersions();
 
             // build a swagger endpoint for each discovered API version
-            foreach (var description in descriptions)
+            foreach (var groupName in descriptions.Select(x => x.GroupName))
             {
-                var url = $"/swagger/{description.GroupName}/swagger.json";
-                var name = description.GroupName.ToUpperInvariant();
+                var url = $"/swagger/{groupName}/swagger.json";
+                var name = groupName.ToUpperInvariant();
                 options.SwaggerEndpoint(url, name);
             }
         });

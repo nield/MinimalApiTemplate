@@ -5,7 +5,7 @@ namespace MinimalApiTemplate.Infrastructure.Persistence.Configurations;
 public abstract class BaseConfiguration<TEntity> : IEntityTypeConfiguration<TEntity>
     where TEntity : BaseEntity
 {
-    private static readonly IList<TEntity> EmptySeed = new List<TEntity>();
+    private static readonly IList<TEntity> EmptySeed = [];
 
     public abstract string TableName { get; }
 

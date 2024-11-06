@@ -5,7 +5,9 @@ public class UnhandledExceptionBehaviour<TRequest, TResponse> : IPipelineBehavio
 {
     private readonly ILogger<TRequest> _logger;
 
+#pragma warning disable S6672 // Generic logger injection should match enclosing type
     public UnhandledExceptionBehaviour(ILogger<TRequest> logger)
+#pragma warning restore S6672 // Generic logger injection should match enclosing type
     {
         _logger = logger;
     }

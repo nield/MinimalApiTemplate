@@ -4,7 +4,7 @@ namespace MinimalApiTemplate.Domain.Common;
 
 public abstract class BaseEntity
 {
-    private readonly List<BaseEvent> _domainEvents = new();
+    private readonly List<BaseEvent> _domainEvents = [];
 
     public long Id { get; set; }
     public bool IsDeleted { get; set; }

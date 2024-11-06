@@ -39,7 +39,7 @@ public abstract class BaseRepository<TEntity> : IRepository<TEntity>, IDisposabl
 
     public async Task<TEntity?> GetByIdAsync(long id, CancellationToken cancellationToken = default)
     {
-        var entity = await _dbSet.FindAsync(new object[] { id }, cancellationToken);
+        var entity = await _dbSet.FindAsync([id], cancellationToken);
 
         if (entity?.IsDeleted ?? true) return null;
 

@@ -20,7 +20,7 @@ public class ValidationBehaviourTests
         _validatorMock.ValidateAsync(Arg.Any<IValidationContext>(), Arg.Any<CancellationToken>())
             .Returns(new ValidationResult(failures));
 
-        _validationBehaviour = new(new[] { _validatorMock });
+        _validationBehaviour = new([_validatorMock]);
     }
 
     [Fact]

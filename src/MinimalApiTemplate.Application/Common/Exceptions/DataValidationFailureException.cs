@@ -2,7 +2,7 @@
 
 namespace MinimalApiTemplate.Application.Common.Exceptions;
 
-public class DataValidationFailureException : ApplicationException
+public class DataValidationFailureException : Exception
 {
     public DataValidationFailureException()
         : base("One or more validation failures have occurred.")

@@ -9,7 +9,7 @@ public class DataValidationFailureExceptionTests
     {
         var actual = new DataValidationFailureException().Errors;
 
-        actual.Keys.Should().BeEquivalentTo(Array.Empty<string>());
+        actual.Keys.Should().BeEmpty();
     }
 
     [Fact]

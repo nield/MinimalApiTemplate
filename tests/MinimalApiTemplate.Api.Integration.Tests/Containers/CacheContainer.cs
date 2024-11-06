@@ -1,8 +1,7 @@
 ﻿using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Containers;
-using MinimalApiTemplate.Api.Integration.Tests.Containers;
 
-namespace MinimalApiTemplate.Api.Integration.Tests;
+namespace MinimalApiTemplate.Api.Integration.Tests.Containers;
 
 internal sealed class CacheContainer : BaseContainer<CacheContainer>
 {
