@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace MinimalApiTemplate.Sdk;
+
 public static class StartupExtensions
 {
     public static void SetupMinimalApi(this IServiceCollection services, Uri baseAddress)
@@ -9,6 +10,7 @@ public static class StartupExtensions
         {
             config.BaseAddress = baseAddress;
             config.Timeout = TimeSpan.FromSeconds(30);
-        });
+        })
+        .AddStandardResilienceHandler();
     }
 }
