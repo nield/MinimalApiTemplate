@@ -11,23 +11,32 @@ public class WebApplicationFixture : IAsyncLifetime
     private readonly CustomWebApplicationFactory<global::Program> _factory = new();
 
     private string? _databaseConnectionString = null;
+    private Respawner? _respawner = null;
+    private HttpClient? _httpClient = null;
 
-    public HttpClient HttpClient { get; private set; } = null!;
-    public Respawner Respawner { get; private set; } = null!;
+    public HttpClient HttpClient
+    {
+        get
+        {
+            if (_httpClient is null)
+            {
+                throw new NullReferenceException("HttpClient not set");
+            }
+
+            return _httpClient;
+        }
+    }
 
     public async Task InitializeAsync()
     {
-        await Task.WhenAll(
-            DatabaseContainer.Instance.StartContainerAsync(),
-            CacheContainer.Instance.StartContainerAsync(),
-            RabbitContainer.Instance.StartContainerAsync());
+        await StartContainers();
 
-        HttpClient = _factory.CreateClient();
-        HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Test");
+        _httpClient = _factory.CreateClient();
+        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Test");
 
         _databaseConnectionString = DatabaseContainer.Instance.GetConnectionString();
 
-        Respawner = await Respawner.CreateAsync(_databaseConnectionString, new RespawnerOptions
+        _respawner = await Respawner.CreateAsync(_databaseConnectionString, new RespawnerOptions
         {
             SchemasToInclude = [ApplicationDbContext.DbSchema],
             TablesToIgnore = [ApplicationDbContext.MigrationTableName],
@@ -35,9 +44,30 @@ public class WebApplicationFixture : IAsyncLifetime
         });
     }
 
+    private static async Task StartContainers()
+    {
+        try
+        {
+            using var cancellationSource = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+
+            await Task.WhenAll(
+                DatabaseContainer.Instance.StartContainerAsync(cancellationSource.Token),
+                CacheContainer.Instance.StartContainerAsync(cancellationSource.Token),
+                RabbitContainer.Instance.StartContainerAsync(cancellationSource.Token));
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+            throw;
+        }
+    }
+
     public async Task ResetDatabaseAsync()
     {
-        await Respawner.ResetAsync(_databaseConnectionString!);
+        if (_respawner is not null)
+        {
+            await _respawner.ResetAsync(_databaseConnectionString!);
+        }
 
         using var scope = _factory.Services.CreateScope();
 
@@ -47,10 +77,9 @@ public class WebApplicationFixture : IAsyncLifetime
         await dbContextInitialiser.SeedDataAsync();
     }
         
-
     public Task DisposeAsync()
     {
-        HttpClient.Dispose();
+        _httpClient?.Dispose();
 
         return Task.CompletedTask;
     }

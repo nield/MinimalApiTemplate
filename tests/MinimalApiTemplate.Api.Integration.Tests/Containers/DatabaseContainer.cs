@@ -19,23 +19,24 @@ internal sealed class DatabaseContainer : BaseContainer<DatabaseContainer>
            .WithEnvironment("ACCEPT_EULA", "Y")
            .WithEnvironment("MSSQL_SA_PASSWORD", DatabasePassword)
            .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(DatabaseDefaultPort))
+           .WithReuse(true)
            .Build();
     }
 
     public override string GetConnectionString() =>
         $"Server={_container!.Hostname},{_container.GetMappedPublicPort(DatabaseDefaultPort)};Database={DatabaseName};User Id={DatabaseUsername};Password={DatabasePassword};TrustServerCertificate=True";
 
-    public override async Task StartContainerAsync(int millisecondsTimeout = 10000)
+    public override async Task StartContainerAsync(CancellationToken cancellationToken)
     {
-        await base.StartContainerAsync(millisecondsTimeout);
+        await base.StartContainerAsync(cancellationToken);
 
-        if (!await IsServerConnectedAsync(millisecondsTimeout))
+        if (!await IsServerConnectedAsync(cancellationToken))
         {
             throw new OperationCanceledException("The container connection was not open in time");
         }
     }
 
-    private async Task<bool> IsServerConnectedAsync(int millisecondsTimeout)
+    private async Task<bool> IsServerConnectedAsync(CancellationToken cancellationToken)
     {
         var dbConnectionString = GetConnectionString();
 
@@ -43,25 +44,26 @@ internal sealed class DatabaseContainer : BaseContainer<DatabaseContainer>
 
         using var connection = new SqlConnection(dbMasterConnectionString);
 
-        int seconds = 0;
-
-        while (!await CheckConnection(connection))
+        while (!cancellationToken.IsCancellationRequested)
         {
-            Thread.Sleep(1000);
+            var connected = await CheckConnection(connection, cancellationToken);
 
-            seconds += 1000;
+            if (connected) return true;
 
-            if (seconds >= millisecondsTimeout) return false;
+            Thread.Sleep(250);
         }
 
-        return true;
+        return false;
     }
 
-    private static async Task<bool> CheckConnection(SqlConnection connection)
+    private static async Task<bool> CheckConnection(
+        SqlConnection connection, 
+        CancellationToken cancellationToken)
     {
         try
         {
-            await connection.OpenAsync();
+            await connection.OpenAsync(cancellationToken);
+
             return true;
         }
         catch (SqlException)
