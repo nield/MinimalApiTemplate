@@ -20,11 +20,11 @@ internal abstract class BaseContainer<TContainer>
 
     public abstract string GetConnectionString();
 
-    public async virtual Task StartContainerAsync(int millisecondsTimeout = 10000)
+    public async virtual Task StartContainerAsync(CancellationToken cancellationToken)
     {
-        await _container.StartAsync();
+        await _container.StartAsync(cancellationToken);
 
-        var containerRunning = IsContainerRunning(millisecondsTimeout);
+        var containerRunning = IsContainerRunning(cancellationToken);
 
         if (!containerRunning)
         {
@@ -32,19 +32,14 @@ internal abstract class BaseContainer<TContainer>
         }
     }
 
-    private bool IsContainerRunning(int millisecondsTimeout)
+    private bool IsContainerRunning(CancellationToken cancellationToken)
     {
-        var seconds = 0;
-
-        while (_container.State != TestcontainersStates.Running)
+        while (!cancellationToken.IsCancellationRequested 
+            && _container.State != TestcontainersStates.Running)
         {
-            Thread.Sleep(1000);
-
-            seconds += 1000;
-
-            if (seconds >= millisecondsTimeout) return false;
+            Thread.Sleep(250);
         }
 
-        return true;
+        return _container.State == TestcontainersStates.Running;
     }
 }

@@ -17,10 +17,7 @@ public class WebApplicationFixture : IAsyncLifetime
 
     public async Task InitializeAsync()
     {
-        await Task.WhenAll(
-            DatabaseContainer.Instance.StartContainerAsync(),
-            CacheContainer.Instance.StartContainerAsync(),
-            RabbitContainer.Instance.StartContainerAsync());
+        await StartContainers();
 
         HttpClient = _factory.CreateClient();
         HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Test");
@@ -33,6 +30,24 @@ public class WebApplicationFixture : IAsyncLifetime
             TablesToIgnore = [ApplicationDbContext.MigrationTableName],
             WithReseed = true
         });
+    }
+
+    private static async Task StartContainers()
+    {
+        try
+        {
+            using var cancellationSource = new CancellationTokenSource(TimeSpan.FromSeconds(20));
+
+            await Task.WhenAll(
+                DatabaseContainer.Instance.StartContainerAsync(cancellationSource.Token),
+                CacheContainer.Instance.StartContainerAsync(cancellationSource.Token),
+                RabbitContainer.Instance.StartContainerAsync(cancellationSource.Token));
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+            throw;
+        }
     }
 
     public async Task ResetDatabaseAsync()
