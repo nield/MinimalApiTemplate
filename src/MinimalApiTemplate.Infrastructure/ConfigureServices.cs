@@ -137,6 +137,8 @@ public static class ConfigureServices
         {
             config.AddTelemetryListener(true);
 
+            config.ConfigureHealthCheckOptions(options => options.Name = "MassTransit connectivity");
+
             config.UsingRabbitMq((context, rabbitConfig) =>
             {
                 var rabbitUri = configuration["MassTransit:RabbitMq:Uri"];

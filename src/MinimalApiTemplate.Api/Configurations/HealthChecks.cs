@@ -9,9 +9,10 @@ public static class HealthChecks
         var redisConnectionString = configuration["RedisOptions:ConnectionString"]
             ?? throw new InvalidDataException("Redis connection string was not set");
 
+        //MassTransit health check added in Infrastructure project 'ConfigureServices'
         services
             .AddHealthChecks()
-            .AddDbContextCheck<ApplicationDbContext>("Database connectivity")
-            .AddRedis(redisConnectionString, "Redis Connectivity");
+            .AddDbContextCheck<ApplicationDbContext>(name: "Database connectivity")
+            .AddRedis(redisConnectionString, name: "Redis connectivity");
     }
 }
