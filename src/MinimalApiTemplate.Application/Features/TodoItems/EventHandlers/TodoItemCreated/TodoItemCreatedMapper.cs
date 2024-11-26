@@ -6,8 +6,6 @@ public class TodoItemCreatedMapper : Profile
 {
     public TodoItemCreatedMapper()
     {
-        CreateMap<TodoItem, TodoItemCreatedEvent>();
-
         CreateMap<TodoItemCreatedEvent, ToDoItemCreated>()
             .ForMember(dest => dest.CorrelationId, opt => opt.Ignore());
     }

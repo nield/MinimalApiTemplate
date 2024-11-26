@@ -13,5 +13,8 @@ public class CreateTodoItemMapper : Profile
             .ForMember(dest => dest.IsDone, opt => opt.Ignore())
             .ForMember(dest => dest.IsDeleted, opt => opt.Ignore())
             .ForMember(dest => dest.DomainEvents, opt => opt.Ignore());
+
+        CreateMap<TodoItem, TodoItemCreatedEvent>();
+
     }
 }

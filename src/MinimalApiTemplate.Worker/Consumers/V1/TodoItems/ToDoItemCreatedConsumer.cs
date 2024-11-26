@@ -3,7 +3,7 @@ using MinimalApiTemplate.Messages.V1;
 
 namespace MinimalApiTemplate.Worker.Consumers.V1.TodoItems;
 
-public class ToDoItemCreatedConsumer : BaseConsumer<ToDoItemCreated, ToDoItemCreatedConsumer>
+public class ToDoItemCreatedConsumer : BaseConsumer<ToDoItemCreated>
 {
     private readonly IToDoItemMetrics _toDoItemMetrics;
 
