@@ -1,6 +1,4 @@
-﻿using MinimalApiTemplate.Application.Common.Interfaces.Metrics;
-
-namespace MinimalApiTemplate.Application.Features.TodoItems.Commands.CreateTodoItem;
+﻿namespace MinimalApiTemplate.Application.Features.TodoItems.Commands.CreateTodoItem;
 
 public record CreateTodoItemCommand : IRequest<long>
 {

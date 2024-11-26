@@ -1,5 +1,7 @@
-﻿using MinimalApiTemplate.Api.Models.V1.Requests;
-using MinimalApiTemplate.Api.Models.V1.Responses;
+﻿using MinimalApiTemplate.Api.Common.Models;
+using MinimalApiTemplate.Api.Endpoints.V1.TodoItems.CreateToDoItem;
+using MinimalApiTemplate.Api.Endpoints.V1.TodoItems.GetToDoItem;
+using MinimalApiTemplate.Api.Endpoints.V1.TodoItems.GetTodoItemsWithPagination;
 
 namespace MinimalApiTemplate.Api.Integration.Tests.Endpoints.V1;
 

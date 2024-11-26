@@ -5,8 +5,7 @@ global using Microsoft.AspNetCore.Http.HttpResults;
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.AspNetCore.OutputCaching;
 global using MinimalApi.Endpoint;
-global using MinimalApiTemplate.Api.Endpoints.Common;
-global using MinimalApiTemplate.Api.Models;
-global using MinimalApiTemplate.Api.Models.Enums;
 global using FluentValidation;
-
+global using MinimalApiTemplate.Api.Common;
+global using MinimalApiTemplate.Api.Common.Validation;
+global using MinimalApiTemplate.Api.Common.Models.Enums;

@@ -1,4 +1,4 @@
-﻿using MinimalApiTemplate.Api.Services;
+﻿using MinimalApiTemplate.Api.Common.Services;
 using MinimalApiTemplate.Application.Common.Interfaces;
 
 namespace MinimalApiTemplate.Api.Configurations;

@@ -2,7 +2,7 @@
 using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Options;
-using static MinimalApiTemplate.Application.Common.Constants;
+using static MinimalApiTemplate.Api.Common.Constants;
 
 namespace MinimalApiTemplate.Api.Integration.Tests;
 

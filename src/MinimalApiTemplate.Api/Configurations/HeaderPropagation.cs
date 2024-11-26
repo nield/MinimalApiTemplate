@@ -1,4 +1,5 @@
-﻿using static MinimalApiTemplate.Application.Common.Constants;
+﻿using MinimalApiTemplate.Api.Common.Extensions;
+using static MinimalApiTemplate.Api.Common.Constants;
 
 namespace MinimalApiTemplate.Api.Configurations;
 
