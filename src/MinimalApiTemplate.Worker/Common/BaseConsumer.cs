@@ -1,17 +1,11 @@
 ﻿namespace MinimalApiTemplate.Worker.Common;
 
-public abstract class BaseConsumer<TMessage, TConsumer> : IConsumer<TMessage>
+public abstract class BaseConsumer<TMessage> : IConsumer<TMessage>
     where TMessage : BaseMessage
-    where TConsumer : IConsumer<TMessage>
 {
-    protected readonly ILogger<TConsumer> _logger;
+    protected readonly ILogger _logger;
 
-    protected BaseConsumer(
-#pragma warning disable S6672 // Generic logger injection should match enclosing type
-        ILogger<TConsumer> logger
-#pragma warning restore S6672 // Generic logger injection should match enclosing type
-        )
-
+    protected BaseConsumer(ILogger logger)
     {
         _logger = logger;
     }
@@ -26,11 +20,14 @@ public abstract class BaseConsumer<TMessage, TConsumer> : IConsumer<TMessage>
             {
                 await ProcessMessage(context);
             }
+#pragma warning disable S2139 // Exceptions should be either logged or rethrown but not both
             catch (Exception ex)
+#pragma warning restore S2139 // Exceptions should be either logged or rethrown but not both
             {
                 _logger.LogError(ex, "Failed to process message. Message: {Message}, CorrelationId: {CorrelationId}", context.Message, context.CorrelationId);
                 throw;
             }
+
         }
     }
 }
