@@ -1,4 +1,5 @@
 ﻿namespace MinimalApiTemplate.Application.Features.TodoItems.Queries.GetToDoItem;
+
 public class GetToDoItemDto
 {
     public long Id { get; set; }

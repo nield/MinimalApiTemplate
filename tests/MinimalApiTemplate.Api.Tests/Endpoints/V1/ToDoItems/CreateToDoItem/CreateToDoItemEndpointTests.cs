@@ -1,7 +1,7 @@
 ﻿using MinimalApiTemplate.Api.Endpoints.V1.TodoItems.CreateToDoItem;
 using MinimalApiTemplate.Application.Features.TodoItems.Commands.CreateTodoItem;
 
-namespace MinimalApiTemplate.Api.Tests.Endpoints.V1.ToDoItems;
+namespace MinimalApiTemplate.Api.Tests.Endpoints.V1.ToDoItems.CreateToDoItem;
 
 public class CreateToDoItemEndpointTests : BaseTestFixture
 {

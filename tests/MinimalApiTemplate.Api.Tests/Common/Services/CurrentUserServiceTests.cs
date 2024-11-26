@@ -1,10 +1,9 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using MinimalApiTemplate.Api.Common.Services;
-using MinimalApiTemplate.Application.Common;
-using static MinimalApiTemplate.Application.Common.Constants;
+using static MinimalApiTemplate.Api.Common.Constants;
 
-namespace MinimalApiTemplate.Api.Tests.Services;
+namespace MinimalApiTemplate.Api.Tests.Common.Services;
 
 public class CurrentUserServiceTests
 {

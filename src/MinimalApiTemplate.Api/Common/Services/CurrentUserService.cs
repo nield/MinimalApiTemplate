@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 using MinimalApiTemplate.Api.Common.Extensions;
 using MinimalApiTemplate.Application.Common.Interfaces;
-using static MinimalApiTemplate.Application.Common.Constants;
+using static MinimalApiTemplate.Api.Common.Constants;
 
 namespace MinimalApiTemplate.Api.Common.Services;
 

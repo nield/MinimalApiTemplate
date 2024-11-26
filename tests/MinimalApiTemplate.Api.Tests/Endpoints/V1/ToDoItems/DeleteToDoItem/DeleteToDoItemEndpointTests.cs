@@ -1,7 +1,7 @@
 ﻿using MinimalApiTemplate.Api.Endpoints.V1.TodoItems.DeleteToDoItem;
 using MinimalApiTemplate.Application.Features.TodoItems.Commands.DeleteTodoItem;
 
-namespace MinimalApiTemplate.Api.Tests.Endpoints.V1.ToDoItems;
+namespace MinimalApiTemplate.Api.Tests.Endpoints.V1.ToDoItems.DeleteToDoItem;
 
 public class DeleteToDoItemEndpointTests : BaseTestFixture
 {

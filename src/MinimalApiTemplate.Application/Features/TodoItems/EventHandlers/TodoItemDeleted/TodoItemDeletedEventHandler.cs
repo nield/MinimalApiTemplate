@@ -1,4 +1,4 @@
-﻿namespace MinimalApiTemplate.Application.Features.TodoItems.EventHandlers;
+﻿namespace MinimalApiTemplate.Application.Features.TodoItems.EventHandlers.TodoItemDeleted;
 
 public class TodoItemDeletedEventHandler : INotificationHandler<TodoItemDeletedEvent>
 {

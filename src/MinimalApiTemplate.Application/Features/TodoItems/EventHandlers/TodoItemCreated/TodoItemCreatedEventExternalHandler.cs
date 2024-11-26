@@ -1,16 +1,16 @@
 ﻿using MinimalApiTemplate.Application.Common.Events;
 using MinimalApiTemplate.Messages.V1;
 
-namespace MinimalApiTemplate.Application.Features.TodoItems.EventHandlers;
+namespace MinimalApiTemplate.Application.Features.TodoItems.EventHandlers.TodoItemCreated;
 
-public class TodoItemCreatedEventExternalHandler 
+public class TodoItemCreatedEventExternalHandler
     : BasePublishExternalEventHander<TodoItemCreatedEvent, ToDoItemCreated, TodoItemCreatedEventExternalHandler>
 {
     public TodoItemCreatedEventExternalHandler(
-        IPublishMessageService publishMessageService, 
+        IPublishMessageService publishMessageService,
         ICurrentUserService currentUserService,
         IMapper mapper,
-        ILogger<TodoItemCreatedEventExternalHandler> logger) 
+        ILogger<TodoItemCreatedEventExternalHandler> logger)
         : base(publishMessageService, currentUserService, mapper, logger)
     {
     }

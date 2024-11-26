@@ -1,5 +1,5 @@
 ﻿using MinimalApiTemplate.Application.Features.TodoItems.Commands.UpdateTodoItem;
-using static MinimalApiTemplate.Application.Common.Constants;
+using static MinimalApiTemplate.Api.Common.Constants;
 
 namespace MinimalApiTemplate.Api.Endpoints.V1.TodoItems.UpdateToDoItem;
 

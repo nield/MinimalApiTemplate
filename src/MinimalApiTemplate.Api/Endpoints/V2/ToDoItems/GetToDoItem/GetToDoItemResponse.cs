@@ -1,6 +1,4 @@
-﻿using MinimalApiTemplate.Api.Common.Models.Enums;
-
-namespace MinimalApiTemplate.Api.Endpoints.V2.ToDoItems.GetToDoItem;
+﻿namespace MinimalApiTemplate.Api.Endpoints.V2.ToDoItems.GetToDoItem;
 
 public class GetToDoItemResponse
 {

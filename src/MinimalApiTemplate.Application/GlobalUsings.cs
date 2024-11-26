@@ -8,8 +8,8 @@ global using MinimalApiTemplate.Application.Common;
 global using MinimalApiTemplate.Application.Common.Exceptions;
 global using MinimalApiTemplate.Application.Common.Interfaces;
 global using MinimalApiTemplate.Application.Common.Interfaces.Repositories;
+global using MinimalApiTemplate.Application.Common.Interfaces.Metrics;
 global using MinimalApiTemplate.Domain.Entities;
 global using MinimalApiTemplate.Domain.Enums;
 global using MinimalApiTemplate.Domain.Events;
 global using MinimalApiTemplate.Messages.Common;
-

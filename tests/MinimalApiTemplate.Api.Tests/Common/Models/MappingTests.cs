@@ -1,4 +1,4 @@
-﻿namespace MinimalApiTemplate.Api.Tests.Models;
+﻿namespace MinimalApiTemplate.Api.Tests.Common.Models;
 
 public class MappingTests : BaseTestFixture
 {

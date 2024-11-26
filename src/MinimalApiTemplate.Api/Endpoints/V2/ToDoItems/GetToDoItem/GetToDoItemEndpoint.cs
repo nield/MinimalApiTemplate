@@ -1,5 +1,4 @@
-﻿using MinimalApiTemplate.Api.Common;
-using MinimalApiTemplate.Application.Features.TodoItems.Queries.GetToDoItem;
+﻿using MinimalApiTemplate.Application.Features.TodoItems.Queries.GetToDoItem;
 
 namespace MinimalApiTemplate.Api.Endpoints.V2.ToDoItems.GetToDoItem;
 

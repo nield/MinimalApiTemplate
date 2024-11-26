@@ -1,4 +1,4 @@
-﻿namespace MinimalApiTemplate.Application.Features.TodoItems.EventHandlers;
+﻿namespace MinimalApiTemplate.Application.Features.TodoItems.EventHandlers.TodoItemCreated;
 
 public class TodoItemCreatedEventHandler : INotificationHandler<TodoItemCreatedEvent>
 {

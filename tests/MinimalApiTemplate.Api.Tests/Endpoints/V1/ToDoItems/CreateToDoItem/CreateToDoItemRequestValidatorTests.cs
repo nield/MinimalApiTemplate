@@ -1,6 +1,6 @@
 ﻿using MinimalApiTemplate.Api.Endpoints.V1.TodoItems.CreateToDoItem;
 
-namespace MinimalApiTemplate.Api.Tests.Models.V1;
+namespace MinimalApiTemplate.Api.Tests.Endpoints.V1.ToDoItems.CreateToDoItem;
 
 public class CreateToDoItemRequestValidatorTests
 {

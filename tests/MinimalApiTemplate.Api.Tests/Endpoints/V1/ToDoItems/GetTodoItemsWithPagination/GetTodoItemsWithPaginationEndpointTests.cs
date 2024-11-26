@@ -2,7 +2,7 @@
 using MinimalApiTemplate.Application.Common.Models;
 using MinimalApiTemplate.Application.Features.TodoItems.Queries.GetTodoItemsWithPagination;
 
-namespace MinimalApiTemplate.Api.Tests.Endpoints.V1.ToDoItems;
+namespace MinimalApiTemplate.Api.Tests.Endpoints.V1.ToDoItems.GetTodoItemsWithPagination;
 public class GetTodoItemsWithPaginationEndpointTests : BaseTestFixture
 {
     private readonly GetTodoItemsWithPaginationEndpoint _endpoint;

@@ -1,7 +1,7 @@
 ﻿using MinimalApiTemplate.Api.Endpoints.V1.TodoItems.UpdateToDoItem;
 using MinimalApiTemplate.Application.Features.TodoItems.Commands.UpdateTodoItem;
 
-namespace MinimalApiTemplate.Api.Tests.Endpoints.V1.ToDoItems;
+namespace MinimalApiTemplate.Api.Tests.Endpoints.V1.ToDoItems.UpdateToDoItem;
 public class UpdateToDoItemEndpointTests : BaseTestFixture
 {
     private readonly UpdateToDoItemEndpoint _endpoint;
