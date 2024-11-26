@@ -1,4 +1,4 @@
-﻿using MinimalApiTemplate.Api.ExceptionHandlers;
+﻿using MinimalApiTemplate.Api.Common.ExceptionHandlers;
 
 namespace MinimalApiTemplate.Api.Configurations;
 

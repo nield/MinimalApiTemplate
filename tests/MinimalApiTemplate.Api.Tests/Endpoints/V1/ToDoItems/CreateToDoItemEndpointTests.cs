@@ -1,5 +1,4 @@
-﻿using MinimalApiTemplate.Api.Endpoints.V1.TodoItems;
-using MinimalApiTemplate.Api.Models.V1.Requests;
+﻿using MinimalApiTemplate.Api.Endpoints.V1.TodoItems.CreateToDoItem;
 using MinimalApiTemplate.Application.Features.TodoItems.Commands.CreateTodoItem;
 
 namespace MinimalApiTemplate.Api.Tests.Endpoints.V1.ToDoItems;

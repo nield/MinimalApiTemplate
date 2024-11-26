@@ -1,4 +1,5 @@
-﻿using static MinimalApiTemplate.Application.Common.Constants;
+﻿using MinimalApiTemplate.Api.Common;
+using static MinimalApiTemplate.Application.Common.Constants;
 
 namespace MinimalApiTemplate.Api.Endpoints.V1;
 

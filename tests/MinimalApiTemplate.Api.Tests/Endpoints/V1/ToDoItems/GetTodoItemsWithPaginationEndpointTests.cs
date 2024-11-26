@@ -1,5 +1,4 @@
-﻿using MinimalApiTemplate.Api.Endpoints.V1.TodoItems;
-using MinimalApiTemplate.Api.Models.V1.Requests;
+﻿using MinimalApiTemplate.Api.Endpoints.V1.TodoItems.GetTodoItemsWithPagination;
 using MinimalApiTemplate.Application.Common.Models;
 using MinimalApiTemplate.Application.Features.TodoItems.Queries.GetTodoItemsWithPagination;
 

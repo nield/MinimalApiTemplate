@@ -1,5 +1,4 @@
-﻿using MinimalApiTemplate.Api.Models.V1.Requests;
-using MinimalApiTemplate.Api.Models.V1.Validators;
+﻿using MinimalApiTemplate.Api.Endpoints.V1.TodoItems.CreateToDoItem;
 
 namespace MinimalApiTemplate.Api.Tests.Models.V1;
 
