@@ -28,7 +28,7 @@ public class BasePublishEventHanderTests : BaseTestFixture<FakePublishEventHande
 
 
 public class FakePublishEventHander
-    : BasePublishExternalEventHander<FakeTestEvent, FakeTestMessage, FakePublishEventHander>
+    : BasePublishExternalEventHander<FakeTestEvent, FakeTestMessage>
 {
     public FakePublishEventHander(
         IPublishMessageService publishMessageService, 
