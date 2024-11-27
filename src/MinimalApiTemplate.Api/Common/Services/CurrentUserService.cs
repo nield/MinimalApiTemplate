@@ -14,21 +14,14 @@ public class CurrentUserService : ICurrentUserService
         _httpContextAccessor = httpContextAccessor;
     }
 
-    public string? UserId => _httpContextAccessor.HttpContext?.User?.FindFirstValue(Headers.UserProfileId);
+    public string? UserId => 
+        _httpContextAccessor.HttpContext?.User?.FindFirstValue(Headers.UserProfileId);
 
     public string? UserProfileId =>
         _httpContextAccessor.HttpContext?.User?.FindFirstValue(Headers.UserProfileId);
 
-    public string? CorrelationId
-    {
-        get
-        {
-            var correlationId = _httpContextAccessor.HttpContext?.GetCorrelationId(allowEmpty: true);
-
-            return correlationId;
-        }
-    }
-
+    public string? CorrelationId =>
+        _httpContextAccessor.HttpContext?.GetCorrelationId(allowEmpty: true);
 
     public string? Token =>
         _httpContextAccessor.HttpContext

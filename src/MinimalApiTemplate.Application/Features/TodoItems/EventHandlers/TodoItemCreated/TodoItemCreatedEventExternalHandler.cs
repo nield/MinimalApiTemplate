@@ -4,7 +4,7 @@ using MinimalApiTemplate.Messages.V1;
 namespace MinimalApiTemplate.Application.Features.TodoItems.EventHandlers.TodoItemCreated;
 
 public class TodoItemCreatedEventExternalHandler
-    : BasePublishExternalEventHander<TodoItemCreatedEvent, ToDoItemCreated, TodoItemCreatedEventExternalHandler>
+    : BasePublishExternalEventHander<TodoItemCreatedEvent, ToDoItemCreated>
 {
     public TodoItemCreatedEventExternalHandler(
         IPublishMessageService publishMessageService,
