@@ -1,6 +1,10 @@
 
 var builder = DistributedApplication.CreateBuilder(args);
 
+var seq = builder.AddSeq("Seq", 8002)
+    .WithLifetime(ContainerLifetime.Persistent)
+    .WithOtlpExporter();
+
 var redis = builder.AddRedis("Redis")
     .WithLifetime(ContainerLifetime.Persistent);
 
@@ -13,7 +17,7 @@ var rabbitPassword = builder.AddParameter("rabbitPassword");
 
 var rabbit = builder.AddRabbitMQ("RabbitMq", rabbitUsername, rabbitPassword)
                 .WithLifetime(ContainerLifetime.Persistent)
-                .WithManagementPlugin(8000);
+                .WithManagementPlugin(8001);
 
 builder.AddProject<Projects.MinimalApiTemplate_Api>("minimalapitemplate-api")
     .WithReference(database)
@@ -22,6 +26,7 @@ builder.AddProject<Projects.MinimalApiTemplate_Api>("minimalapitemplate-api")
     .WaitFor(rabbit)
     .WithReference(redis)
     .WaitFor(redis)
+    .WaitFor(seq)
     .WithEnvironment("MassTransit__PublishEnabled", "true");
 
 builder.AddProject<Projects.MinimalApiTemplate_Worker>("minimalapitemplate-worker")
