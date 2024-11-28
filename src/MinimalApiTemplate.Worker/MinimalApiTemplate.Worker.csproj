@@ -24,11 +24,14 @@
     <PackageReference Include="Serilog.Exceptions" Version="8.4.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
     <PackageReference Include="Serilog.Sinks.Fluentd" Version="0.4.0" />
+    <PackageReference Include="Serilog.Formatting.Compact" Version="3.0.0" />
+    <PackageReference Include="Serilog.Sinks.OpenTelemetry" Version="4.1.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MinimalApiTemplate.Application\MinimalApiTemplate.Application.csproj" />
     <ProjectReference Include="..\MinimalApiTemplate.Infrastructure\MinimalApiTemplate.Infrastructure.csproj" />
     <ProjectReference Include="..\MinimalApiTemplate.Messages\MinimalApiTemplate.Messages.csproj" />
+    <ProjectReference Include="..\MinimalApiTemplate.ServiceDefaults\MinimalApiTemplate.ServiceDefaults.csproj" />
   </ItemGroup>
 </Project>

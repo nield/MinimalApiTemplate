@@ -1,13 +1,14 @@
 ﻿using System.Reflection;
+using Microsoft.Extensions.Hosting;
 using MinimalApiTemplate.Application.Common.Behaviours;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
 public static class ConfigureServices
 {
-    public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+    public static IHostApplicationBuilder AddApplicationServices(this IHostApplicationBuilder builder)
     {
-        services.AddMediatR(options =>
+        builder.Services.AddMediatR(options =>
         {
             options.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
             options.AddBehavior(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
@@ -15,6 +16,6 @@ public static class ConfigureServices
             options.AddBehavior(typeof(IPipelineBehavior<,>), typeof(PerformanceBehaviour<,>));
         });
 
-        return services;
+        return builder;
     }
 }

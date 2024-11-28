@@ -5,12 +5,11 @@ namespace MinimalApiTemplate.Worker.Configurations;
 [ExcludeFromCodeCoverage]
 public static class ConfigureServices
 {
-    public static IServiceCollection SetupWorker(this IServiceCollection services,
-        IConfiguration configuration)
+    public static IHostApplicationBuilder SetupWorker(this IHostApplicationBuilder builder)
     {
-        services.SetupMassTransit(configuration);
+        builder.SetupMassTransit();
 
-        return services;
+        return builder;
     }
 }
 

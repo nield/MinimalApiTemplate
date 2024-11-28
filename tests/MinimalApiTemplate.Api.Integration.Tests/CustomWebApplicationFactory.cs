@@ -22,12 +22,12 @@ public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProg
         );
 
         Environment.SetEnvironmentVariable(
-            "ConnectionStrings__DefaultConnection",
+            "ConnectionStrings__SqlDatabase",
             DatabaseContainer.Instance.GetConnectionString()
         );
 
         Environment.SetEnvironmentVariable(
-            "RedisOptions__ConnectionString",
+            "ConnectionStrings__Redis",
             CacheContainer.Instance.GetConnectionString()
         );
 
