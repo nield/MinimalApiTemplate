@@ -1,4 +1,3 @@
-
 var builder = DistributedApplication.CreateBuilder(args);
 
 var seq = builder.AddSeq("Seq", 8002)
@@ -9,8 +8,9 @@ var redis = builder.AddRedis("Redis")
     .WithLifetime(ContainerLifetime.Persistent);
 
 var sqlPassword = builder.AddParameter("sqlPassword");
-var database = builder.AddSqlServer("SqlDatabase", sqlPassword)
-    .WithLifetime(ContainerLifetime.Persistent);
+var database = builder.AddSqlServer("Sql", sqlPassword, 8003)
+    .WithLifetime(ContainerLifetime.Persistent)
+    .AddDatabase("SqlDatabase", "templateDb");
 
 var rabbitUsername = builder.AddParameter("rabbitUsername");
 var rabbitPassword = builder.AddParameter("rabbitPassword");
@@ -32,6 +32,7 @@ builder.AddProject<Projects.MinimalApiTemplate_Api>("minimalapitemplate-api")
 builder.AddProject<Projects.MinimalApiTemplate_Worker>("minimalapitemplate-worker")
     .WithReference(rabbit)
     .WaitFor(rabbit)
+    .WaitFor(seq)
     .WithEnvironment("MassTransit__ConsumerEnabled", "true");
 
 await builder.Build().RunAsync();
