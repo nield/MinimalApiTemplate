@@ -5,6 +5,8 @@ services:
     container_name: minimalapitemplate.api
     environment:
       - MassTransit__PublishEnabled=true
+      - OTEL_EXPORTER_OTLP_ENDPOINT=
+      - SEQ_SERVER_URL=http://host.docker.internal:8903
     ports:
       - "8901:443"
     networks:
@@ -23,6 +25,10 @@ services:
     container_name: minimalapitemplate.worker
     environment:
       - MassTransit__ConsumerEnabled=true
+      - OTEL_EXPORTER_OTLP_ENDPOINT=
+      - SEQ_SERVER_URL=http://host.docker.internal:8903
+    ports:
+      - "8910:80"
     networks:
       - shared-network
     depends_on:

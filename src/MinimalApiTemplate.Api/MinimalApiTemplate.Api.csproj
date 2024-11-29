@@ -9,15 +9,14 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
     <DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
+    <PublishReadyToRun>true</PublishReadyToRun>
   </PropertyGroup>
 
-    <ItemGroup>
-        <InternalsVisibleTo Include="MinimalApiTemplateApi.Api.Integration.Tests" />
-    </ItemGroup>
-
   <ItemGroup>
-    
+      <InternalsVisibleTo Include="MinimalApiTemplateApi.Api.Integration.Tests" />
+  </ItemGroup>
 
+  <ItemGroup>    
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0">
       <PrivateAssets>all</PrivateAssets>

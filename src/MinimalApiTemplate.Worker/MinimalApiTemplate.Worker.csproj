@@ -7,6 +7,7 @@
     <UserSecretsId>dotnet-MinimalApiTemplate.Worker-1e9cf4cf-5bb0-4db7-b65a-b683c2471b6c</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
+    <PublishReadyToRun>true</PublishReadyToRun>
   </PropertyGroup>
 
   <ItemGroup>

@@ -120,7 +120,7 @@ public static class ConfigureServices
         {
             config.AddTelemetryListener(true);
 
-            config.ConfigureHealthCheckOptions(options => options.Name = "MassTransit connectivity");
+            config.ConfigureHealthCheckOptions(options => options.Name = "MassTransit");
 
             config.UsingRabbitMq((context, rabbitConfig) =>
             {

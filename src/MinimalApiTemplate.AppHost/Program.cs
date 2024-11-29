@@ -27,12 +27,14 @@ builder.AddProject<Projects.MinimalApiTemplate_Api>("minimalapitemplate-api")
     .WithReference(redis)
     .WaitFor(redis)
     .WaitFor(seq)
-    .WithEnvironment("MassTransit__PublishEnabled", "true");
+    .WithEnvironment("MassTransit__PublishEnabled", "true")
+    .WithEnvironment("SEQ_SERVER_URL", "http://localhost:8002");
 
 builder.AddProject<Projects.MinimalApiTemplate_Worker>("minimalapitemplate-worker")
     .WithReference(rabbit)
     .WaitFor(rabbit)
     .WaitFor(seq)
-    .WithEnvironment("MassTransit__ConsumerEnabled", "true");
+    .WithEnvironment("MassTransit__ConsumerEnabled", "true")
+    .WithEnvironment("SEQ_SERVER_URL", "http://localhost:8002");
 
 await builder.Build().RunAsync();
