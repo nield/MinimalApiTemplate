@@ -5,4 +5,4 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("Major Code Smell", "S125:Sections of code should not be commented out", Justification = "<Pending>", Scope = "member", Target = "~M:Microsoft.Extensions.Hosting.Extensions.AddServiceDefaults``1(``0)~``0")]
+[assembly: SuppressMessage("Major Code Smell", "S125:Sections of code should not be commented out")]
