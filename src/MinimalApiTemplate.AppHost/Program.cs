@@ -1,8 +1,7 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
 var seq = builder.AddSeq("Seq", 8002)
-    .WithLifetime(ContainerLifetime.Persistent)
-    .WithOtlpExporter();
+    .WithLifetime(ContainerLifetime.Persistent);
 
 var redis = builder.AddRedis("Redis")
     .WithLifetime(ContainerLifetime.Persistent);
