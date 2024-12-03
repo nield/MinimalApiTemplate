@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Builder;
 using Serilog;
 
 namespace MinimalApiTemplate.Worker.Configurations;
@@ -6,9 +7,11 @@ namespace MinimalApiTemplate.Worker.Configurations;
 [ExcludeFromCodeCoverage]
 public static class Logging
 {
-    public static IHostBuilder SetupLogging(this IHostBuilder builder)
+    public static void ConfigureLogging(this WebApplicationBuilder builder)
     {
-        return builder.UseSerilog((context, services, configuration)
+        builder.Logging.ClearProviders();
+
+        builder.Host.UseSerilog((context, services, configuration)
                                     => configuration.ReadFrom.Configuration(context.Configuration));
     }
 }

@@ -1,15 +1,18 @@
+using Microsoft.AspNetCore.Builder;
 using MinimalApiTemplate.Worker.Configurations;
 
-IHost host = Host.CreateDefaultBuilder(args)
-    .ConfigureServices((hostContext, services) =>
-    {
-        var configuration = hostContext.Configuration;
+var builder = WebApplication.CreateSlimBuilder();
 
-        services.AddWorkerInfrastructureServices(configuration);
+builder.AddServiceDefaults();
 
-        services.SetupWorker(configuration);
-    })
-    .SetupLogging()
-    .Build();
+builder.ConfigureLogging();
 
-await host.RunAsync();
+builder.AddWorkerInfrastructureServices();
+
+builder.SetupWorker();
+
+var app = builder.Build();
+
+app.MapDefaultEndpoints();
+
+await app.RunAsync();

@@ -9,29 +9,25 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
     <DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
+    <PublishReadyToRun>true</PublishReadyToRun>
   </PropertyGroup>
 
-    <ItemGroup>
-        <InternalsVisibleTo Include="MinimalApiTemplateApi.Api.Integration.Tests" />
-    </ItemGroup>
-
   <ItemGroup>
-    <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="8.0.1" />
-    <PackageReference Include="AspNetCore.HealthChecks.Redis" Version="8.0.1" />
+      <InternalsVisibleTo Include="MinimalApiTemplateApi.Api.Integration.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>    
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="9.0.0" />
-    <PackageReference Include="OpenTelemetry.Exporter.Prometheus.AspNetCore" Version="1.9.0-beta.2" />
-    <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.10.0" />
-    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.9.0" />
-    <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.9.0" />
-    <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.9.0" />
+    
     <PackageReference Include="Serilog.Enrichers.Process" Version="3.0.0" />
     <PackageReference Include="Serilog.Enrichers.Thread" Version="4.0.0" />
     <PackageReference Include="Serilog.Expressions" Version="5.0.0" />
+    <PackageReference Include="Serilog.Formatting.Compact" Version="3.0.0" />
+    <PackageReference Include="Serilog.Sinks.OpenTelemetry" Version="4.1.1" />
     <PackageReference Include="Serilog.Sinks.Seq" Version="8.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="7.1.0" />
     <PackageReference Include="Serilog" Version="4.1.0" />
@@ -52,5 +48,6 @@
   <ItemGroup>
     <ProjectReference Include="..\MinimalApiTemplate.Application\MinimalApiTemplate.Application.csproj" />
     <ProjectReference Include="..\MinimalApiTemplate.Infrastructure\MinimalApiTemplate.Infrastructure.csproj" />
+    <ProjectReference Include="..\MinimalApiTemplate.ServiceDefaults\MinimalApiTemplate.ServiceDefaults.csproj" />
   </ItemGroup>
 </Project>

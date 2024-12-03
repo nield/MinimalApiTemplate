@@ -1,18 +1,21 @@
-using HealthChecks.UI.Client;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using MinimalApi.Endpoint.Extensions;
 using MinimalApiTemplate.Api.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddServiceDefaults();
+
 builder.ConfigureLogging();
 
 // Add services to the container.
-builder.Services.AddApplicationServices();
-builder.Services.AddInfrastructureServices(builder.Configuration, builder.Environment);
-builder.Services.AddApiServices(builder.Configuration);
+builder
+    .AddApplicationServices()
+    .AddInfrastructureServices()
+    .AddApiServices();
 
 var app = builder.Build();
+
+app.MapDefaultEndpoints();
 
 app.UseLogging();
 app.UseHttpsRedirection();
@@ -32,16 +35,6 @@ if (!app.Environment.IsProduction())
 {
     app.UseApiDocumentation();
 }
-
-app.MapHealthChecks("/health", new HealthCheckOptions
-{
-    Predicate = _ => true,
-    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-});
-
-app.MapGet("/ping", () => "Working as expected")
-    .ShortCircuit(200)
-    .ExcludeFromDescription();
 
 await app.ApplyMigrations();
 

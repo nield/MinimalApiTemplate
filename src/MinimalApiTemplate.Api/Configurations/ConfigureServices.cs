@@ -5,38 +5,36 @@ namespace MinimalApiTemplate.Api.Configurations;
 
 public static class ConfigureServices
 {
-    public static IServiceCollection AddApiServices(this IServiceCollection services, IConfiguration config)
+    public static IHostApplicationBuilder AddApiServices(this IHostApplicationBuilder builder)
     {
-        services.AddEndpointsApiExplorer();
+        var config = builder.Configuration;
 
-        services.AddScoped<ICurrentUserService, CurrentUserService>();
+        builder.Services.AddEndpointsApiExplorer();
 
-        services.AddSingleton(TimeProvider.System);
+        builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 
-        services.AddHttpContextAccessor();
+        builder.Services.AddSingleton(TimeProvider.System);
 
-        services.ConfigureHealthChecks(config);
+        builder.Services.AddHttpContextAccessor();
 
-        services.ConfigureFluentValidator();
+        builder.Services.ConfigureFluentValidator();
 
-        services.ConfigureAutoMapper();
+        builder.Services.ConfigureAutoMapper();
 
-        services.ConfigureExceptionHandlers();
+        builder.Services.ConfigureExceptionHandlers();
 
-        services.AddApiEndpoints();
+        builder.Services.AddApiEndpoints();
 
-        services.ConfigureSwagger();
+        builder.Services.ConfigureSwagger();
 
-        services.ConfigureVersioning();
+        builder.Services.ConfigureVersioning();
 
-        services.ConfigureSettings(config);
+        builder.Services.ConfigureSettings(config);
 
-        services.ConfigureCompression();
+        builder.Services.ConfigureCompression();
 
-        services.ConfigureHeaderPropagation();
+        builder.Services.ConfigureHeaderPropagation();
 
-        services.ConfigureOpenTelemetry();
-
-        return services;
+        return builder;
     }
 }

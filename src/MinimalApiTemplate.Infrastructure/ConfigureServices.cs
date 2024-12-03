@@ -11,28 +11,29 @@ namespace Microsoft.Extensions.DependencyInjection;
 
 public static class ConfigureServices
 {
-    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services,
-        IConfiguration configuration, IHostEnvironment hostEnvironment)
+    public static IHostApplicationBuilder AddInfrastructureServices(this IHostApplicationBuilder builder)
     {
-        services.SetupDatabase(configuration, hostEnvironment);
-        services.SetupCaching(configuration);
-        services.SetupRepositories();
-        services.SetupMetrics();
-        services.SetupMassTransit(configuration);        
-        services.SetupHttpClients(configuration);
+        var configuration = builder.Configuration;
+        var hostEnvironment = builder.Environment;
+
+        builder.SetupDatabase(configuration, hostEnvironment);
+        builder.SetupCaching();
+        builder.Services.SetupRepositories();
+        builder.Services.SetupMetrics();
+        builder.Services.SetupMassTransit(configuration);
+        builder.Services.SetupHttpClients(configuration);
 
         SetupAuditing(configuration);
 
-        return services;
+        return builder;
     }
 
-    public static IServiceCollection AddWorkerInfrastructureServices(this IServiceCollection services,
-        IConfiguration configuration)
+    public static IHostApplicationBuilder AddWorkerInfrastructureServices(this IHostApplicationBuilder builder)
     {
-        services.SetupMetrics();
-        services.SetupHttpClients(configuration);
+        builder.Services.SetupMetrics();
+        builder.Services.SetupHttpClients(builder.Configuration);
 
-        return services;
+        return builder;
     }
 
     private static void SetupHttpClients(this IServiceCollection services, IConfiguration configuration)
@@ -49,35 +50,36 @@ public static class ConfigureServices
                     config.Timeout = TimeSpan.FromSeconds(30);
                 }
             )
-            .AddHeaderPropagation()
-            .AddStandardResilienceHandler();
+            .AddHeaderPropagation();
     }
 
-    private static void SetupDatabase(this IServiceCollection services,
+    private static void SetupDatabase(this IHostApplicationBuilder builder,
         IConfiguration configuration,
         IHostEnvironment hostEnvironment)
     {
-        services.AddScoped<ISaveChangesInterceptor, AuditableEntitySaveChangesInterceptor>();
-        services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
-        services.AddSingleton<ISaveChangesInterceptor, SoftDeleteSaveChangesInterceptor>();
+        builder.Services.AddScoped<ISaveChangesInterceptor, AuditableEntitySaveChangesInterceptor>();
+        builder.Services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
+        builder.Services.AddSingleton<ISaveChangesInterceptor, SoftDeleteSaveChangesInterceptor>();
 
-        services.AddScoped<ApplicationDbContextInitialiser>();
+        builder.Services.AddScoped<ApplicationDbContextInitialiser>();
 
-        services.AddScoped<IApplicationDbContext>(provider =>
-            provider.GetRequiredService<ApplicationDbContext>());
+        builder.Services.AddScoped<IApplicationDbContext>(provider =>
+            provider.GetRequiredService<ApplicationDbContext>());        
 
-        services.AddDbContext<ApplicationDbContext>((sp, options) =>
+        builder.Services.AddDbContext<ApplicationDbContext>((sp, options) =>
         {
             options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
 
             options.UseSqlServer(
-                configuration.GetConnectionString("DefaultConnection"),
+                configuration.GetConnectionString("SqlDatabase"),
                 builder =>
                     builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)
                         .EnableRetryOnFailure(maxRetryCount: 3)
                         .MigrationsHistoryTable(ApplicationDbContext.MigrationTableName, ApplicationDbContext.DbSchema))
                     .EnableSensitiveDataLogging(hostEnvironment.IsDevelopment());
         });
+
+        builder.EnrichSqlServerDbContext<ApplicationDbContext>();
     }
 
     private static void SetupRepositories(this IServiceCollection services)
@@ -96,29 +98,10 @@ public static class ConfigureServices
                                     .WithSingletonLifetime());
     }
 
-    private static void SetupCaching(this IServiceCollection services,
-        IConfiguration configuration)
+    private static void SetupCaching(this IHostApplicationBuilder builder)
     {
-        if (!string.IsNullOrEmpty(configuration["RedisOptions:ConnectionString"]))
-        {
-            services.AddStackExchangeRedisCache(options =>
-            {
-                options.Configuration = configuration["RedisOptions:ConnectionString"];
-                options.InstanceName = configuration["RedisOptions:InstanceName"];
-            });
-
-            services.AddStackExchangeRedisOutputCache(options =>
-            {
-                options.Configuration = configuration["RedisOptions:ConnectionString"];
-                options.InstanceName = configuration["RedisOptions:InstanceName"];
-            });
-        }
-        else
-        {
-            services.AddDistributedMemoryCache();
-        }
-
-        services.AddOutputCache();
+        builder.AddRedisDistributedCache("Redis");
+        builder.AddRedisOutputCache("Redis");
     }
 
     private static void SetupMassTransit(this IServiceCollection services, IConfiguration configuration)
@@ -137,11 +120,11 @@ public static class ConfigureServices
         {
             config.AddTelemetryListener(true);
 
-            config.ConfigureHealthCheckOptions(options => options.Name = "MassTransit connectivity");
+            config.ConfigureHealthCheckOptions(options => options.Name = "MassTransit");
 
             config.UsingRabbitMq((context, rabbitConfig) =>
             {
-                var rabbitUri = configuration["MassTransit:RabbitMq:Uri"];
+                var rabbitUri = configuration.GetConnectionString("RabbitMq");
 
                 ArgumentException.ThrowIfNullOrWhiteSpace(rabbitUri);
 
@@ -154,7 +137,7 @@ public static class ConfigureServices
     {
         Audit.Core.Configuration.Setup()
             .UseSqlServer(config => config
-                .ConnectionString(configuration.GetConnectionString("DefaultConnection"))
+                .ConnectionString(configuration.GetConnectionString("SqlDatabase"))
                 .Schema(ApplicationDbContext.DbSchema)
                 .TableName("Event")
                 .IdColumnName("EventId")

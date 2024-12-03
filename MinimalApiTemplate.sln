@@ -37,6 +37,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinimalApiTemplate.Messages
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinimalApiTemplate.Worker", "src\MinimalApiTemplate.Worker\MinimalApiTemplate.Worker.csproj", "{EBEFEB28-C292-48F1-A7CD-6CACFB7EDF02}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinimalApiTemplate.AppHost", "src\MinimalApiTemplate.AppHost\MinimalApiTemplate.AppHost.csproj", "{93468B28-637A-4350-AC93-45C476B6B5CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinimalApiTemplate.ServiceDefaults", "src\MinimalApiTemplate.ServiceDefaults\MinimalApiTemplate.ServiceDefaults.csproj", "{43064618-4394-4C3C-929C-612921EAF2A0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +95,14 @@ Global
 		{EBEFEB28-C292-48F1-A7CD-6CACFB7EDF02}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EBEFEB28-C292-48F1-A7CD-6CACFB7EDF02}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EBEFEB28-C292-48F1-A7CD-6CACFB7EDF02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93468B28-637A-4350-AC93-45C476B6B5CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93468B28-637A-4350-AC93-45C476B6B5CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93468B28-637A-4350-AC93-45C476B6B5CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93468B28-637A-4350-AC93-45C476B6B5CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43064618-4394-4C3C-929C-612921EAF2A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43064618-4394-4C3C-929C-612921EAF2A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43064618-4394-4C3C-929C-612921EAF2A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43064618-4394-4C3C-929C-612921EAF2A0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

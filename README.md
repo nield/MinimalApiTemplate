@@ -6,8 +6,9 @@
 An example Minimal Api application with OpenAPI, Swashbuckle, and API versioning using clean architecture.
 
 It also include the following: 
+- .NET Aspire
+- .NET 8 ExceptionHandlers
 - Redis OutputCaching
-- .Net 8 ExceptionHandlers
 - CorrelationId handling using HeaderPropagation
 - OpenTelemetry with custom metrics
 - Integration tests using TestContainers
@@ -15,7 +16,7 @@ It also include the following:
 - API versioning
 - Auditing using Audit.Net
 
-This template is based on [Jason Tyler's Template](https://github.com/jasontaylordev/CleanArchitecture), but contains the list above and uses repositories in command handlers and different unit test and integration test setups.
+This template was initially based on [Jason Tyler's Template](https://github.com/jasontaylordev/CleanArchitecture), but changed as I implement and review new .NET features
 
 ## Getting Started
 
