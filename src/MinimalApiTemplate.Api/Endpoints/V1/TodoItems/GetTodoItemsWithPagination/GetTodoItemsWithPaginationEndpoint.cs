@@ -4,21 +4,17 @@ using static MinimalApiTemplate.Api.Common.Constants;
 
 namespace MinimalApiTemplate.Api.Endpoints.V1.TodoItems.GetTodoItemsWithPagination;
 
-public class GetTodoItemsWithPaginationEndpoint : BaseEndpoint,
-    IEndpoint<Ok<PaginatedListResponse<GetToDoItemsResponse>>, GetTodoItemsWithPaginationRequest, CancellationToken>
+public class GetTodoItemsWithPaginationEndpoint : IEndpoint
 {
-    public GetTodoItemsWithPaginationEndpoint(ISender sender, IMapper mapper)
-        : base(sender, mapper)
-    {
-
-    }
-
     public void AddRoute(IEndpointRouteBuilder app)
     {
         app.ToDoItemRouteV1()
             .MapGet("",
-                ([Validate][AsParameters] GetTodoItemsWithPaginationRequest request, CancellationToken cancellationToken) =>
-                    HandleAsync(request, cancellationToken))
+                ([Validate][AsParameters] GetTodoItemsWithPaginationRequest request,
+                ISender sender, 
+                IMapper mapper,
+                CancellationToken cancellationToken) =>
+                    HandleAsync(request, sender, mapper, cancellationToken))
             .WithDescription("Used to get a list of todos")
             .WithOpenApi(ops =>
             {
@@ -35,13 +31,17 @@ public class GetTodoItemsWithPaginationEndpoint : BaseEndpoint,
                                             .Tag(OutputCacheTags.ToDoList));
     }
 
-    public async Task<Ok<PaginatedListResponse<GetToDoItemsResponse>>> HandleAsync(GetTodoItemsWithPaginationRequest request, CancellationToken cancellationToken)
+    public static async Task<Ok<PaginatedListResponse<GetToDoItemsResponse>>> HandleAsync(
+        GetTodoItemsWithPaginationRequest request,
+        ISender sender,
+        IMapper mapper,
+        CancellationToken cancellationToken)
     {
-        var query = _mapper.Map<GetTodoItemsWithPaginationQuery>(request);
+        var query = mapper.Map<GetTodoItemsWithPaginationQuery>(request);
 
-        var data = await _mediator.Send(query, cancellationToken);
+        var data = await sender.Send(query, cancellationToken);
 
-        var mappedData = _mapper.Map<PaginatedListResponse<GetToDoItemsResponse>>(data);
+        var mappedData = mapper.Map<PaginatedListResponse<GetToDoItemsResponse>>(data);
 
         return TypedResults.Ok(mappedData);
     }

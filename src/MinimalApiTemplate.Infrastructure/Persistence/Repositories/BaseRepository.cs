@@ -2,12 +2,11 @@
 
 namespace MinimalApiTemplate.Infrastructure.Persistence.Repositories;
 
-public abstract class BaseRepository<TEntity> : IRepository<TEntity>, IDisposable
+public abstract class BaseRepository<TEntity> : IRepository<TEntity>
     where TEntity : BaseEntity
 {
     protected readonly ApplicationDbContext _dbContext;
     protected readonly DbSet<TEntity> _dbSet;
-    private bool _disposedValue;
 
     protected BaseRepository(ApplicationDbContext dbContext)
     {
@@ -53,25 +52,5 @@ public abstract class BaseRepository<TEntity> : IRepository<TEntity>, IDisposabl
         await _dbContext.SaveChangesAsync(cancellationToken);
 
         return entity;
-    }
-
-    protected virtual void Dispose(bool disposing)
-    {
-        if (!_disposedValue)
-        {
-            if (disposing)
-            {
-                _dbContext.Dispose();
-            }
-
-            _disposedValue = true;
-        }
-    }
-
-    public void Dispose()
-    {
-        // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-        Dispose(disposing: true);
-        GC.SuppressFinalize(this);
     }
 }

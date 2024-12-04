@@ -5,12 +5,10 @@ namespace MinimalApiTemplate.Api.Tests.Endpoints.V1.ToDoItems.CreateToDoItem;
 
 public class CreateToDoItemEndpointTests : BaseTestFixture
 {
-    private readonly CreateToDoItemEndpoint _endpoint;
-
     public CreateToDoItemEndpointTests(MappingFixture mappingFixture)
         : base(mappingFixture)
     {
-        _endpoint = new(_senderMock, _mapper, _outputCacheStoreMock);
+    
     }
 
     [Fact]
@@ -22,7 +20,12 @@ public class CreateToDoItemEndpointTests : BaseTestFixture
         _senderMock.Send(Arg.Any<CreateTodoItemCommand>(), Arg.Any<CancellationToken>())
             .Returns(newId);
 
-        var sut = await _endpoint.HandleAsync(request, CancellationToken.None);
+        var sut = await CreateToDoItemEndpoint.HandleAsync(
+            request, 
+            _senderMock,
+            _mapper,
+            _outputCacheStoreMock,
+            CancellationToken.None);
 
         sut.Should().NotBeNull();
         sut.Value.Should().NotBeNull();

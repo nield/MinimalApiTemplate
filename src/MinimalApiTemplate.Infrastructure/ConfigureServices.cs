@@ -77,7 +77,7 @@ public static class ConfigureServices
                         .EnableRetryOnFailure(maxRetryCount: 3)
                         .MigrationsHistoryTable(ApplicationDbContext.MigrationTableName, ApplicationDbContext.DbSchema))
                     .EnableSensitiveDataLogging(hostEnvironment.IsDevelopment());
-        });
+        }, ServiceLifetime.Scoped);
 
         builder.EnrichSqlServerDbContext<ApplicationDbContext>();
     }

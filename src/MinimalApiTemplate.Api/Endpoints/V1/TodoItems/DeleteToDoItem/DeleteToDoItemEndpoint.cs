@@ -3,32 +3,30 @@ using static MinimalApiTemplate.Api.Common.Constants;
 
 namespace MinimalApiTemplate.Api.Endpoints.V1.TodoItems.DeleteToDoItem;
 
-public class DeleteToDoItemEndpoint : BaseEndpoint,
-    IEndpoint<NoContent, long, CancellationToken>
+public class DeleteToDoItemEndpoint : IEndpoint
 {
-    private readonly IOutputCacheStore _outputCacheStore;
-
-    public DeleteToDoItemEndpoint(ISender sender, IMapper mapper, IOutputCacheStore outputCacheStore)
-        : base(sender, mapper)
-    {
-        _outputCacheStore = outputCacheStore;
-    }
-
     public void AddRoute(IEndpointRouteBuilder app)
     {
         app.ToDoItemRouteV1()
             .MapDelete("{id}",
-                 ([FromRoute] long id, CancellationToken cancellationToken) =>
-                     HandleAsync(id, cancellationToken))
+                ([FromRoute] long id,
+                 ISender sender, 
+                 IOutputCacheStore outputCacheStore,
+                 CancellationToken cancellationToken) =>
+                     HandleAsync(id, sender, outputCacheStore, cancellationToken))
             .WithDescription("Used to delete a todo")
             .Produces(StatusCodes.Status404NotFound);
     }
 
-    public async Task<NoContent> HandleAsync(long id, CancellationToken cancellationToken)
+    public static async Task<NoContent> HandleAsync(
+        long id, 
+        ISender sender,
+        IOutputCacheStore outputCacheStore,
+        CancellationToken cancellationToken)
     {
-        await _mediator.Send(new DeleteTodoItemCommand(id), cancellationToken);
+        await sender.Send(new DeleteTodoItemCommand(id), cancellationToken);
 
-        await _outputCacheStore.EvictByTagAsync(OutputCacheTags.ToDoList, cancellationToken);
+        await outputCacheStore.EvictByTagAsync(OutputCacheTags.ToDoList, cancellationToken);
 
         return TypedResults.NoContent();
     }

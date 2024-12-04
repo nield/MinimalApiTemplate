@@ -3,33 +3,34 @@ using static MinimalApiTemplate.Api.Common.Constants;
 
 namespace MinimalApiTemplate.Api.Endpoints.V1.TodoItems.CreateToDoItem;
 
-public class CreateToDoItemEndpoint : BaseEndpoint,
-    IEndpoint<CreatedAtRoute<CreateTodoItemResponse>, CreateTodoItemRequest, CancellationToken>
+public class CreateToDoItemEndpoint : IEndpoint 
 {
-    private readonly IOutputCacheStore _outputCacheStore;
-
-    public CreateToDoItemEndpoint(ISender sender, IMapper mapper, IOutputCacheStore outputCacheStore)
-        : base(sender, mapper)
-    {
-        _outputCacheStore = outputCacheStore;
-    }
-
     public void AddRoute(IEndpointRouteBuilder app)
     {
         app.ToDoItemRouteV1()
-            .MapPost("", ([FromBody][Validate] CreateTodoItemRequest request, CancellationToken cancellationToken) =>
-                HandleAsync(request, cancellationToken))
+            .MapPost("", 
+                ([FromBody][Validate] CreateTodoItemRequest request,
+                ISender sender,
+                IMapper mapper,
+                IOutputCacheStore outputCacheStore,
+                CancellationToken cancellationToken) =>
+                    HandleAsync(request, sender, mapper, outputCacheStore, cancellationToken))
             .WithDescription("Used to create a todo")
             .Produces(StatusCodes.Status400BadRequest);
     }
 
-    public async Task<CreatedAtRoute<CreateTodoItemResponse>> HandleAsync(CreateTodoItemRequest request, CancellationToken cancellationToken)
+    public static async Task<CreatedAtRoute<CreateTodoItemResponse>> HandleAsync(
+        CreateTodoItemRequest request,
+        ISender sender, 
+        IMapper mapper, 
+        IOutputCacheStore outputCacheStore,
+        CancellationToken cancellationToken)
     {
-        var command = _mapper.Map<CreateTodoItemCommand>(request);
+        var command = mapper.Map<CreateTodoItemCommand>(request);
 
-        var newId = await _mediator.Send(command, cancellationToken);
+        var newId = await sender.Send(command, cancellationToken);
 
-        await _outputCacheStore.EvictByTagAsync(OutputCacheTags.ToDoList, cancellationToken);
+        await outputCacheStore.EvictByTagAsync(OutputCacheTags.ToDoList, cancellationToken);
 
         return TypedResults.CreatedAtRoute(new CreateTodoItemResponse { Id = newId },
                                             "GetToDoItem", new { id = newId });
