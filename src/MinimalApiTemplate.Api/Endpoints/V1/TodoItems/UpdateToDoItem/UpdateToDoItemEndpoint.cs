@@ -3,36 +3,38 @@ using static MinimalApiTemplate.Api.Common.Constants;
 
 namespace MinimalApiTemplate.Api.Endpoints.V1.TodoItems.UpdateToDoItem;
 
-public class UpdateToDoItemEndpoint : BaseEndpoint,
-    IEndpoint<NoContent, long, UpdateTodoItemRequest, CancellationToken>
+public class UpdateToDoItemEndpoint : IEndpoint
 {
-    private readonly IOutputCacheStore _outputCacheStore;
-
-    public UpdateToDoItemEndpoint(ISender sender, IMapper mapper, IOutputCacheStore outputCacheStore)
-        : base(sender, mapper)
-    {
-        _outputCacheStore = outputCacheStore;
-    }
-
     public void AddRoute(IEndpointRouteBuilder app)
     {
         app.ToDoItemRouteV1()
             .MapPut("{id}",
-                ([FromRoute] long id, [FromBody][Validate] UpdateTodoItemRequest request, CancellationToken cancellationToken) =>
-                    HandleAsync(id, request, cancellationToken))
+                ([FromRoute] long id,
+                [FromBody][Validate] UpdateTodoItemRequest request,
+                ISender sender, 
+                IMapper mapper, 
+                IOutputCacheStore outputCacheStore,
+                CancellationToken cancellationToken) =>
+                    HandleAsync(id, request, sender, mapper, outputCacheStore, cancellationToken))
             .WithDescription("Used to update a todo")
             .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status404NotFound);
     }
 
-    public async Task<NoContent> HandleAsync(long id, UpdateTodoItemRequest request, CancellationToken cancellationToken)
+    public static async Task<NoContent> HandleAsync(
+        long id, 
+        UpdateTodoItemRequest request,
+        ISender sender,
+        IMapper mapper,
+        IOutputCacheStore outputCacheStore,
+        CancellationToken cancellationToken)
     {
-        var command = _mapper.Map<UpdateTodoItemCommand>(request);
+        var command = mapper.Map<UpdateTodoItemCommand>(request);
         command.Id = id;
 
-        await _mediator.Send(command, cancellationToken);
+        await sender.Send(command, cancellationToken);
 
-        await _outputCacheStore.EvictByTagAsync(OutputCacheTags.ToDoList, cancellationToken);
+        await outputCacheStore.EvictByTagAsync(OutputCacheTags.ToDoList, cancellationToken);
 
         return TypedResults.NoContent();
     }

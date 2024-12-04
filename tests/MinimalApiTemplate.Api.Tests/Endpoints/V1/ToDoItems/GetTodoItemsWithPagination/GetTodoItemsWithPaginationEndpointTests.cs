@@ -5,12 +5,10 @@ using MinimalApiTemplate.Application.Features.TodoItems.Queries.GetTodoItemsWith
 namespace MinimalApiTemplate.Api.Tests.Endpoints.V1.ToDoItems.GetTodoItemsWithPagination;
 public class GetTodoItemsWithPaginationEndpointTests : BaseTestFixture
 {
-    private readonly GetTodoItemsWithPaginationEndpoint _endpoint;
-
     public GetTodoItemsWithPaginationEndpointTests(MappingFixture mappingFixture)
         : base(mappingFixture)
     {
-        _endpoint = new(_senderMock, _mapper);
+       
     }
 
     [Fact]
@@ -23,7 +21,11 @@ public class GetTodoItemsWithPaginationEndpointTests : BaseTestFixture
 
         var query = Builder<GetTodoItemsWithPaginationRequest>.CreateNew().Build();
 
-        var sut = await _endpoint.HandleAsync(query, CancellationToken.None);
+        var sut = await GetTodoItemsWithPaginationEndpoint.HandleAsync(
+            query, 
+            _senderMock,
+            _mapper,
+            CancellationToken.None);
 
         sut.Should().NotBeNull();
         sut.Value.Should().NotBeNull();

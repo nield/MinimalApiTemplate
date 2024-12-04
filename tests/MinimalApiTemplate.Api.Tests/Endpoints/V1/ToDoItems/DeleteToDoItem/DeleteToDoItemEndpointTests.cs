@@ -5,18 +5,20 @@ namespace MinimalApiTemplate.Api.Tests.Endpoints.V1.ToDoItems.DeleteToDoItem;
 
 public class DeleteToDoItemEndpointTests : BaseTestFixture
 {
-    private readonly DeleteToDoItemEndpoint _endpoint;
-
     public DeleteToDoItemEndpointTests(MappingFixture mappingFixture)
         : base(mappingFixture)
     {
-        _endpoint = new(_senderMock, _mapper, _outputCacheStoreMock);
+       
     }
 
     [Fact]
     public async Task Handle_Given_ValidId_Then_ReturnsNoContent()
     {
-        var sut = await _endpoint.HandleAsync(1, CancellationToken.None);
+        var sut = await DeleteToDoItemEndpoint.HandleAsync(
+            1, 
+            _senderMock,
+            _outputCacheStoreMock,
+            CancellationToken.None);
 
         sut.Should().NotBeNull();
 

@@ -4,7 +4,7 @@ global using MediatR;
 global using Microsoft.AspNetCore.Http.HttpResults;
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.AspNetCore.OutputCaching;
-global using MinimalApi.Endpoint;
+global using MinimalApiTemplate.Api.Common.Interfaces;
 global using FluentValidation;
 global using MinimalApiTemplate.Api.Common;
 global using MinimalApiTemplate.Api.Common.Validation;

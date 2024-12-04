@@ -11,7 +11,7 @@ public static class ApiEndpoints
 
         foreach (var endpoint in endpoints)
         {
-            services.AddScoped(typeof(IEndpoint), endpoint);
+            services.AddTransient(typeof(IEndpoint), endpoint);
         }
 
         return services;
