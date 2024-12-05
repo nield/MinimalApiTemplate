@@ -7,9 +7,10 @@ public class PublishMessageService : IPublishMessageService
 {
     private readonly IPublishEndpoint _publishEndpoint;
     private readonly MassTransitSettings _massTransitSettings;
-
     private readonly ILogger<PublishMessageService> _logger;
-    public PublishMessageService(IPublishEndpoint publishEndpoint,
+
+    public PublishMessageService(
+        IPublishEndpoint publishEndpoint,
         IOptions<MassTransitSettings> massTransitSettings,
         ILogger<PublishMessageService> logger)
     {

@@ -2,7 +2,7 @@
 
 public interface IToDoItemMetrics : IMetric
 {
-    void ToDoItemsCreated(string title);
+    void ToDoItemsCreated(string status);
 
-    void ToDoItemsCreatedEventProcessed(string title);
+    void ToDoItemsCreatedEventProcessed(string status);
 }

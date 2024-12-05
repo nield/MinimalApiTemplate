@@ -16,7 +16,9 @@ public class GetTodoItemsWithPaginationQueryHandler : IRequestHandler<GetTodoIte
     private readonly IApplicationDbContext _context;
     private readonly IMapper _mapper;
 
-    public GetTodoItemsWithPaginationQueryHandler(IApplicationDbContext context, IMapper mapper)
+    public GetTodoItemsWithPaginationQueryHandler(
+        IApplicationDbContext context, 
+        IMapper mapper)
     {
         _context = context;
         _mapper = mapper;

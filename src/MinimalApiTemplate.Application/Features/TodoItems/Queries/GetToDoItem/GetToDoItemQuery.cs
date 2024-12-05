@@ -13,7 +13,9 @@ public class GetToDoItemQueryHandler : IRequestHandler<GetToDoItemQuery, GetToDo
     private readonly IApplicationDbContext _context;
     private readonly IMapper _mapper;
 
-    public GetToDoItemQueryHandler(IApplicationDbContext context, IMapper mapper)
+    public GetToDoItemQueryHandler(
+        IApplicationDbContext context, 
+        IMapper mapper)
     {
         _context = context;
         _mapper = mapper;
