@@ -18,7 +18,7 @@ public class ToDoItemCreatedConsumer : BaseConsumer<ToDoItemCreated>
     {
         _logger.LogInformation("Consumed message: {Message}", context.Message);
 
-        _toDoItemMetrics.ToDoItemsCreatedEventProcessed(context.Message.Title);
+        _toDoItemMetrics.ToDoItemsCreatedEventProcessed("processed");
 
         return Task.CompletedTask;
     }

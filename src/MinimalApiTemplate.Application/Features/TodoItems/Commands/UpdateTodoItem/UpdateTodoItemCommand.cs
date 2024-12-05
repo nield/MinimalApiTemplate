@@ -14,7 +14,9 @@ public class UpdateTodoItemCommandHandler : IRequestHandler<UpdateTodoItemComman
     private readonly IToDoItemRepository _toDoItemRepository;
     private readonly IMapper _mapper;
 
-    public UpdateTodoItemCommandHandler(IToDoItemRepository toDoItemRepository, IMapper mapper)
+    public UpdateTodoItemCommandHandler(
+        IToDoItemRepository toDoItemRepository, 
+        IMapper mapper)
     {
         _toDoItemRepository = toDoItemRepository;
         _mapper = mapper;

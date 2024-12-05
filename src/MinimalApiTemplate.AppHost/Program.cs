@@ -3,7 +3,7 @@ var builder = DistributedApplication.CreateBuilder(args);
 var seq = builder.AddSeq("Seq", 8002)
     .WithLifetime(ContainerLifetime.Persistent);
 
-var redis = builder.AddRedis("Redis")
+var redis = builder.AddRedis("Redis", 8004)
     .WithLifetime(ContainerLifetime.Persistent);
 
 var sqlPassword = builder.AddParameter("sqlPassword");

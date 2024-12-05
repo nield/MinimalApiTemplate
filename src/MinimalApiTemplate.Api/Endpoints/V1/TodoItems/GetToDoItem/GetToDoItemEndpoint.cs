@@ -12,7 +12,7 @@ public class GetToDoItemEndpoint : IEndpoint
                 ISender sender, 
                 IMapper mapper,
                 CancellationToken cancellationToken) =>
-                HandleAsync(id, sender, mapper, cancellationToken))
+                    HandleAsync(id, sender, mapper, cancellationToken))
             .WithDescription("Used to get a single todo")
             .WithName("GetToDoItem")
             .Produces(StatusCodes.Status404NotFound);

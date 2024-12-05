@@ -15,7 +15,10 @@ public class CreateTodoItemCommandHandler : IRequestHandler<CreateTodoItemComman
     private readonly IMapper _mapper;
     private readonly IToDoItemMetrics _toDoItemMetrics;
 
-    public CreateTodoItemCommandHandler(IToDoItemRepository toDoItemRepository, IMapper mapper, IToDoItemMetrics toDoItemMetrics)
+    public CreateTodoItemCommandHandler(
+        IToDoItemRepository toDoItemRepository, 
+        IMapper mapper, 
+        IToDoItemMetrics toDoItemMetrics)
     {
         _toDoItemRepository = toDoItemRepository;
         _mapper = mapper;
@@ -34,7 +37,7 @@ public class CreateTodoItemCommandHandler : IRequestHandler<CreateTodoItemComman
             await _toDoItemRepository.AddAsync(entity, cancellationToken);
         }
 
-        _toDoItemMetrics.ToDoItemsCreated(request.Title);
+        _toDoItemMetrics.ToDoItemsCreated("created");
 
         return entity.Id;
     }

@@ -7,5 +7,4 @@ public class TodoItemCreatedEvent : BaseEvent
     public string? Note { get; set; }
     public PriorityLevel Priority { get; set; }
     public DateTimeOffset? Reminder { get; set; }
-
 }
