@@ -5,4 +5,4 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("Major Code Smell", "S2139:Exceptions should be either logged or rethrown but not both", Justification = "<Pending>", Scope = "member", Target = "~M:MinimalApiTemplate.Worker.Common.BaseConsumer`2.Consume(MassTransit.ConsumeContext{`0})~System.Threading.Tasks.Task")]
+[assembly: SuppressMessage("Major Code Smell", "S2139:Exceptions should be either logged or rethrown but not both")]

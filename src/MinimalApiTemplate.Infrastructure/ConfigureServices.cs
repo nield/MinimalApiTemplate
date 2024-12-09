@@ -25,6 +25,8 @@ public static class ConfigureServices
 
         SetupAuditing(configuration);
 
+        SetThreadPoolMinThreads(500);
+
         return builder;
     }
 
@@ -32,6 +34,8 @@ public static class ConfigureServices
     {
         builder.Services.SetupMetrics();
         builder.Services.SetupHttpClients(builder.Configuration);
+
+        SetThreadPoolMinThreads(500);
 
         return builder;
     }
@@ -147,4 +151,7 @@ public static class ConfigureServices
     }
     private static bool IsMassTransitEnabled(IConfiguration configuration)
         => configuration.GetValue<bool>("MassTransit:PublishEnabled");
+
+    private static void SetThreadPoolMinThreads(int minThreadCount) =>
+        ThreadPool.SetMinThreads(minThreadCount, minThreadCount);
 }

@@ -5,6 +5,4 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("Major Code Smell", "S2139:Exceptions should be either logged or rethrown but not both", Justification = "<Pending>", Scope = "member", Target = "~M:MinimalApiTemplate.Infrastructure.Messaging.PublishMessageService.Publish``1(``0,System.Threading.CancellationToken)~System.Threading.Tasks.Task")]
-[assembly: SuppressMessage("Major Code Smell", "S2139:Exceptions should be either logged or rethrown but not both", Justification = "<Pending>", Scope = "member", Target = "~M:MinimalApiTemplate.Infrastructure.Persistence.ApplicationDbContextInitialiser.MigrateDatabaseAsync~System.Threading.Tasks.Task")]
-[assembly: SuppressMessage("Major Code Smell", "S2139:Exceptions should be either logged or rethrown but not both", Justification = "<Pending>", Scope = "member", Target = "~M:MinimalApiTemplate.Infrastructure.Persistence.ApplicationDbContextInitialiser.SeedDataAsync~System.Threading.Tasks.Task")]
+[assembly: SuppressMessage("Major Code Smell", "S2139:Exceptions should be either logged or rethrown but not both", Justification = "<Pending>")]
