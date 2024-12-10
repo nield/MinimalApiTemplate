@@ -6,7 +6,10 @@ public class UnhandledExceptionHandler : BaseExceptionHandler<Exception, Problem
 
     public override HttpStatusCode HttpStatusCode => HttpStatusCode.InternalServerError;
 
-    public UnhandledExceptionHandler(IWebHostEnvironment webHostEnvironment)
+    public UnhandledExceptionHandler(
+        IWebHostEnvironment webHostEnvironment,
+        IProblemDetailsService problemDetailsService)
+        : base(problemDetailsService)
     {
         _webHostEnvironment = webHostEnvironment;
     }

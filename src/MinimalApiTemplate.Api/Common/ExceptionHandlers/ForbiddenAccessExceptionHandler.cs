@@ -6,6 +6,12 @@ public class ForbiddenAccessExceptionHandler : BaseExceptionHandler<ForbiddenAcc
 {
     public override HttpStatusCode HttpStatusCode => HttpStatusCode.Forbidden;
 
+    public ForbiddenAccessExceptionHandler(IProblemDetailsService problemDetailsService)
+        : base(problemDetailsService)
+    {
+        
+    }
+
     public override ProblemDetails GenerateProblemDetails(ForbiddenAccessException exception)
     {
         return new ProblemDetails
