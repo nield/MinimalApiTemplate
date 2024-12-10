@@ -6,6 +6,12 @@ public class NotFoundExceptionHandler : BaseExceptionHandler<NotFoundException, 
 {
     public override HttpStatusCode HttpStatusCode => HttpStatusCode.NotFound;
 
+    public NotFoundExceptionHandler(IProblemDetailsService problemDetailsService)
+        : base(problemDetailsService)
+    {
+        
+    }
+
     public override ProblemDetails GenerateProblemDetails(NotFoundException exception)
     {
         return new ProblemDetails()

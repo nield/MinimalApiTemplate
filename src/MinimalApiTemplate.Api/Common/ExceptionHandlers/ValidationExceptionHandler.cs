@@ -6,6 +6,12 @@ public class ValidationExceptionHandler : BaseExceptionHandler<DataValidationFai
 {
     public override HttpStatusCode HttpStatusCode => HttpStatusCode.BadRequest;
 
+    public ValidationExceptionHandler(IProblemDetailsService problemDetailsService)
+        : base(problemDetailsService)
+    {
+        
+    }
+
     public override ValidationProblemDetails GenerateProblemDetails(DataValidationFailureException exception)
     {
         return new ValidationProblemDetails(exception.Errors)

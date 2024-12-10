@@ -4,6 +4,12 @@ public class UnauthorizedAccessExceptionHandler : BaseExceptionHandler<Unauthori
 {
     public override HttpStatusCode HttpStatusCode => HttpStatusCode.Unauthorized;
 
+    public UnauthorizedAccessExceptionHandler(IProblemDetailsService problemDetailsService)
+        : base(problemDetailsService)
+    {
+        
+    }
+
     public override ProblemDetails GenerateProblemDetails(UnauthorizedAccessException exception)
     {
         return new ProblemDetails

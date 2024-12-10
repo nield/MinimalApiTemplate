@@ -6,6 +6,12 @@ public class BadRequestExceptionHandler : BaseExceptionHandler<BadRequestExcepti
 {
     public override HttpStatusCode HttpStatusCode => HttpStatusCode.BadRequest;
 
+    public BadRequestExceptionHandler(IProblemDetailsService problemDetailsService)
+        : base(problemDetailsService)
+    {
+        
+    }
+
     public override ProblemDetails GenerateProblemDetails(BadRequestException exception)
     {
         return new ProblemDetails()
