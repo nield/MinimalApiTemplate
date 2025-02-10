@@ -12,7 +12,7 @@ using MinimalApiTemplate.Infrastructure.Persistence;
 namespace MinimalApiTemplate.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231115072505_Initial")]
+    [Migration("20250210123825_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -21,7 +21,7 @@ namespace MinimalApiTemplate.Infrastructure.Persistence.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("template")
-                .HasAnnotation("ProductVersion", "8.0.0")
+                .HasAnnotation("ProductVersion", "9.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -61,6 +61,11 @@ namespace MinimalApiTemplate.Infrastructure.Persistence.Migrations
                     b.Property<DateTimeOffset?>("Reminder")
                         .HasColumnType("datetimeoffset");
 
+                    b.PrimitiveCollection<string>("Tags")
+                        .HasMaxLength(1000)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(1000)");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -78,6 +83,7 @@ namespace MinimalApiTemplate.Infrastructure.Persistence.Migrations
                             IsDeleted = false,
                             IsDone = false,
                             Priority = 2,
+                            Tags = "[\"work\"]",
                             Title = "Work work work"
                         });
                 });

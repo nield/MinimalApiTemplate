@@ -8,7 +8,7 @@
     "name": "Clean Architecture Template",
     "description":  "Clean Architecture Template",
     "identity": "Clean.Architecture.Template",
-    "shortName": "ca-template",
+    "shortName": "ca-min-template",
     "sourceName": "MinimalApiTemplate",
     "tags": {
       "language": "C#",
