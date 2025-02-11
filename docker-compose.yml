@@ -12,10 +12,14 @@ services:
     networks:
       - shared-network
     depends_on:
-      - minimalapitemplate.db
-      - minimalapitemplate.cache
-      - minimalapitemplate.seq
-      - minimalapitemplate.rabbit
+      minimalapitemplate.cache:
+        condition: service_started
+      minimalapitemplate.seq:
+        condition: service_started
+      minimalapitemplate.rabbit:
+        condition: service_started
+      minimalapitemplate.db:
+        condition: service_healthy
     build:
       context: .
       dockerfile: src/MinimalApiTemplate.Api/Dockerfile
@@ -32,8 +36,10 @@ services:
     networks:
       - shared-network
     depends_on:
-      - minimalapitemplate.rabbit
-      - minimalapitemplate.seq
+      minimalapitemplate.seq:
+        condition: service_started
+      minimalapitemplate.rabbit:
+        condition: service_started
     build:
       context: .
       dockerfile: src/MinimalApiTemplate.Worker/Dockerfile
@@ -44,6 +50,11 @@ services:
     environment:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=61tagstdgdtfsgkF!@
+    healthcheck:
+      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "61tagstdgdtfsgkF!@", "-Q", "SELECT 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 10   
     ports:
       - "8902:1433"
     networks:
