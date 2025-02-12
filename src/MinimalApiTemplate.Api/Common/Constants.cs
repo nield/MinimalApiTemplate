@@ -25,7 +25,7 @@ public static class Constants
     public static class Roles
     {
         public const string StandardUserRole = "standard-user-role";
-        public const string AdminUserRole = "moderator-user-role";
+        public const string AdminUserRole = "admin-user-role";
     }
 
     public static class Policies

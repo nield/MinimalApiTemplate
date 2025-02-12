@@ -21,6 +21,7 @@ public static class Swagger
                     Implicit = new OpenApiOAuthFlow
                     {
                         AuthorizationUrl = new Uri(config["AuthorityOptions:AuthorizationUrl"]!),
+                        TokenUrl = new Uri(config["AuthorityOptions:TokenUrl"]!),                        
                         Scopes = new Dictionary<string, string>
                         {
                             { "openid", "OpenID scope" },
@@ -28,7 +29,7 @@ public static class Swagger
                         }
                     }
                 }
-            });
+            });            
 
             // Add security requirement
             options.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -40,10 +41,7 @@ public static class Swagger
                         {
                             Type = ReferenceType.SecurityScheme,
                             Id = "Keycloak"
-                        },
-                        In = ParameterLocation.Header,
-                        Name = "Bearer",
-                        Scheme = "Bearer"
+                        }
                     },
                     Array.Empty<string>()
                 }
