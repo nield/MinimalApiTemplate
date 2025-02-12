@@ -18,6 +18,8 @@ services:
         condition: service_started
       minimalapitemplate.rabbit:
         condition: service_started
+      minimalapitemplate.keycloak:
+        condition: service_started
       minimalapitemplate.db:
         condition: service_healthy
     build:

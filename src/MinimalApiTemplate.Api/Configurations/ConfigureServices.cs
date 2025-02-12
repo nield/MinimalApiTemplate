@@ -18,6 +18,8 @@ public static class ConfigureServices
 
         builder.Services.AddHttpContextAccessor();
 
+        builder.Services.ConfigureAuth(config);
+
         builder.Services.ConfigureFluentValidator();
 
         builder.Services.ConfigureAutoMapper();
@@ -26,7 +28,7 @@ public static class ConfigureServices
 
         builder.Services.AddApiEndpoints();
 
-        builder.Services.ConfigureSwagger();
+        builder.Services.ConfigureSwagger(config);
 
         builder.Services.ConfigureVersioning();
 

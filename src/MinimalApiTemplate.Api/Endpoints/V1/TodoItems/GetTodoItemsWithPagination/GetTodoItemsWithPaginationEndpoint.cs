@@ -15,6 +15,7 @@ public class GetTodoItemsWithPaginationEndpoint : IEndpoint
                 IMapper mapper,
                 CancellationToken cancellationToken) =>
                     HandleAsync(request, sender, mapper, cancellationToken))
+            .RequireAuthorization(Policies.StandardUser)
             .WithDescription("Used to get a list of todos")
             .WithOpenApi(ops =>
             {

@@ -1,4 +1,5 @@
 ﻿using MinimalApiTemplate.Application.Features.TodoItems.Queries.GetToDoItem;
+using static MinimalApiTemplate.Api.Common.Constants;
 
 namespace MinimalApiTemplate.Api.Endpoints.V1.TodoItems.GetToDoItem;
 
@@ -13,6 +14,7 @@ public class GetToDoItemEndpoint : IEndpoint
                 IMapper mapper,
                 CancellationToken cancellationToken) =>
                     HandleAsync(id, sender, mapper, cancellationToken))
+            .RequireAuthorization(Policies.StandardUser)
             .WithDescription("Used to get a single todo")
             .WithName("GetToDoItem")
             .Produces(StatusCodes.Status404NotFound);
