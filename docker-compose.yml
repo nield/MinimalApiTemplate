@@ -115,12 +115,50 @@ services:
     networks:
       - shared-network
 
+  minimalapitemplate.keycloak:
+    image: quay.io/keycloak/keycloak:24.0.1
+    container_name: minimalapitemplate.keycloak
+    command: ["start-dev"]
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+      - KC_DB=postgres
+      - KC_DB_URL_HOST=minimalapitemplate.keycloak.db
+      - KC_DB_URL_DATABASE=keycloak
+      - KC_DB_USERNAME=keycloak
+      - KC_DB_PASSWORD=secret
+    ports:
+      - "8930:8080"
+    depends_on:
+      minimalapitemplate.keycloak.db:
+        condition: service_healthy
+    networks:
+     - shared-network
+
+  minimalapitemplate.keycloak.db:
+    image: postgres:15
+    container_name: minimalapitemplate.keycloak.db
+    environment:
+      - POSTGRES_DB=keycloak
+      - POSTGRES_USER=keycloak
+      - POSTGRES_PASSWORD=secret
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U keycloak -d keycloak"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - shared-network
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
 volumes:
   seq_data:
   grafana_data:
   grafana_dashboards:
   grafana_certs:
   prometheus_data:
+  pg_data:
 
 networks:
   shared-network:
