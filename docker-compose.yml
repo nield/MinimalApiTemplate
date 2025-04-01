@@ -118,7 +118,7 @@ services:
       - shared-network
 
   minimalapitemplate.keycloak:
-    image: quay.io/keycloak/keycloak:24.0.1
+    image: quay.io/keycloak/keycloak:26.1
     container_name: minimalapitemplate.keycloak
     command: ["start-dev"]
     environment:
@@ -138,7 +138,7 @@ services:
      - shared-network
 
   minimalapitemplate.keycloak.db:
-    image: postgres:15
+    image: postgres:17
     container_name: minimalapitemplate.keycloak.db
     environment:
       - POSTGRES_DB=keycloak
