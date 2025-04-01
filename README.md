@@ -5,7 +5,8 @@
 
 An example Minimal Api application with OpenAPI, Swashbuckle, and API versioning using clean architecture.
 
-It also include the following: 
+It also include the following:
+- KeyCloak IDP 
 - .NET Aspire
 - .NET 8 ExceptionHandlers
 - Redis OutputCaching
