@@ -32,11 +32,11 @@ public static class Auth
 
         services.AddAuthorization(options =>
         {
-            options.AddPolicy(Constants.Policies.StandardUser, policy => 
-                policy.RequireRole(Constants.Roles.StandardUserRole));
+            options.AddPolicy(Policies.StandardUser, policy => 
+                policy.RequireRole(Roles.StandardUserRole));
 
-            options.AddPolicy(Constants.Policies.AdminUser, policy =>
-                policy.RequireRole(Constants.Roles.AdminUserRole));
+            options.AddPolicy(Policies.AdminUser, policy =>
+                policy.RequireRole(Roles.AdminUserRole));
         });
     }
 

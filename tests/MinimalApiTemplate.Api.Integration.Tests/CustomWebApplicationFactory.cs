@@ -6,6 +6,7 @@ using MinimalApiTemplate.Api.Integration.Tests.Containers;
 using MinimalApiTemplate.Api.Integration.Tests.Mocks;
 using MinimalApiTemplate.Application.Common;
 using MinimalApiTemplate.Application.Common.Interfaces;
+using static MinimalApiTemplate.Application.Common.Constants;
 
 namespace MinimalApiTemplate.Api.Integration.Tests;
 
@@ -35,6 +36,8 @@ public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProg
 
         builder.ConfigureTestServices(services =>
         {
+            services.AddScoped<ICurrentUserService, MockCurrentUserService>();
+
             services.Configure<TestAuthHandlerOptions>(
                 options => options.DefaultUserId = DefaultUserId
             );
@@ -46,7 +49,11 @@ public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProg
                     options => { }
                 );
 
-            services.AddScoped<ICurrentUserService, MockCurrentUserService>();
+            services.AddAuthorizationBuilder()
+                .AddPolicy(Policies.AdminUser, policy =>
+                    policy.RequireAuthenticatedUser())
+                .AddPolicy(Policies.StandardUser, policy =>
+                    policy.RequireAuthenticatedUser());
         });
 
         base.ConfigureWebHost(builder);
