@@ -9,3 +9,4 @@ global using FluentValidation;
 global using MinimalApiTemplate.Api.Common;
 global using MinimalApiTemplate.Api.Common.Validation;
 global using MinimalApiTemplate.Api.Common.Models.Enums;
+global using static MinimalApiTemplate.Application.Common.Constants;

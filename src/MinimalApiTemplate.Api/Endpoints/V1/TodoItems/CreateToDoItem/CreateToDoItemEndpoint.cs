@@ -15,6 +15,7 @@ public class CreateToDoItemEndpoint : IEndpoint
                 IOutputCacheStore outputCacheStore,
                 CancellationToken cancellationToken) =>
                     HandleAsync(request, sender, mapper, outputCacheStore, cancellationToken))
+            .RequireAuthorization(Policies.StandardUser)
             .WithDescription("Used to create a todo")
             .Produces(StatusCodes.Status400BadRequest);
     }

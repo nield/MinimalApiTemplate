@@ -29,11 +29,15 @@ app.UseHeaderPropagation();
 
 app.MapPrometheusScrapingEndpoint("/metrics");
 
+app.UseAuthentication();
+
+app.UseAuthorization();
+
 app.MapEndpoints();
 
 if (!app.Environment.IsProduction())
 {
-    app.UseApiDocumentation();
+    app.UseApiDocumentation(app.Configuration);
 }
 
 await app.ApplyMigrations();

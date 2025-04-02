@@ -15,6 +15,7 @@ public class DeleteToDoItemEndpoint : IEndpoint
                  CancellationToken cancellationToken) =>
                      HandleAsync(id, sender, outputCacheStore, cancellationToken))
             .WithDescription("Used to delete a todo")
+            .RequireAuthorization(Policies.AdminUser)
             .Produces(StatusCodes.Status404NotFound);
     }
 

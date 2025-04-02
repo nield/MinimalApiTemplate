@@ -16,6 +16,7 @@ public class UpdateToDoItemEndpoint : IEndpoint
                 IOutputCacheStore outputCacheStore,
                 CancellationToken cancellationToken) =>
                     HandleAsync(id, request, sender, mapper, outputCacheStore, cancellationToken))
+            .RequireAuthorization(Policies.StandardUser)
             .WithDescription("Used to update a todo")
             .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status404NotFound);

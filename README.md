@@ -5,7 +5,8 @@
 
 An example Minimal Api application with OpenAPI, Swashbuckle, and API versioning using clean architecture.
 
-It also include the following: 
+It also include the following:
+- KeyCloak IDP 
 - .NET Aspire
 - .NET 8 ExceptionHandlers
 - Redis OutputCaching
@@ -28,3 +29,21 @@ This template was initially based on [Jason Tyler's Template](https://github.com
 6. If you need to uninstall the template
     - Open command prompt and set the current folder to the root of the repo
     - Execute 'dotnet new uninstall .' command in the command prompt
+
+## Authentication
+
+KeyCloak is setup as IDP with some defaults:
+
+Groups
+- Admin
+- Standard
+
+Roles
+- standard-user-role
+  - Can Create, Update and View
+- admin-user-role
+  - Can Delete
+  
+Users (Password is password)
+- AdminUser
+- StandardUser

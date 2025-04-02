@@ -1,6 +1,7 @@
 ﻿using MinimalApiTemplate.Api.Common.Models;
 using MinimalApiTemplate.Application.Features.TodoItems.Queries.GetTodoItemsWithPagination;
 using static MinimalApiTemplate.Api.Common.Constants;
+using static MinimalApiTemplate.Application.Common.Constants;
 
 namespace MinimalApiTemplate.Api.Endpoints.V1.TodoItems.GetTodoItemsWithPagination;
 
@@ -15,6 +16,7 @@ public class GetTodoItemsWithPaginationEndpoint : IEndpoint
                 IMapper mapper,
                 CancellationToken cancellationToken) =>
                     HandleAsync(request, sender, mapper, cancellationToken))
+            .RequireAuthorization(Policies.StandardUser)
             .WithDescription("Used to get a list of todos")
             .WithOpenApi(ops =>
             {

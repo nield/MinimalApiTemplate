@@ -1,17 +1,57 @@
 ﻿using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
 using MinimalApiTemplate.Api.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace MinimalApiTemplate.Api.Configurations;
+
 public static class Swagger
 {
-    public static void ConfigureSwagger(this IServiceCollection services)
+    public static void ConfigureSwagger(this IServiceCollection services, IConfiguration config)
     {
         services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
-        services.AddSwaggerGen(options => options.OperationFilter<SwaggerDefaultValues>());
+        services.AddSwaggerGen(options => 
+        {
+            // Add OAuth2 authentication scheme
+            options.AddSecurityDefinition("Keycloak", new OpenApiSecurityScheme
+            {
+                Type = SecuritySchemeType.OAuth2,
+                Flows = new OpenApiOAuthFlows
+                {
+                    Implicit = new OpenApiOAuthFlow
+                    {
+                        AuthorizationUrl = new Uri(config["AuthorityOptions:AuthorizationUrl"]!),
+                        TokenUrl = new Uri(config["AuthorityOptions:TokenUrl"]!),                        
+                        Scopes = new Dictionary<string, string>
+                        {
+                            { "openid", "OpenID scope" },
+                            { "profile", "Profile scope" }
+                        }
+                    }
+                }
+            });            
+
+            // Add security requirement
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Keycloak"
+                        }
+                    },
+                    Array.Empty<string>()
+                }
+            });
+
+            options.OperationFilter<SwaggerDefaultValues>();
+        });
     }
 
-    public static void UseApiDocumentation(this WebApplication app)
+    public static void UseApiDocumentation(this WebApplication app, IConfiguration config)
     {
         app.UseSwagger();
         app.UseSwaggerUI(options =>
@@ -25,6 +65,8 @@ public static class Swagger
                 var name = groupName.ToUpperInvariant();
                 options.SwaggerEndpoint(url, name);
             }
+
+            options.OAuthClientId(config["AuthorityOptions:Client"]);
         });
     }
 }
