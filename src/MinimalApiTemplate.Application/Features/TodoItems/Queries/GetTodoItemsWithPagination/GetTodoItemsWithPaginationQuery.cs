@@ -1,5 +1,4 @@
-﻿using AutoMapper.QueryableExtensions;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using MinimalApiTemplate.Application.Common.Models;
 
 namespace MinimalApiTemplate.Application.Features.TodoItems.Queries.GetTodoItemsWithPagination;
@@ -14,14 +13,10 @@ public record GetTodoItemsWithPaginationQuery : IRequest<PaginatedList<GetTodoIt
 public class GetTodoItemsWithPaginationQueryHandler : IRequestHandler<GetTodoItemsWithPaginationQuery, PaginatedList<GetTodoItemsDto>>
 {
     private readonly IApplicationDbContext _context;
-    private readonly IMapper _mapper;
 
-    public GetTodoItemsWithPaginationQueryHandler(
-        IApplicationDbContext context, 
-        IMapper mapper)
+    public GetTodoItemsWithPaginationQueryHandler(IApplicationDbContext context)
     {
         _context = context;
-        _mapper = mapper;
     }
 
     public async Task<PaginatedList<GetTodoItemsDto>> Handle(GetTodoItemsWithPaginationQuery request, CancellationToken cancellationToken)
@@ -35,7 +30,7 @@ public class GetTodoItemsWithPaginationQueryHandler : IRequestHandler<GetTodoIte
         }
 
         var pagedData = await querableToDoItems.OrderBy(x => x.Title)
-            .ProjectTo<GetTodoItemsDto>(_mapper.ConfigurationProvider)
+            .ProjectToDto()
             .ToPaginatedListAsync(request.PageNumber, request.PageSize);
 
         return pagedData;

@@ -2,11 +2,8 @@
 
 namespace MinimalApiTemplate.Api.Endpoints.V1.TodoItems.UpdateToDoItem;
 
-public class UpdateToDoItemMapper : Profile
+[Mapper]
+public static partial class UpdateToDoItemMapper
 {
-    public UpdateToDoItemMapper()
-    {
-        CreateMap<UpdateTodoItemRequest, UpdateTodoItemCommand>()
-            .ForMember(dest => dest.Id, opt => opt.Ignore());
-    }
+    public static partial UpdateTodoItemCommand MapToCommand(this UpdateTodoItemRequest source, long id);
 }

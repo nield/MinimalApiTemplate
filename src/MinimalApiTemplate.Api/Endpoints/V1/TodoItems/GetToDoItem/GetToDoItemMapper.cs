@@ -2,10 +2,8 @@
 
 namespace MinimalApiTemplate.Api.Endpoints.V1.TodoItems.GetToDoItem;
 
-public class GetToDoItemMapper : Profile
+[Mapper]
+public static partial class GetToDoItemMapper
 {
-    public GetToDoItemMapper()
-    {
-        CreateMap<GetToDoItemDto, GetToDoItemResponse>();
-    }
+    public static partial GetToDoItemResponse MapToResponse(this GetToDoItemDto source);
 }

@@ -7,10 +7,9 @@ public class GetToDoItemQueryTests : BaseTestFixture
 {
     private readonly GetToDoItemQueryHandler _handler;
 
-    public GetToDoItemQueryTests(MappingFixture mappingFixture)
-        : base(mappingFixture)
+    public GetToDoItemQueryTests()
     {
-        _handler = new GetToDoItemQueryHandler(_applicationDbContextMock, _mapper);
+        _handler = new GetToDoItemQueryHandler(_applicationDbContextMock);
     }
 
     [Fact]

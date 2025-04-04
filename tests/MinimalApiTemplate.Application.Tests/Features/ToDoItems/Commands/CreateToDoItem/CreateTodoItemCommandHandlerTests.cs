@@ -6,10 +6,9 @@ public class CreateToDoItemCommandHandlerTests : BaseTestFixture<CreateTodoItemC
 {
     private readonly CreateTodoItemCommandHandler _handler;
 
-    public CreateToDoItemCommandHandlerTests(MappingFixture mappingFixture)
-        : base(mappingFixture)
+    public CreateToDoItemCommandHandlerTests()
     {
-        _handler = new(_templateRepositoryMock, _mapper, _toDoMetricMock);
+        _handler = new(_templateRepositoryMock, _toDoMetricMock);
     }
 
     [Fact]

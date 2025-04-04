@@ -12,14 +12,10 @@ public record UpdateTodoItemCommand : IRequest
 public class UpdateTodoItemCommandHandler : IRequestHandler<UpdateTodoItemCommand>
 {
     private readonly IToDoItemRepository _toDoItemRepository;
-    private readonly IMapper _mapper;
 
-    public UpdateTodoItemCommandHandler(
-        IToDoItemRepository toDoItemRepository, 
-        IMapper mapper)
+    public UpdateTodoItemCommandHandler(IToDoItemRepository toDoItemRepository)
     {
         _toDoItemRepository = toDoItemRepository;
-        _mapper = mapper;
     }
 
     public async Task Handle(UpdateTodoItemCommand request, CancellationToken cancellationToken)
@@ -29,7 +25,7 @@ public class UpdateTodoItemCommandHandler : IRequestHandler<UpdateTodoItemComman
         
         using (await AuditScope.CreateAsync("ToDoItem:Update", () => entity, cancellationToken: cancellationToken))
         {
-            _mapper.Map(request, entity);
+           request.MapToEntity(entity);
 
             await _toDoItemRepository.UpdateAsync(entity, cancellationToken);
         }

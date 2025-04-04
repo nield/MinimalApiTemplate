@@ -5,12 +5,6 @@ namespace MinimalApiTemplate.Api.Tests.Endpoints.V1.ToDoItems.CreateToDoItem;
 
 public class CreateToDoItemEndpointTests : BaseTestFixture
 {
-    public CreateToDoItemEndpointTests(MappingFixture mappingFixture)
-        : base(mappingFixture)
-    {
-    
-    }
-
     [Fact]
     public async Task Handle_Given_ValidModel_Then_ReturnsCreatedId()
     {
@@ -23,7 +17,6 @@ public class CreateToDoItemEndpointTests : BaseTestFixture
         var sut = await CreateToDoItemEndpoint.HandleAsync(
             request, 
             _senderMock,
-            _mapper,
             _outputCacheStoreMock,
             CancellationToken.None);
 

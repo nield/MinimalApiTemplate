@@ -2,6 +2,7 @@
 
 public class ToDoItemCreated : BaseMessage
 {
+    public long Id { get; set; }
     public required string Title { get; set; }
 
     public string? Note { get; set; }

@@ -5,12 +5,6 @@ using MinimalApiTemplate.Application.Features.TodoItems.Queries.GetTodoItemsWith
 namespace MinimalApiTemplate.Api.Tests.Endpoints.V1.ToDoItems.GetTodoItemsWithPagination;
 public class GetTodoItemsWithPaginationEndpointTests : BaseTestFixture
 {
-    public GetTodoItemsWithPaginationEndpointTests(MappingFixture mappingFixture)
-        : base(mappingFixture)
-    {
-       
-    }
-
     [Fact]
     public async Task Handle_Given_ValidId_Then_ReturnsItem()
     {
@@ -24,7 +18,6 @@ public class GetTodoItemsWithPaginationEndpointTests : BaseTestFixture
         var sut = await GetTodoItemsWithPaginationEndpoint.HandleAsync(
             query, 
             _senderMock,
-            _mapper,
             CancellationToken.None);
 
         sut.Should().NotBeNull();

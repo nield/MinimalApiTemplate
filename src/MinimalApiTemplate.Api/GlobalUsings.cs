@@ -1,5 +1,5 @@
 ﻿global using System.Net;
-global using AutoMapper;
+global using Riok.Mapperly.Abstractions;
 global using MediatR;
 global using Microsoft.AspNetCore.Http.HttpResults;
 global using Microsoft.AspNetCore.Mvc;

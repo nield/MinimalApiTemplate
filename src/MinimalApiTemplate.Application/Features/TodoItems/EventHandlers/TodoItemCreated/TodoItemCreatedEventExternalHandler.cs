@@ -9,9 +9,8 @@ public class TodoItemCreatedEventExternalHandler
     public TodoItemCreatedEventExternalHandler(
         IPublishMessageService publishMessageService,
         ICurrentUserService currentUserService,
-        IMapper mapper,
         ILogger<TodoItemCreatedEventExternalHandler> logger)
-        : base(publishMessageService, currentUserService, mapper, logger)
+        : base(publishMessageService, currentUserService, logger)
     {
     }
 }
