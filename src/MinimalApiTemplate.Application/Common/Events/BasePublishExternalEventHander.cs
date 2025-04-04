@@ -8,17 +8,14 @@ public abstract class BasePublishExternalEventHander<TNotification, TMessage>
     private readonly IPublishMessageService _publishMessageService;
     private readonly ICurrentUserService _currentUserService;
     private readonly ILogger _logger;
-    private readonly IMapper _mapper;
 
     protected BasePublishExternalEventHander(
         IPublishMessageService publishMessageService,
         ICurrentUserService currentUserService, 
-        IMapper mapper,
         ILogger logger)
     {
         _publishMessageService = publishMessageService;
         _currentUserService = currentUserService;
-        _mapper = mapper;
         _logger = logger;
     }
 
@@ -33,7 +30,7 @@ public abstract class BasePublishExternalEventHander<TNotification, TMessage>
     {
         try
         {
-            var message = _mapper.Map<TMessage>(notification);
+            var message = notification.MapToMessage<TNotification, TMessage>();
 
             SetMessageDefaults(message);
 

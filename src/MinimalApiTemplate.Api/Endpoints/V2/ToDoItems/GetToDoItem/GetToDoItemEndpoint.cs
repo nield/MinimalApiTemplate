@@ -11,9 +11,8 @@ public class GetToDoItemEndpoint : IEndpoint
             .MapGet("{id}",
                 (long id,
                 ISender sender, 
-                IMapper mapper,
                 CancellationToken cancellationToken) =>
-                    HandleAsync(id, sender, mapper, cancellationToken))
+                    HandleAsync(id, sender, cancellationToken))
             .RequireAuthorization(Policies.StandardUser)
             .WithDescription("Used to get a single todo")
             .WithName("GetToDoItemV2")
@@ -24,14 +23,13 @@ public class GetToDoItemEndpoint : IEndpoint
     public static async Task<Ok<GetToDoItemResponse>> HandleAsync(
         long id,
         ISender sender,
-        IMapper mapper,
         CancellationToken cancellationToken)
     {
         var query = new GetToDoItemQuery { Id = id };
 
         var data = await sender.Send(query, cancellationToken);
 
-        var mappedData = mapper.Map<GetToDoItemDto, GetToDoItemResponse>(data);
+        var mappedData = data.MapGetToDoItemResponse();
 
         return TypedResults.Ok(mappedData);
     }

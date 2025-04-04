@@ -2,11 +2,8 @@
 
 namespace MinimalApiTemplate.Application.Features.TodoItems.EventHandlers.TodoItemCreated;
 
-public class TodoItemCreatedMapper : Profile
+[Mapper]
+public static partial class TodoItemCreatedMapper
 {
-    public TodoItemCreatedMapper()
-    {
-        CreateMap<TodoItemCreatedEvent, ToDoItemCreated>()
-            .ForMember(dest => dest.CorrelationId, opt => opt.Ignore());
-    }
+    public static partial ToDoItemCreated MapToDoItemCreated(this TodoItemCreatedEvent source, string? correlationId);
 }

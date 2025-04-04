@@ -2,10 +2,8 @@
 
 namespace MinimalApiTemplate.Api.Endpoints.V1.TodoItems.CreateToDoItem;
 
-public class CreateToDoItemMapper : Profile
+[Mapper]
+public static partial class CreateToDoItemMapper
 {
-    public CreateToDoItemMapper()
-    {
-        CreateMap<CreateTodoItemRequest, CreateTodoItemCommand>();
-    }
+    public static partial CreateTodoItemCommand MapCreateTodoItemCommand(this CreateTodoItemRequest source);
 }

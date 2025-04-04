@@ -22,8 +22,6 @@ public static class ConfigureServices
 
         builder.Services.ConfigureFluentValidator();
 
-        builder.Services.ConfigureAutoMapper();
-
         builder.Services.ConfigureExceptionHandlers();
 
         builder.Services.AddApiEndpoints();

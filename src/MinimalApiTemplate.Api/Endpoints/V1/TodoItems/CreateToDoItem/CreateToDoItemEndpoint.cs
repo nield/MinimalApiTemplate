@@ -1,5 +1,4 @@
-﻿using MinimalApiTemplate.Application.Features.TodoItems.Commands.CreateTodoItem;
-using static MinimalApiTemplate.Api.Common.Constants;
+﻿using static MinimalApiTemplate.Api.Common.Constants;
 
 namespace MinimalApiTemplate.Api.Endpoints.V1.TodoItems.CreateToDoItem;
 
@@ -11,10 +10,9 @@ public class CreateToDoItemEndpoint : IEndpoint
             .MapPost("", 
                 ([FromBody][Validate] CreateTodoItemRequest request,
                 ISender sender,
-                IMapper mapper,
                 IOutputCacheStore outputCacheStore,
                 CancellationToken cancellationToken) =>
-                    HandleAsync(request, sender, mapper, outputCacheStore, cancellationToken))
+                    HandleAsync(request, sender, outputCacheStore, cancellationToken))
             .RequireAuthorization(Policies.StandardUser)
             .WithDescription("Used to create a todo")
             .Produces(StatusCodes.Status400BadRequest);
@@ -23,11 +21,10 @@ public class CreateToDoItemEndpoint : IEndpoint
     public static async Task<CreatedAtRoute<CreateTodoItemResponse>> HandleAsync(
         CreateTodoItemRequest request,
         ISender sender, 
-        IMapper mapper, 
         IOutputCacheStore outputCacheStore,
         CancellationToken cancellationToken)
     {
-        var command = mapper.Map<CreateTodoItemCommand>(request);
+        var command = request.MapCreateTodoItemCommand();
 
         var newId = await sender.Send(command, cancellationToken);
 

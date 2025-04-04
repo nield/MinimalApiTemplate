@@ -2,12 +2,9 @@
 
 namespace MinimalApiTemplate.Api.Endpoints.V1.TodoItems.GetTodoItemsWithPagination;
 
-public class GetToDoItemsMapper : Profile
+[Mapper]
+public static partial class GetToDoItemsMapper
 {
-    public GetToDoItemsMapper()
-    {
-        CreateMap<GetTodoItemsWithPaginationRequest, GetTodoItemsWithPaginationQuery>();
-
-        CreateMap<GetTodoItemsDto, GetToDoItemsResponse>();
-    }
+    public static partial GetTodoItemsWithPaginationQuery MapGetTodoItemsWithPaginationQuery(this GetTodoItemsWithPaginationRequest source);
+    
 }

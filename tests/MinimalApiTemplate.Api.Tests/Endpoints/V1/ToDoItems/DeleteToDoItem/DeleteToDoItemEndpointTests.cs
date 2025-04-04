@@ -5,12 +5,6 @@ namespace MinimalApiTemplate.Api.Tests.Endpoints.V1.ToDoItems.DeleteToDoItem;
 
 public class DeleteToDoItemEndpointTests : BaseTestFixture
 {
-    public DeleteToDoItemEndpointTests(MappingFixture mappingFixture)
-        : base(mappingFixture)
-    {
-       
-    }
-
     [Fact]
     public async Task Handle_Given_ValidId_Then_ReturnsNoContent()
     {

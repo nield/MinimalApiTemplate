@@ -1,20 +1,24 @@
 ﻿namespace MinimalApiTemplate.Application.Features.TodoItems.Commands.CreateTodoItem;
 
-public class CreateTodoItemMapper : Profile
+[Mapper]
+public static partial class CreateTodoItemMapper
 {
-    public CreateTodoItemMapper()
-    {
-        CreateMap<CreateTodoItemCommand, TodoItem>()
-            .ForMember(dest => dest.Id, opt => opt.Ignore())
-            .ForMember(dest => dest.CreatedBy, opt => opt.Ignore())
-            .ForMember(dest => dest.CreatedDateTime, opt => opt.Ignore())
-            .ForMember(dest => dest.LastModifiedBy, opt => opt.Ignore())
-            .ForMember(dest => dest.LastModifiedDateTime, opt => opt.Ignore())
-            .ForMember(dest => dest.IsDone, opt => opt.Ignore())
-            .ForMember(dest => dest.IsDeleted, opt => opt.Ignore())
-            .ForMember(dest => dest.DomainEvents, opt => opt.Ignore());
+    [MapperIgnoreTarget(nameof(TodoItem.Id))]
+    [MapperIgnoreTarget(nameof(TodoItem.IsDone))]
+    [MapperIgnoreTarget(nameof(TodoItem.CreatedDateTime))]
+    [MapperIgnoreTarget(nameof(TodoItem.CreatedBy))]
+    [MapperIgnoreTarget(nameof(TodoItem.LastModifiedBy))]
+    [MapperIgnoreTarget(nameof(TodoItem.LastModifiedDateTime))]
+    [MapperIgnoreTarget(nameof(TodoItem.IsDeleted))]
+    public static partial TodoItem MapTodoItem(this CreateTodoItemCommand source);
 
-        CreateMap<TodoItem, TodoItemCreatedEvent>();
-
-    }
+    [MapperIgnoreSource(nameof(TodoItem.IsDone))]
+    [MapperIgnoreSource(nameof(TodoItem.CreatedDateTime))]
+    [MapperIgnoreSource(nameof(TodoItem.CreatedBy))]
+    [MapperIgnoreSource(nameof(TodoItem.LastModifiedBy))]
+    [MapperIgnoreSource(nameof(TodoItem.LastModifiedDateTime))]
+    [MapperIgnoreSource(nameof(TodoItem.IsDeleted))]
+    [MapperIgnoreSource(nameof(TodoItem.Tags))]
+    [MapperIgnoreSource(nameof(TodoItem.DomainEvents))]
+    public static partial TodoItemCreatedEvent MapTodoItemCreatedEvent(this TodoItem source);
 }

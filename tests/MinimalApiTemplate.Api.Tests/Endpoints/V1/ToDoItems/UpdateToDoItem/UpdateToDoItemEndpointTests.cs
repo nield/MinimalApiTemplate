@@ -5,12 +5,6 @@ namespace MinimalApiTemplate.Api.Tests.Endpoints.V1.ToDoItems.UpdateToDoItem;
 
 public class UpdateToDoItemEndpointTests : BaseTestFixture
 {
-    public UpdateToDoItemEndpointTests(MappingFixture mappingFixture)
-        : base(mappingFixture)
-    {
-        
-    }
-
     [Fact]
     public async Task Handle_Given_ValidId_Then_ReturnsNoContent()
     {
@@ -20,7 +14,6 @@ public class UpdateToDoItemEndpointTests : BaseTestFixture
             1, 
             request,
             _senderMock,
-            _mapper,
             _outputCacheStoreMock,
             CancellationToken.None);
 

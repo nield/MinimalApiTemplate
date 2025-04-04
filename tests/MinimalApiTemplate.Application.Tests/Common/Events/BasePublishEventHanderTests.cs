@@ -8,10 +8,9 @@ public class BasePublishEventHanderTests : BaseTestFixture<FakePublishEventHande
 {
     private readonly FakePublishEventHander _hander;
 
-    public BasePublishEventHanderTests(MappingFixture mappingFixture)
-        : base(mappingFixture)
+    public BasePublishEventHanderTests()
     {
-        _hander = new(_publishMessageServiceMock, _currentUserServiceMock, _mapper, _logger);
+        _hander = new(_publishMessageServiceMock, _currentUserServiceMock, _logger);
     }
 
     [Fact]
@@ -33,9 +32,8 @@ public class FakePublishEventHander
     public FakePublishEventHander(
         IPublishMessageService publishMessageService, 
         ICurrentUserService currentUserService,
-        IMapper mapper, 
         ILogger<FakePublishEventHander> logger) 
-        : base(publishMessageService, currentUserService, mapper, logger)
+        : base(publishMessageService, currentUserService, logger)
     {
     }
 

@@ -1,6 +1,6 @@
 ﻿global using System.Text.Json;
 global using Audit.Core;
-global using AutoMapper;
+global using Riok.Mapperly.Abstractions;
 global using FluentValidation;
 global using MediatR;
 global using Microsoft.Extensions.Logging;

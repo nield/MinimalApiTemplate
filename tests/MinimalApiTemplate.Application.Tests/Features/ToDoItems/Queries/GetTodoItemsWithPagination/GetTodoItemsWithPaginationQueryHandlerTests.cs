@@ -6,10 +6,9 @@ public class GetTodoItemsWithPaginationQueryHandlerTests : BaseTestFixture
 {
     private readonly GetTodoItemsWithPaginationQueryHandler _handler;
 
-    public GetTodoItemsWithPaginationQueryHandlerTests(MappingFixture mappingFixture)
-        : base(mappingFixture)
+    public GetTodoItemsWithPaginationQueryHandlerTests()
     {
-        _handler = new(_applicationDbContextMock, _mapper);
+        _handler = new(_applicationDbContextMock);
     }
 
     [Fact]

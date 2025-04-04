@@ -7,10 +7,9 @@ public class UpdateTodoItemCommandHandlerTests : BaseTestFixture<UpdateTodoItemC
 {
     private readonly UpdateTodoItemCommandHandler _handler;
 
-    public UpdateTodoItemCommandHandlerTests(MappingFixture mappingFixture)
-        : base(mappingFixture)
+    public UpdateTodoItemCommandHandlerTests()
     {
-        _handler = new(_templateRepositoryMock, _mapper);
+        _handler = new(_templateRepositoryMock);
     }
 
     [Fact]

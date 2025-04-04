@@ -12,25 +12,22 @@ public record CreateTodoItemCommand : IRequest<long>
 public class CreateTodoItemCommandHandler : IRequestHandler<CreateTodoItemCommand, long>
 {
     private readonly IToDoItemRepository _toDoItemRepository;
-    private readonly IMapper _mapper;
     private readonly IToDoItemMetrics _toDoItemMetrics;
 
     public CreateTodoItemCommandHandler(
         IToDoItemRepository toDoItemRepository, 
-        IMapper mapper, 
         IToDoItemMetrics toDoItemMetrics)
     {
         _toDoItemRepository = toDoItemRepository;
-        _mapper = mapper;
         _toDoItemMetrics = toDoItemMetrics;
     }
 
     public async Task<long> Handle(CreateTodoItemCommand request, CancellationToken cancellationToken)
     {
-        var entity = _mapper.Map<TodoItem>(request);
+        var entity = request.MapTodoItem();
 
         // Example adding event
-        entity.AddDomainEvent(_mapper.Map<TodoItemCreatedEvent>(entity));
+        entity.AddDomainEvent(entity.MapTodoItemCreatedEvent());
 
         using (await AuditScope.CreateAsync("ToDoItem:Create", () => entity, cancellationToken: cancellationToken))
         {

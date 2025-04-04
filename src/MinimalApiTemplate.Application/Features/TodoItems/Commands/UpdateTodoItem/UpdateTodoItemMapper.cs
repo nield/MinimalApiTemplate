@@ -1,18 +1,14 @@
 ﻿namespace MinimalApiTemplate.Application.Features.TodoItems.Commands.UpdateTodoItem;
 
-public class UpdateTodoItemMapper : Profile
+[Mapper]
+public static partial class UpdateTodoItemMapper
 {
-    public UpdateTodoItemMapper()
-    {
-        CreateMap<UpdateTodoItemCommand, TodoItem>()
-            .ForMember(dest => dest.Id, opt => opt.Ignore())
-            .ForMember(dest => dest.CreatedBy, opt => opt.Ignore())
-            .ForMember(dest => dest.CreatedDateTime, opt => opt.Ignore())
-            .ForMember(dest => dest.LastModifiedBy, opt => opt.Ignore())
-            .ForMember(dest => dest.LastModifiedDateTime, opt => opt.Ignore())
-            .ForMember(dest => dest.Reminder, opt => opt.Ignore())
-            .ForMember(dest => dest.IsDone, opt => opt.Ignore())
-            .ForMember(dest => dest.IsDeleted, opt => opt.Ignore())
-            .ForMember(dest => dest.DomainEvents, opt => opt.Ignore());
-    }
+    [MapperIgnoreTarget(nameof(TodoItem.IsDone))]
+    [MapperIgnoreTarget(nameof(TodoItem.CreatedDateTime))]
+    [MapperIgnoreTarget(nameof(TodoItem.CreatedBy))]
+    [MapperIgnoreTarget(nameof(TodoItem.LastModifiedBy))]
+    [MapperIgnoreTarget(nameof(TodoItem.LastModifiedDateTime))]
+    [MapperIgnoreTarget(nameof(TodoItem.IsDeleted))]
+    [MapperIgnoreTarget(nameof(TodoItem.Reminder))]
+    public static partial void MapToDoItem(this UpdateTodoItemCommand source, TodoItem destination);
 }

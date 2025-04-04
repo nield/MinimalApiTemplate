@@ -1,7 +1,6 @@
 ﻿using MinimalApiTemplate.Api.Common.Models;
 using MinimalApiTemplate.Application.Features.TodoItems.Queries.GetTodoItemsWithPagination;
 using static MinimalApiTemplate.Api.Common.Constants;
-using static MinimalApiTemplate.Application.Common.Constants;
 
 namespace MinimalApiTemplate.Api.Endpoints.V1.TodoItems.GetTodoItemsWithPagination;
 
@@ -12,10 +11,9 @@ public class GetTodoItemsWithPaginationEndpoint : IEndpoint
         app.ToDoItemRouteV1()
             .MapGet("",
                 ([Validate][AsParameters] GetTodoItemsWithPaginationRequest request,
-                ISender sender, 
-                IMapper mapper,
+                ISender sender,
                 CancellationToken cancellationToken) =>
-                    HandleAsync(request, sender, mapper, cancellationToken))
+                    HandleAsync(request, sender, cancellationToken))
             .RequireAuthorization(Policies.StandardUser)
             .WithDescription("Used to get a list of todos")
             .WithOpenApi(ops =>
@@ -36,14 +34,14 @@ public class GetTodoItemsWithPaginationEndpoint : IEndpoint
     public static async Task<Ok<PaginatedListResponse<GetToDoItemsResponse>>> HandleAsync(
         GetTodoItemsWithPaginationRequest request,
         ISender sender,
-        IMapper mapper,
         CancellationToken cancellationToken)
     {
-        var query = mapper.Map<GetTodoItemsWithPaginationQuery>(request);
+
+        var query = request.MapGetTodoItemsWithPaginationQuery();
 
         var data = await sender.Send(query, cancellationToken);
 
-        var mappedData = mapper.Map<PaginatedListResponse<GetToDoItemsResponse>>(data);
+        var mappedData = data.MapPaginatedList<GetTodoItemsDto, GetToDoItemsResponse>();
 
         return TypedResults.Ok(mappedData);
     }

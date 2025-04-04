@@ -12,10 +12,9 @@ public class UpdateToDoItemEndpoint : IEndpoint
                 ([FromRoute] long id,
                 [FromBody][Validate] UpdateTodoItemRequest request,
                 ISender sender, 
-                IMapper mapper, 
                 IOutputCacheStore outputCacheStore,
                 CancellationToken cancellationToken) =>
-                    HandleAsync(id, request, sender, mapper, outputCacheStore, cancellationToken))
+                    HandleAsync(id, request, sender, outputCacheStore, cancellationToken))
             .RequireAuthorization(Policies.StandardUser)
             .WithDescription("Used to update a todo")
             .Produces(StatusCodes.Status400BadRequest)
@@ -26,12 +25,10 @@ public class UpdateToDoItemEndpoint : IEndpoint
         long id, 
         UpdateTodoItemRequest request,
         ISender sender,
-        IMapper mapper,
         IOutputCacheStore outputCacheStore,
         CancellationToken cancellationToken)
     {
-        var command = mapper.Map<UpdateTodoItemCommand>(request);
-        command.Id = id;
+        var command = request.MapUpdateTodoItemCommand(id);
 
         await sender.Send(command, cancellationToken);
 

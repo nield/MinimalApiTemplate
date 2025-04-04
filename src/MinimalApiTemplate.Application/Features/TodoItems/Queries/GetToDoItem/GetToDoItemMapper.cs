@@ -1,9 +1,7 @@
 ﻿namespace MinimalApiTemplate.Application.Features.TodoItems.Queries.GetToDoItem;
 
-public class GetToDoItemMapper : Profile
+[Mapper(RequiredMappingStrategy = RequiredMappingStrategy.Target)]
+public static partial class GetToDoItemMapper 
 {
-    public GetToDoItemMapper()
-    {
-        CreateMap<TodoItem, GetToDoItemDto>();
-    }
+    public static partial IQueryable<GetToDoItemDto> ProjectToDto(this IQueryable<TodoItem> source);
 }
