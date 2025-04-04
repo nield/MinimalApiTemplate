@@ -27,7 +27,7 @@ public class GetToDoItemEndpoint : IEndpoint
 
         var data = await sender.Send(query, cancellationToken);
 
-        var mappedData = data.MapGetToDoItemResponse();
+        var mappedData = data.MapToResponse();
 
         return TypedResults.Ok(mappedData);
     }

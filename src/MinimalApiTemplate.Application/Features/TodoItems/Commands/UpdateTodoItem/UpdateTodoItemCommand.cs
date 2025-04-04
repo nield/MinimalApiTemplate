@@ -25,7 +25,7 @@ public class UpdateTodoItemCommandHandler : IRequestHandler<UpdateTodoItemComman
         
         using (await AuditScope.CreateAsync("ToDoItem:Update", () => entity, cancellationToken: cancellationToken))
         {
-           request.MapToDoItem(entity);
+           request.MapToEntity(entity);
 
             await _toDoItemRepository.UpdateAsync(entity, cancellationToken);
         }

@@ -5,5 +5,5 @@ namespace MinimalApiTemplate.Api.Endpoints.V1.TodoItems.UpdateToDoItem;
 [Mapper]
 public static partial class UpdateToDoItemMapper
 {
-    public static partial UpdateTodoItemCommand MapUpdateTodoItemCommand(this UpdateTodoItemRequest source, long id);
+    public static partial UpdateTodoItemCommand MapToCommand(this UpdateTodoItemRequest source, long id);
 }

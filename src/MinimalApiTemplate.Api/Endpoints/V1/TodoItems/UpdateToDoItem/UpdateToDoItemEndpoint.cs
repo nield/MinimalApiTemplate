@@ -28,7 +28,7 @@ public class UpdateToDoItemEndpoint : IEndpoint
         IOutputCacheStore outputCacheStore,
         CancellationToken cancellationToken)
     {
-        var command = request.MapUpdateTodoItemCommand(id);
+        var command = request.MapToCommand(id);
 
         await sender.Send(command, cancellationToken);
 

@@ -10,5 +10,5 @@ public static partial class UpdateTodoItemMapper
     [MapperIgnoreTarget(nameof(TodoItem.LastModifiedDateTime))]
     [MapperIgnoreTarget(nameof(TodoItem.IsDeleted))]
     [MapperIgnoreTarget(nameof(TodoItem.Reminder))]
-    public static partial void MapToDoItem(this UpdateTodoItemCommand source, TodoItem destination);
+    public static partial void MapToEntity(this UpdateTodoItemCommand source, TodoItem destination);
 }

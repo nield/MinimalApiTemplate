@@ -37,11 +37,11 @@ public class GetTodoItemsWithPaginationEndpoint : IEndpoint
         CancellationToken cancellationToken)
     {
 
-        var query = request.MapGetTodoItemsWithPaginationQuery();
+        var query = request.MapToQuery();
 
         var data = await sender.Send(query, cancellationToken);
 
-        var mappedData = data.MapPaginatedList<GetTodoItemsDto, GetToDoItemsResponse>();
+        var mappedData = data.MapToPaginatedList<GetTodoItemsDto, GetToDoItemsResponse>();
 
         return TypedResults.Ok(mappedData);
     }

@@ -10,7 +10,7 @@ public static partial class CreateTodoItemMapper
     [MapperIgnoreTarget(nameof(TodoItem.LastModifiedBy))]
     [MapperIgnoreTarget(nameof(TodoItem.LastModifiedDateTime))]
     [MapperIgnoreTarget(nameof(TodoItem.IsDeleted))]
-    public static partial TodoItem MapTodoItem(this CreateTodoItemCommand source);
+    public static partial TodoItem MapToEntity(this CreateTodoItemCommand source);
 
     [MapperIgnoreSource(nameof(TodoItem.IsDone))]
     [MapperIgnoreSource(nameof(TodoItem.CreatedDateTime))]
@@ -20,5 +20,5 @@ public static partial class CreateTodoItemMapper
     [MapperIgnoreSource(nameof(TodoItem.IsDeleted))]
     [MapperIgnoreSource(nameof(TodoItem.Tags))]
     [MapperIgnoreSource(nameof(TodoItem.DomainEvents))]
-    public static partial TodoItemCreatedEvent MapTodoItemCreatedEvent(this TodoItem source);
+    public static partial TodoItemCreatedEvent MapToEvent(this TodoItem source);
 }

@@ -24,10 +24,10 @@ public class CreateTodoItemCommandHandler : IRequestHandler<CreateTodoItemComman
 
     public async Task<long> Handle(CreateTodoItemCommand request, CancellationToken cancellationToken)
     {
-        var entity = request.MapTodoItem();
+        var entity = request.MapToEntity();
 
         // Example adding event
-        entity.AddDomainEvent(entity.MapTodoItemCreatedEvent());
+        entity.AddDomainEvent(entity.MapToEvent());
 
         using (await AuditScope.CreateAsync("ToDoItem:Create", () => entity, cancellationToken: cancellationToken))
         {

@@ -9,7 +9,7 @@ public static partial class PagedListMapper
 {
     public static partial TDest MapItem<TSource, TDest>(TSource source);
 
-    public static PaginatedListResponse<TDest> MapPaginatedList<TSource, TDest>(this PaginatedList<TSource> source) 
+    public static PaginatedListResponse<TDest> MapToPaginatedList<TSource, TDest>(this PaginatedList<TSource> source) 
     {
         return new PaginatedListResponse<TDest>
         {
