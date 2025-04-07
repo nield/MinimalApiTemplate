@@ -1,78 +1,77 @@
-﻿//using Mediator;
-//using Microsoft.Extensions.Options;
-//using MinimalApiTemplate.Application.Common.Behaviours;
-//using MinimalApiTemplate.Application.Common.Settings;
+﻿using Mediator;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using MinimalApiTemplate.Application.Common.Behaviours;
+using MinimalApiTemplate.Application.Common.Settings;
 
-//namespace MinimalApiTemplate.Application.Tests.Common.Behaviours;
+namespace MinimalApiTemplate.Application.Tests.Common.Behaviours;
 
-//public class PerformanceBehaviourTests
-//{
-//    private PerformanceBehaviour<PerformanceBehaviourTestInput, Unit>? _performanceBehaviour;
-//    private readonly ILogger<PerformanceBehaviourTestInput> _loggerMock = Substitute.For<ILogger<PerformanceBehaviourTestInput>>();
-//    private readonly ICurrentUserService _currentUserServiceMock = Substitute.For<ICurrentUserService>();
-//    private RequestHandlerDelegate<Unit>? _pipelineBehaviourDelegateMock = null;
+public class PerformanceBehaviourTests
+{
+    private PerformanceBehaviour<PerformanceBehaviourTestInput, Unit>? _performanceBehaviour;
+    private readonly ILogger<PerformanceBehaviourTestInput> _loggerMock = Substitute.For<ILogger<PerformanceBehaviourTestInput>>();
+    private readonly ICurrentUserService _currentUserServiceMock = Substitute.For<ICurrentUserService>();
+    private readonly IServiceScopeFactory _serviceScopeFactoryMock = Substitute.For<IServiceScopeFactory>();
+    private readonly IServiceScope _serviceScopeMock = Substitute.For<IServiceScope>();
+    private MessageHandlerDelegate<PerformanceBehaviourTestInput, Unit>? _pipelineBehaviourDelegateMock = null;
 
-//    public PerformanceBehaviourTests()
-//    {
-//        _currentUserServiceMock.UserId
-//            .Returns("1");       
-//    }
+    public PerformanceBehaviourTests()
+    {
+        _serviceScopeFactoryMock.CreateScope().Returns(_serviceScopeMock);
 
-//    public void Setup(AppSettings appSettings)
-//    {
-//        _performanceBehaviour = new(_loggerMock,
-//                                    _currentUserServiceMock,
-//                                    Options.Create(appSettings));
-//    }
+        _serviceScopeMock.ServiceProvider.GetService<ICurrentUserService>().Returns(_currentUserServiceMock);
 
-//    [Theory]    
-//    [InlineData(false, 1, false, 0)]
-//    [InlineData(true, 10000, false, 5)]
-//    [InlineData(true, 1, true, 10)]
-//    public async Task When_ConditionsAreMet_Then_LogSlowRunningRequests(
-//        bool logRequests, int threshold, bool shouldHaveLog, int delay)
-//    {
-//        _pipelineBehaviourDelegateMock = new RequestHandlerDelegate<Unit>(async () =>
-//        {
-//            await Task.Delay(delay);
+        _currentUserServiceMock.UserId
+            .Returns("1");
+    }
 
-//            return Unit.Value;
-//        });
+    public void Setup(AppSettings appSettings)
+    {
+        _performanceBehaviour = new(_loggerMock,
+                                    _serviceScopeFactoryMock,
+                                    Options.Create(appSettings));
+    }
 
-//        Setup(new AppSettings
-//        {
-//            Logs = new Logs
-//            {
-//                Performance = new Performance
-//                {
-//                    LogSlowRunningHandlers = logRequests,
-//                    SlowRunningHandlerThreshold = threshold
-//                }
-//            }
-//        });
+    [Theory]
+    [InlineData(false, 1, false, 0)]
+    [InlineData(true, 10000, false, 5)]
+    [InlineData(true, 1, true, 10)]
+    public async Task When_ConditionsAreMet_Then_LogSlowRunningRequests(
+        bool logRequests, int threshold, bool shouldHaveLog, int delay)
+    {
+        _pipelineBehaviourDelegateMock = new MessageHandlerDelegate<PerformanceBehaviourTestInput, Unit>(async (input, ct) =>
+        {
+            await Task.Delay(delay, ct);
 
-//        if (_performanceBehaviour is null) throw new NullReferenceException("Setup was not called");
+            return Unit.Value;
+        });
 
-//        await _performanceBehaviour.Handle(new PerformanceBehaviourTestInput(),
-//            _pipelineBehaviourDelegateMock,
-//            CancellationToken.None);
+        Setup(new AppSettings
+        {
+            Logs = new Logs
+            {
+                Performance = new Performance
+                {
+                    LogSlowRunningHandlers = logRequests,
+                    SlowRunningHandlerThreshold = threshold
+                }
+            }
+        });
 
-//        _loggerMock.Received(shouldHaveLog ? 1 : 0)
-//            .Log(LogLevel.Warning, Arg.Any<EventId>(), Arg.Any<object>(),
-//                Arg.Any<Exception>(), Arg.Any<Func<object, Exception?, string>>());
-//    }
-//}
+        if (_performanceBehaviour is null) throw new NullReferenceException("Setup was not called");
 
-//public class PerformanceBehaviourTestInput : IRequest<Unit>
-//{
+        await _performanceBehaviour.Handle(new PerformanceBehaviourTestInput(),
+            CancellationToken.None,
+            _pipelineBehaviourDelegateMock
+            );
 
-//}
+        _loggerMock.Received(shouldHaveLog ? 1 : 0)
+            .Log(LogLevel.Warning, Arg.Any<EventId>(), Arg.Any<object>(),
+                Arg.Any<Exception>(), Arg.Any<Func<object, Exception?, string>>());
+    }
+}
 
-//public class PerformanceBehaviourTestHandler : IRequestHandler<PerformanceBehaviourTestInput, Unit>
-//{
-//    public ValueTask<Unit> Handle(PerformanceBehaviourTestInput request, CancellationToken cancellationToken)
-//    {
-//        return Unit.ValueTask;
-//    }
-//}
+public class PerformanceBehaviourTestInput : IRequest
+{
 
+}
