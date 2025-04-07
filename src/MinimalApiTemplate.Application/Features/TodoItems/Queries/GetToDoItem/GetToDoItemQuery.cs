@@ -16,7 +16,7 @@ public class GetToDoItemQueryHandler : IRequestHandler<GetToDoItemQuery, GetToDo
         _context = context;
     }
 
-    public async Task<GetToDoItemDto> Handle(GetToDoItemQuery request, CancellationToken cancellationToken)
+    public async ValueTask<GetToDoItemDto> Handle(GetToDoItemQuery request, CancellationToken cancellationToken)
     {
         var data = await _context.TodoItems
                     .AsNoTracking()

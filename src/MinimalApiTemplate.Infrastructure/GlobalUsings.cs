@@ -10,3 +10,4 @@ global using MinimalApiTemplate.Domain.Enums;
 global using MinimalApiTemplate.Messages.Common;
 global using MassTransit;
 global using Microsoft.Extensions.Logging;
+global using Mediator;

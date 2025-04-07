@@ -19,7 +19,7 @@ public class GetTodoItemsWithPaginationQueryHandler : IRequestHandler<GetTodoIte
         _context = context;
     }
 
-    public async Task<PaginatedList<GetTodoItemsDto>> Handle(GetTodoItemsWithPaginationQuery request, CancellationToken cancellationToken)
+    public async ValueTask<PaginatedList<GetTodoItemsDto>> Handle(GetTodoItemsWithPaginationQuery request, CancellationToken cancellationToken)
     {
         var querableToDoItems = _context.TodoItems.AsNoTracking();
 

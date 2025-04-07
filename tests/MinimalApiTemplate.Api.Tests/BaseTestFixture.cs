@@ -1,5 +1,4 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.OutputCaching;
+﻿using Microsoft.AspNetCore.OutputCaching;
 
 namespace MinimalApiTemplate.Api.Tests;
 

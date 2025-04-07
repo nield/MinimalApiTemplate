@@ -1,5 +1,4 @@
-﻿using MinimalApiTemplate.Domain.Common;
-using MinimalApiTemplate.Messages.V1;
+﻿using MinimalApiTemplate.Messages.V1;
 
 namespace MinimalApiTemplate.Application.Common.Events;
 

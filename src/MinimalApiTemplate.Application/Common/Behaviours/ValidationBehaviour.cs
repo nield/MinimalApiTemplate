@@ -1,7 +1,7 @@
 ﻿namespace MinimalApiTemplate.Application.Common.Behaviours;
 
 public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-     where TRequest : IRequest<TResponse>
+     where TRequest : IMessage
 {
     private readonly IEnumerable<IValidator<TRequest>> _validators;
 
@@ -10,11 +10,11 @@ public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TReque
         _validators = validators;
     }
 
-    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    public async ValueTask<TResponse> Handle(TRequest message, CancellationToken cancellationToken, MessageHandlerDelegate<TRequest, TResponse> next)
     {
         if (_validators.Any())
         {
-            var context = new ValidationContext<TRequest>(request);
+            var context = new ValidationContext<TRequest>(message);
 
             var validationResults = await Task.WhenAll(
                 _validators.Select(v =>
@@ -28,6 +28,6 @@ public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TReque
             if (failures.Count != 0)
                 throw new DataValidationFailureException(failures);
         }
-        return await next();
+        return await next(message, cancellationToken);
     }
 }

@@ -19,7 +19,7 @@ public abstract class BasePublishExternalEventHander<TNotification, TMessage>
         _logger = logger;
     }
 
-    public virtual async Task Handle(TNotification notification, CancellationToken cancellationToken)
+    public virtual async ValueTask Handle(TNotification notification, CancellationToken cancellationToken)
     {
         var message = MapMessage(notification);
 
