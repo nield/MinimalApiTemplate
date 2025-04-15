@@ -24,8 +24,7 @@ public static class Swagger
                         TokenUrl = new Uri(config["AuthorityOptions:TokenUrl"]!),                        
                         Scopes = new Dictionary<string, string>
                         {
-                            { "openid", "OpenID scope" },
-                            { "profile", "Profile scope" }
+                            { "minimal-api-aud", "Minimal Api" }
                         }
                     }
                 }

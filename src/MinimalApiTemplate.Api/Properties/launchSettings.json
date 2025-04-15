@@ -6,7 +6,7 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:8000/swagger"
+      "applicationUrl": "https://localhost:8901/swagger"
     },
     "IIS Express": {
       "commandName": "IISExpress",
