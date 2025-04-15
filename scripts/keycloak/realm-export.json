@@ -804,7 +804,8 @@
         "phone",
         "offline_access",
         "organization",
-        "microprofile-jwt"
+        "microprofile-jwt",
+        "minimal-api-aud"
       ]
     },
     {
