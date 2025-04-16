@@ -18,7 +18,7 @@ public class UpdateTodoItemCommandHandler : IRequestHandler<UpdateTodoItemComman
         _toDoItemRepository = toDoItemRepository;
     }
 
-    public async Task Handle(UpdateTodoItemCommand request, CancellationToken cancellationToken)
+    public async ValueTask<Unit> Handle(UpdateTodoItemCommand request, CancellationToken cancellationToken)
     {
         var entity = await _toDoItemRepository.GetByIdAsync(request.Id, cancellationToken)
             ?? throw new NotFoundException(nameof(TodoItem), request.Id);
@@ -29,5 +29,7 @@ public class UpdateTodoItemCommandHandler : IRequestHandler<UpdateTodoItemComman
 
             await _toDoItemRepository.UpdateAsync(entity, cancellationToken);
         }
+
+        return Unit.Value;
     }
 }

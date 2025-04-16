@@ -22,7 +22,7 @@ public class CreateTodoItemCommandHandler : IRequestHandler<CreateTodoItemComman
         _toDoItemMetrics = toDoItemMetrics;
     }
 
-    public async Task<long> Handle(CreateTodoItemCommand request, CancellationToken cancellationToken)
+    public async ValueTask<long> Handle(CreateTodoItemCommand request, CancellationToken cancellationToken)
     {
         var entity = request.MapToEntity();
 

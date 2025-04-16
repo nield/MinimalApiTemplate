@@ -1,4 +1,4 @@
-﻿using MediatR;
+﻿using Mediator;
 using MinimalApiTemplate.Application.Common.Behaviours;
 using NSubstitute.ExceptionExtensions;
 
@@ -8,7 +8,7 @@ public class UnhandledExceptionBehaviourTests
 {
     private readonly UnhandledExceptionBehaviour<UnhandledExceptionBehaviourTestInput, Unit> _unhandledExceptionBehaviour;
     private readonly ILogger<UnhandledExceptionBehaviourTestInput> _loggerMock = Substitute.For<ILogger<UnhandledExceptionBehaviourTestInput>>();
-    private readonly RequestHandlerDelegate<Unit> _pipelineBehaviourDelegateMock = Substitute.For<RequestHandlerDelegate<Unit>>();
+    private readonly MessageHandlerDelegate<UnhandledExceptionBehaviourTestInput, Unit> _pipelineBehaviourDelegateMock = Substitute.For<MessageHandlerDelegate<UnhandledExceptionBehaviourTestInput, Unit>>();
 
 
     public UnhandledExceptionBehaviourTests()
@@ -19,12 +19,13 @@ public class UnhandledExceptionBehaviourTests
     [Fact]
     public async Task When_UnhandledExceptionIsThrown_Then_LogTheErrorMessage()
     {
-        _pipelineBehaviourDelegateMock.Invoke()
+        _pipelineBehaviourDelegateMock.Invoke(Arg.Any<UnhandledExceptionBehaviourTestInput>(), Arg.Any<CancellationToken>())
             .Throws(new Exception("Unhandled exception"));
 
         await Assert.ThrowsAsync<Exception>(() => _unhandledExceptionBehaviour.Handle(new UnhandledExceptionBehaviourTestInput(),
-                                            _pipelineBehaviourDelegateMock,
-                                            CancellationToken.None));
+                                            CancellationToken.None,
+                                            _pipelineBehaviourDelegateMock
+                                            ).AsTask());
 
         _loggerMock.Received()
             .Log(LogLevel.Error, Arg.Any<EventId>(), Arg.Any<object>(),
@@ -32,15 +33,7 @@ public class UnhandledExceptionBehaviourTests
     }
 }
 
-public class UnhandledExceptionBehaviourTestInput : IRequest<Unit>
+public class UnhandledExceptionBehaviourTestInput : IRequest
 {
 
-}
-
-public class UnhandledExceptionBehaviourTestHandler : IRequestHandler<UnhandledExceptionBehaviourTestInput, Unit>
-{
-    public Task<Unit> Handle(UnhandledExceptionBehaviourTestInput request, CancellationToken cancellationToken)
-    {
-        return Unit.Task;
-    }
 }

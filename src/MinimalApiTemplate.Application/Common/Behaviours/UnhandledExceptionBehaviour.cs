@@ -1,7 +1,7 @@
 ﻿namespace MinimalApiTemplate.Application.Common.Behaviours;
 
 public class UnhandledExceptionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-    where TRequest : IRequest<TResponse>
+    where TRequest : IMessage
 {
     private readonly ILogger<TRequest> _logger;
 
@@ -12,17 +12,17 @@ public class UnhandledExceptionBehaviour<TRequest, TResponse> : IPipelineBehavio
         _logger = logger;
     }
 
-    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    public async ValueTask<TResponse> Handle(TRequest message, CancellationToken cancellationToken, MessageHandlerDelegate<TRequest, TResponse> next)
     {
         try
         {
-            return await next();
+            return await next(message, cancellationToken);
         }
         catch (Exception ex)
         {
             var requestName = typeof(TRequest).Name;
 
-            _logger.LogError(ex, "Request: Unhandled Exception for Request {Name} {@Request}", requestName, request);
+            _logger.LogError(ex, "Request: Unhandled Exception for Request {Name} {@Request}", requestName, message);
 
             throw;
         }

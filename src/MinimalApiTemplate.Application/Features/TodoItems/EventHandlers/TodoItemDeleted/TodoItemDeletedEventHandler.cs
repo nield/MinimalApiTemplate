@@ -9,10 +9,10 @@ public class TodoItemDeletedEventHandler : INotificationHandler<TodoItemDeletedE
         _logger = logger;
     }
 
-    public Task Handle(TodoItemDeletedEvent notification, CancellationToken cancellationToken)
+    public ValueTask Handle(TodoItemDeletedEvent notification, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Domain Event: {DomainEvent}", nameof(TodoItemDeletedEvent));
 
-        return Task.CompletedTask;
+        return ValueTask.CompletedTask;
     }
 }

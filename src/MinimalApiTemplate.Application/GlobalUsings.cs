@@ -2,7 +2,7 @@
 global using Audit.Core;
 global using Riok.Mapperly.Abstractions;
 global using FluentValidation;
-global using MediatR;
+global using Mediator;
 global using Microsoft.Extensions.Logging;
 global using MinimalApiTemplate.Application.Common;
 global using MinimalApiTemplate.Application.Common.Exceptions;

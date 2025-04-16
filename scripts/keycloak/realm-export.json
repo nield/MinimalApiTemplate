@@ -47,6 +47,42 @@
   "quickLoginCheckMilliSeconds": 1000,
   "maxDeltaTimeSeconds": 43200,
   "failureFactor": 30,
+  "users": [
+      {
+        "username": "AdminUser",
+        "enabled": true,
+        "emailVerified": true,
+        "firstName": "admin",
+        "lastName": "user",
+        "email": "admin@mail.com",
+        "credentials": [
+          {
+            "type": "password",
+            "value": "password"
+          }
+        ],
+        "groups": [
+          "Admin"
+        ]
+      },
+      {
+        "username": "StandardUser",
+        "enabled": true,
+        "emailVerified": true,
+        "firstName": "Standard",
+        "lastName": "User",
+        "email": "standard@mail.com",
+        "credentials": [
+          {
+            "type": "password",
+            "value": "password"
+          }
+        ],
+        "groups": [
+          "Standard"
+        ]
+      }
+  ],
   "roles": {
     "realm": [
       {
@@ -768,7 +804,8 @@
         "phone",
         "offline_access",
         "organization",
-        "microprofile-jwt"
+        "microprofile-jwt",
+        "minimal-api-aud"
       ]
     },
     {

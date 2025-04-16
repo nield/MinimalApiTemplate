@@ -1,4 +1,4 @@
-﻿using MediatR;
+﻿using Mediator;
 using MinimalApiTemplate.Application.Common.Events;
 using MinimalApiTemplate.Messages.Common;
 

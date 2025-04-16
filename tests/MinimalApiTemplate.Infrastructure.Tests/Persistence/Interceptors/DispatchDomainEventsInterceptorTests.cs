@@ -1,5 +1,4 @@
-﻿using MediatR;
-using MinimalApiTemplate.Domain.Common;
+﻿using MinimalApiTemplate.Domain.Common;
 using MinimalApiTemplate.Infrastructure.Persistence.Interceptors;
 
 namespace MinimalApiTemplate.Infrastructure.Tests.Persistence.Interceptors;

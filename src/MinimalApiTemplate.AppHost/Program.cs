@@ -18,7 +18,12 @@ var rabbit = builder.AddRabbitMQ("RabbitMq", rabbitUsername, rabbitPassword)
                 .WithLifetime(ContainerLifetime.Persistent)
                 .WithManagementPlugin(8001);
 
-builder.AddProject<Projects.MinimalApiTemplate_Api>("minimalapitemplate-api")
+var keycloak = builder.AddKeycloak("Keycloak", 8930)
+                      .WithDataVolume()
+                      .WithRealmImport("../../scripts/keycloak/")
+                      .WithLifetime(ContainerLifetime.Persistent);
+
+builder.AddProject<Projects.MinimalApiTemplate_Api>("minimalapitemplate-api")    
     .WithReference(database)
     .WaitFor(database)
     .WithReference(rabbit)
@@ -26,6 +31,8 @@ builder.AddProject<Projects.MinimalApiTemplate_Api>("minimalapitemplate-api")
     .WithReference(redis)
     .WaitFor(redis)
     .WaitFor(seq)
+    .WithReference(keycloak)
+    .WaitFor(keycloak)
     .WithEnvironment("MassTransit__PublishEnabled", "true")
     .WithEnvironment("SEQ_SERVER_URL", "http://localhost:8002");
 

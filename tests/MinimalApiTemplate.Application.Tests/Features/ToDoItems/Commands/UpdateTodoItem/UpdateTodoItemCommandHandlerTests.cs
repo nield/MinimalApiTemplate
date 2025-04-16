@@ -20,10 +20,12 @@ public class UpdateTodoItemCommandHandlerTests : BaseTestFixture<UpdateTodoItemC
         _templateRepositoryMock.GetByIdAsync(id, Arg.Any<CancellationToken>())
             .ReturnsNull();
 
-        await Assert.ThrowsAsync<NotFoundException>(() =>
-                    _handler.Handle(Builder<UpdateTodoItemCommand>.CreateNew()
+        var command = Builder<UpdateTodoItemCommand>.CreateNew()
                                         .With(x => id)
-                                        .Build(), CancellationToken.None));
+                                        .Build();
+
+        await Assert.ThrowsAsync<NotFoundException>(() =>
+                    _handler.Handle(command, CancellationToken.None).AsTask());
 
         await _templateRepositoryMock.DidNotReceive()
             .UpdateAsync(Arg.Any<TodoItem>(), Arg.Any<CancellationToken>());
