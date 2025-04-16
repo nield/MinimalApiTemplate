@@ -1,37 +1,27 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Primitives;
 using MinimalApiTemplate.Sdk.Interfaces;
 
 namespace MinimalApiTemplate.Sdk.Services;
 
 public class TokenService : ITokenService
 {
-    private const string CacheKey = "BearerToken";
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    private readonly IMemoryCache _cache;
-
-    public TokenService(IMemoryCache cache)
+    public TokenService(IHttpContextAccessor httpContextAccessor)
     {
-        _cache = cache;
+        _httpContextAccessor = httpContextAccessor;
     }
 
-    public async Task<string> GetTokenAsync()
+    public Task<string> GetTokenAsync()
     {
-        if (_cache.TryGetValue<string>(CacheKey, out string? cachedToken))
+        var token = "";
+
+        if (_httpContextAccessor.HttpContext?.Request?.Headers?.TryGetValue("Authorization", out StringValues values) ?? false)
         {
-            return cachedToken ?? "";
+            token = values[0]?.Replace("Bearer ", "", StringComparison.OrdinalIgnoreCase) ?? "";
         }
 
-        var newToken = await GetNewToken();
-
-        _cache.Set<string>(CacheKey, newToken, TimeSpan.FromMinutes(10));
-
-        return newToken; 
-    }
-
-    private Task<string> GetNewToken()
-    {
-        // impement fetching new token from IDP
-
-        return Task.FromResult("xyz");
+        return Task.FromResult(token);
     }
 }

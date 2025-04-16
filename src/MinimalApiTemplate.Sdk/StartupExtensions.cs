@@ -18,6 +18,7 @@ public static class StartupExtensions
             config.BaseAddress = baseAddress;
             config.Timeout = TimeSpan.FromSeconds(30);
         })
+        .AddHeaderPropagation()
         .AddHttpMessageHandler<AuthenticatedHttpClientHandler>()
         .AddStandardResilienceHandler(); 
     }
