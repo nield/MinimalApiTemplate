@@ -54,12 +54,12 @@ public static class Extensions
         builder.Services.AddOpenTelemetry()
             .WithMetrics(metrics => 
                 metrics
-                    .AddPrometheusExporter()
                     .AddAspNetCoreInstrumentation()
+                    .AddRuntimeInstrumentation()
+                    .AddPrometheusExporter()
                     .AddHttpClientInstrumentation()
                     .AddMeter("MinimalTemplate")
-                    .AddMeter(InstrumentationOptions.MeterName)  // MassTransit Meter
-                    .AddRuntimeInstrumentation())
+                    .AddMeter(InstrumentationOptions.MeterName))  // MassTransit Meter
             .WithTracing(tracing => 
                 tracing
                     .AddSource(builder.Environment.ApplicationName)
