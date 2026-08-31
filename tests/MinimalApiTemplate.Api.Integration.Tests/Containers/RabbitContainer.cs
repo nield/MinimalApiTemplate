@@ -11,12 +11,11 @@ internal sealed class RabbitContainer : BaseContainer<RabbitContainer>
 
     protected override IContainer BuildContainer()
     {
-        return new ContainerBuilder()
-            .WithImage("rabbitmq:alpine")
+        return new ContainerBuilder("rabbitmq:alpine")
             .WithPortBinding(RabbitDefaultPort, true)
             .WithEnvironment("RABBITMQ_DEFAULT_USER", Username)
             .WithEnvironment("RABBITMQ_DEFAULT_PASS", Password)
-            .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(RabbitDefaultPort))
+            .WithWaitStrategy(Wait.ForUnixContainer().UntilInternalTcpPortIsAvailable(RabbitDefaultPort))
             .Build();
     }
 

@@ -3,7 +3,7 @@ using System.Text;
 using Asp.Versioning;
 using Asp.Versioning.ApiExplorer;
 using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace MinimalApiTemplate.Api.Swagger;
@@ -30,10 +30,10 @@ public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
         }
     }
 
-    private static OpenApiInfo CreateInfoForApiVersion(ApiVersionDescription description)
+    private static  Microsoft.OpenApi.OpenApiInfo CreateInfoForApiVersion(ApiVersionDescription description)
     {
         var text = new StringBuilder("An example Minimal Api application with OpenAPI, Swashbuckle, and API versioning.");
-        var info = new OpenApiInfo()
+        var info = new Microsoft.OpenApi.OpenApiInfo()
         {
             Title = "Example Minimal API",
             Version = description.ApiVersion.ToString()

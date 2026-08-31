@@ -11,10 +11,9 @@ internal sealed class CacheContainer : BaseContainer<CacheContainer>
 
     protected override IContainer BuildContainer()
     {
-        return new ContainerBuilder()
-           .WithImage("redis:latest")
+        return new ContainerBuilder("redis:latest")
            .WithPortBinding(CacheDefaultPort, true)
-           .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(CacheDefaultPort))
+           .WithWaitStrategy(Wait.ForUnixContainer().UntilInternalTcpPortIsAvailable(CacheDefaultPort))
            .Build();
     }
 

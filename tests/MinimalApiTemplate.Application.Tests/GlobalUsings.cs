@@ -1,5 +1,5 @@
 ﻿global using FizzWare.NBuilder;
-global using FluentAssertions;
+global using AwesomeAssertions;
 global using FluentValidation;
 global using FluentValidation.TestHelper;
 global using Microsoft.Extensions.Logging;

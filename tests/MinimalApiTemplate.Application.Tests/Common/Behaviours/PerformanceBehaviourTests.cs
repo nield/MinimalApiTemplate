@@ -61,8 +61,8 @@ public class PerformanceBehaviourTests
         if (_performanceBehaviour is null) throw new NullReferenceException("Setup was not called");
 
         await _performanceBehaviour.Handle(new PerformanceBehaviourTestInput(),
-            CancellationToken.None,
-            _pipelineBehaviourDelegateMock
+            _pipelineBehaviourDelegateMock,
+            CancellationToken.None
             );
 
         _loggerMock.Received(shouldHaveLog ? 1 : 0)
