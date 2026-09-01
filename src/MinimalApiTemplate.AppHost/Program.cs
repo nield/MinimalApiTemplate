@@ -6,19 +6,22 @@ var seq = builder.AddSeq("Seq", 8002)
 var redis = builder.AddRedis("Redis", 8004)
     .WithLifetime(ContainerLifetime.Persistent);
 
-var sqlPassword = builder.AddParameter("sqlPassword");
+var sqlPassword = builder.AddParameter("sqlPassword", secret: true);
 var database = builder.AddSqlServer("Sql", sqlPassword, 8003)
     .WithLifetime(ContainerLifetime.Persistent)
     .AddDatabase("SqlDatabase", "templateDb");
 
 var rabbitUsername = builder.AddParameter("rabbitUsername");
-var rabbitPassword = builder.AddParameter("rabbitPassword");
+var rabbitPassword = builder.AddParameter("rabbitPassword", secret: true);
 
 var rabbit = builder.AddRabbitMQ("RabbitMq", rabbitUsername, rabbitPassword)
                 .WithLifetime(ContainerLifetime.Persistent)
                 .WithManagementPlugin(8001);
 
-var keycloak = builder.AddKeycloak("Keycloak", 8930)
+var keycloakUsername = builder.AddParameter("keycloakUsername");
+var keycloakPassword = builder.AddParameter("keycloakPassword", secret: true);
+
+var keycloak = builder.AddKeycloak("Keycloak", 8930, keycloakUsername, keycloakPassword)
                       .WithDataVolume()
                       .WithRealmImport("../../scripts/keycloak/")
                       .WithLifetime(ContainerLifetime.Persistent);

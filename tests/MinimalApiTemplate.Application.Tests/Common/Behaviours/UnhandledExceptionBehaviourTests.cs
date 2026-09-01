@@ -23,8 +23,8 @@ public class UnhandledExceptionBehaviourTests
             .Throws(new Exception("Unhandled exception"));
 
         await Assert.ThrowsAsync<Exception>(() => _unhandledExceptionBehaviour.Handle(new UnhandledExceptionBehaviourTestInput(),
-                                            CancellationToken.None,
-                                            _pipelineBehaviourDelegateMock
+                                            _pipelineBehaviourDelegateMock,
+                                            CancellationToken.None
                                             ).AsTask());
 
         _loggerMock.Received()

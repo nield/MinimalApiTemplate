@@ -15,7 +15,7 @@ public class GetToDoItemQueryTests : BaseTestFixture
     [Fact]
     public void When_ToDoItemIdDoesNotExists_Then_ExceptionIsThrown()
     {
-        var toDoItemsDbSetMock = new List<TodoItem>().AsQueryable().BuildMockDbSet();
+        var toDoItemsDbSetMock = new List<TodoItem>().BuildMockDbSet();
 
         _applicationDbContextMock.TodoItems
             .Returns(toDoItemsDbSetMock);
@@ -28,7 +28,7 @@ public class GetToDoItemQueryTests : BaseTestFixture
     public async Task When_ToDoItemIdExists_Then_ReturnData()
     {
         var toDoItemsDbSetMock = Builder<TodoItem>.CreateListOfSize(1).Build()
-                                    .AsQueryable().BuildMockDbSet();
+                                    .BuildMockDbSet();
 
         _applicationDbContextMock.TodoItems
             .Returns(toDoItemsDbSetMock);

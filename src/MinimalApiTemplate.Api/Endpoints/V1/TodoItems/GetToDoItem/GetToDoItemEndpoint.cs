@@ -1,25 +1,23 @@
-﻿using MinimalApiTemplate.Application.Features.TodoItems.Queries.GetToDoItem;
+﻿using MinimalApiTemplate.Api.Common.Extensions;
+using MinimalApiTemplate.Application.Features.TodoItems.Queries.GetToDoItem;
+using static MinimalApiTemplate.Api.Common.Constants;
 
 namespace MinimalApiTemplate.Api.Endpoints.V1.TodoItems.GetToDoItem;
 
 public class GetToDoItemEndpoint : IEndpoint
 {
-    public void AddRoute(IEndpointRouteBuilder app)
+    public static void AddRoute(IEndpointRouteBuilder app)
     {
-        app.ToDoItemRouteV1()
-            .MapGet("{id}",
-                (long id,
-                ISender sender, 
-                CancellationToken cancellationToken) =>
-                    HandleAsync(id, sender, cancellationToken))
+        app.MapGetRoute("/todos/{id}", HandleAsync)
             .RequireAuthorization(Policies.StandardUser)
             .WithDescription("Used to get a single todo")
             .WithName("GetToDoItem")
-            .Produces(StatusCodes.Status404NotFound);
+            .Produces(StatusCodes.Status404NotFound)
+            .WithTags(OpenApi.Tags.ToDos);
     }
 
     public static async Task<Ok<GetToDoItemResponse>> HandleAsync(
-        long id,
+        [FromRoute] long id,
         ISender sender,
         CancellationToken cancellationToken)
     {

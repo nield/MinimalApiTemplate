@@ -47,3 +47,6 @@ Roles
 Users (Password is password)
 - AdminUser
 - StandardUser
+
+Management UI (Password is admin)
+- admin

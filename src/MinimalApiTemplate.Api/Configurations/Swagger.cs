@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using MinimalApiTemplate.Api.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -31,18 +31,11 @@ public static class Swagger
             });            
 
             // Add security requirement
-            options.AddSecurityRequirement(new OpenApiSecurityRequirement
+            options.AddSecurityRequirement(document => new OpenApiSecurityRequirement
             {
                 {
-                    new OpenApiSecurityScheme
-                    {
-                        Reference = new OpenApiReference
-                        {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = "Keycloak"
-                        }
-                    },
-                    Array.Empty<string>()
+                    new OpenApiSecuritySchemeReference("Keycloak", document),
+                    new List<string> { "minimal-api-aud" }
                 }
             });
 
@@ -66,6 +59,7 @@ public static class Swagger
             }
 
             options.OAuthClientId(config["AuthorityOptions:Client"]);
+            options.OAuthScopes("minimal-api-aud");
         });
     }
 }

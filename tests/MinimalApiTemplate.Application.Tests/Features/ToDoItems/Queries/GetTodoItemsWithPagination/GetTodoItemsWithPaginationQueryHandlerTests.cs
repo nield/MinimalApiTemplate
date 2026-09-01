@@ -15,7 +15,7 @@ public class GetTodoItemsWithPaginationQueryHandlerTests : BaseTestFixture
     public async Task Given_ToDoItemIdExists_Then_ReturnData()
     {
         var toDoItemsDbSetMock = Builder<TodoItem>.CreateListOfSize(1).Build()
-                                    .AsQueryable().BuildMockDbSet();
+                                    .BuildMockDbSet();
 
         _applicationDbContextMock.TodoItems
             .Returns(toDoItemsDbSetMock);

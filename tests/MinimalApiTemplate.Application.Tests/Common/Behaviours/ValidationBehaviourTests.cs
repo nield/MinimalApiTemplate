@@ -31,8 +31,8 @@ public class ValidationBehaviourTests
 
         var sut = await Assert.ThrowsAsync<Application.Common.Exceptions.DataValidationFailureException>(() 
             => _validationBehaviour.Handle(new ValidationBehaviourTestInput(),
-            CancellationToken.None,
-            _pipelineBehaviourDelegateMock).AsTask());
+            _pipelineBehaviourDelegateMock,
+            CancellationToken.None).AsTask());
 
         sut.Errors.Count.Should().Be(1);
     }

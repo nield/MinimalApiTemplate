@@ -1,29 +1,23 @@
-﻿using MinimalApiTemplate.Application.Features.TodoItems.Commands.UpdateTodoItem;
+﻿using MinimalApiTemplate.Api.Common.Extensions;
 using static MinimalApiTemplate.Api.Common.Constants;
 
 namespace MinimalApiTemplate.Api.Endpoints.V1.TodoItems.UpdateToDoItem;
 
 public class UpdateToDoItemEndpoint : IEndpoint
 {
-    public void AddRoute(IEndpointRouteBuilder app)
+    public static void AddRoute(IEndpointRouteBuilder app)
     {
-        app.ToDoItemRouteV1()
-            .MapPut("{id}",
-                ([FromRoute] long id,
-                [FromBody][Validate] UpdateTodoItemRequest request,
-                ISender sender, 
-                IOutputCacheStore outputCacheStore,
-                CancellationToken cancellationToken) =>
-                    HandleAsync(id, request, sender, outputCacheStore, cancellationToken))
+        app.MapPutRoute("/todos/{id}", HandleAsync)
             .RequireAuthorization(Policies.StandardUser)
             .WithDescription("Used to update a todo")
             .Produces(StatusCodes.Status400BadRequest)
-            .Produces(StatusCodes.Status404NotFound);
+            .Produces(StatusCodes.Status404NotFound)
+            .WithTags(OpenApi.Tags.ToDos);
     }
 
     public static async Task<NoContent> HandleAsync(
-        long id, 
-        UpdateTodoItemRequest request,
+        [FromRoute] long id, 
+        [FromBody][Validate] UpdateTodoItemRequest request,
         ISender sender,
         IOutputCacheStore outputCacheStore,
         CancellationToken cancellationToken)

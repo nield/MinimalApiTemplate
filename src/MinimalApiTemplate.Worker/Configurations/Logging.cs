@@ -9,9 +9,8 @@ public static class Logging
 {
     public static void ConfigureLogging(this WebApplicationBuilder builder)
     {
-        builder.Logging.ClearProviders();
-
         builder.Host.UseSerilog((context, services, configuration)
-                                    => configuration.ReadFrom.Configuration(context.Configuration));
+                                    => configuration.ReadFrom.Configuration(context.Configuration),
+                                writeToProviders: true);
     }
 }

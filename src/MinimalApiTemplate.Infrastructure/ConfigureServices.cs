@@ -110,7 +110,8 @@ public static class ConfigureServices
 
     private static void SetupMassTransit(this IServiceCollection services, IConfiguration configuration)
     {
-        MessageCorrelation.UseCorrelationId<BaseMessage>(x => Guid.Parse(x.CorrelationId));
+        MessageCorrelation.UseCorrelationId<BaseMessage>(x => 
+            Guid.TryParse(x.CorrelationId, out Guid parsedGuid) ? parsedGuid : Guid.NewGuid());
 
         if (!IsMassTransitEnabled(configuration))
         {

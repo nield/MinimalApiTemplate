@@ -1,4 +1,5 @@
-﻿using MinimalApiTemplate.Api.Common.Models;
+﻿using MinimalApiTemplate.Api.Common.Extensions;
+using MinimalApiTemplate.Api.Common.Models;
 using MinimalApiTemplate.Application.Features.TodoItems.Queries.GetTodoItemsWithPagination;
 using static MinimalApiTemplate.Api.Common.Constants;
 
@@ -6,24 +7,12 @@ namespace MinimalApiTemplate.Api.Endpoints.V1.TodoItems.GetTodoItemsWithPaginati
 
 public class GetTodoItemsWithPaginationEndpoint : IEndpoint
 {
-    public void AddRoute(IEndpointRouteBuilder app)
+    public static void AddRoute(IEndpointRouteBuilder app)
     {
-        app.ToDoItemRouteV1()
-            .MapGet("",
-                ([Validate][AsParameters] GetTodoItemsWithPaginationRequest request,
-                ISender sender,
-                CancellationToken cancellationToken) =>
-                    HandleAsync(request, sender, cancellationToken))
+        app.MapGetRoute("/todos", HandleAsync)
             .RequireAuthorization(Policies.StandardUser)
             .WithDescription("Used to get a list of todos")
-            .WithOpenApi(ops =>
-            {
-                ops.Parameters[0].Description = "The current page number. The first page is 1";
-                ops.Parameters[1].Description = "The number of records on a page";
-                ops.Parameters[2].Description = "The tags to filter on. Not required";
-
-                return ops;
-            })
+            .WithTags(OpenApi.Tags.ToDos)
             .CacheOutput(builder => builder.SetVaryByQuery(nameof(GetTodoItemsWithPaginationRequest.PageNumber),
                                                             nameof(GetTodoItemsWithPaginationRequest.PageSize),
                                                             nameof(GetTodoItemsWithPaginationRequest.Tags))
@@ -32,7 +21,7 @@ public class GetTodoItemsWithPaginationEndpoint : IEndpoint
     }
 
     public static async Task<Ok<PaginatedListResponse<GetToDoItemsResponse>>> HandleAsync(
-        GetTodoItemsWithPaginationRequest request,
+        [Validate][AsParameters] GetTodoItemsWithPaginationRequest request,
         ISender sender,
         CancellationToken cancellationToken)
     {

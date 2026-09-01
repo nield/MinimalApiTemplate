@@ -24,8 +24,6 @@ public static class ConfigureServices
 
         builder.Services.ConfigureExceptionHandlers();
 
-        builder.Services.AddApiEndpoints();
-
         builder.Services.ConfigureSwagger(config);
 
         builder.Services.ConfigureVersioning();

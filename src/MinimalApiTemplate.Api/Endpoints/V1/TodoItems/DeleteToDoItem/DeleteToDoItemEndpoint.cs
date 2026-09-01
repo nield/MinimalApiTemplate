@@ -1,26 +1,22 @@
-﻿using MinimalApiTemplate.Application.Features.TodoItems.Commands.DeleteTodoItem;
+﻿using MinimalApiTemplate.Api.Common.Extensions;
+using MinimalApiTemplate.Application.Features.TodoItems.Commands.DeleteTodoItem;
 using static MinimalApiTemplate.Api.Common.Constants;
 
 namespace MinimalApiTemplate.Api.Endpoints.V1.TodoItems.DeleteToDoItem;
 
 public class DeleteToDoItemEndpoint : IEndpoint
 {
-    public void AddRoute(IEndpointRouteBuilder app)
+    public static void AddRoute(IEndpointRouteBuilder app)
     {
-        app.ToDoItemRouteV1()
-            .MapDelete("{id}",
-                ([FromRoute] long id,
-                 ISender sender, 
-                 IOutputCacheStore outputCacheStore,
-                 CancellationToken cancellationToken) =>
-                     HandleAsync(id, sender, outputCacheStore, cancellationToken))
+        app.MapDeleteRoute("/todos/{id}", HandleAsync)
             .WithDescription("Used to delete a todo")
             .RequireAuthorization(Policies.AdminUser)
-            .Produces(StatusCodes.Status404NotFound);
+            .Produces(StatusCodes.Status404NotFound)
+            .WithTags(OpenApi.Tags.ToDos);
     }
 
     public static async Task<NoContent> HandleAsync(
-        long id, 
+        [FromRoute] long id, 
         ISender sender,
         IOutputCacheStore outputCacheStore,
         CancellationToken cancellationToken)

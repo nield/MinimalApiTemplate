@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Headers;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.DependencyInjection;
 using MinimalApiTemplate.Api.Integration.Tests.Containers;
 using MinimalApiTemplate.Infrastructure.Persistence;
@@ -10,7 +11,7 @@ public class WebApplicationFixture : IAsyncLifetime
 {
     private readonly CustomWebApplicationFactory<global::Program> _factory = new();
 
-    private string? _databaseConnectionString = null;
+    private SqlConnection? _databaseConnection = null;
     private Respawner? _respawner = null;
     private HttpClient? _httpClient = null;
 
@@ -34,9 +35,10 @@ public class WebApplicationFixture : IAsyncLifetime
         _httpClient = _factory.CreateClient();
         _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Test");
 
-        _databaseConnectionString = DatabaseContainer.Instance.GetConnectionString();
+        _databaseConnection = new SqlConnection(DatabaseContainer.Instance.GetConnectionString());
+        await _databaseConnection.OpenAsync();
 
-        _respawner = await Respawner.CreateAsync(_databaseConnectionString, new RespawnerOptions
+        _respawner = await Respawner.CreateAsync(_databaseConnection, new RespawnerOptions
         {
             SchemasToInclude = [ApplicationDbContext.DbSchema],
             TablesToIgnore = [ApplicationDbContext.MigrationTableName],
@@ -48,7 +50,7 @@ public class WebApplicationFixture : IAsyncLifetime
     {
         try
         {
-            using var cancellationSource = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+            using var cancellationSource = new CancellationTokenSource(TimeSpan.FromSeconds(60));
 
             await Task.WhenAll(
                 DatabaseContainer.Instance.StartContainerAsync(cancellationSource.Token),
@@ -64,9 +66,9 @@ public class WebApplicationFixture : IAsyncLifetime
 
     public async Task ResetDatabaseAsync()
     {
-        if (_respawner is not null)
+        if (_respawner is not null && _databaseConnection is not null)
         {
-            await _respawner.ResetAsync(_databaseConnectionString!);
+            await _respawner.ResetAsync(_databaseConnection);
         }
 
         using var scope = _factory.Services.CreateScope();
@@ -77,10 +79,13 @@ public class WebApplicationFixture : IAsyncLifetime
         await dbContextInitialiser.SeedDataAsync();
     }
         
-    public Task DisposeAsync()
+    public async Task DisposeAsync()
     {
         _httpClient?.Dispose();
 
-        return Task.CompletedTask;
+        if (_databaseConnection is not null)
+        {
+            await _databaseConnection.DisposeAsync();
+        }
     }
 }
