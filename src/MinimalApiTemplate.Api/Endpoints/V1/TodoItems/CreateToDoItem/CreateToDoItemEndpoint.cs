@@ -1,4 +1,5 @@
-﻿using static MinimalApiTemplate.Api.Common.Constants;
+﻿using MinimalApiTemplate.Api.Common.Extensions;
+using static MinimalApiTemplate.Api.Common.Constants;
 
 namespace MinimalApiTemplate.Api.Endpoints.V1.TodoItems.CreateToDoItem;
 
@@ -6,20 +7,15 @@ public class CreateToDoItemEndpoint : IEndpoint
 {
     public void AddRoute(IEndpointRouteBuilder app)
     {
-        app.ToDoItemRouteV1()
-            .MapPost("", 
-                ([FromBody][Validate] CreateTodoItemRequest request,
-                ISender sender,
-                IOutputCacheStore outputCacheStore,
-                CancellationToken cancellationToken) =>
-                    HandleAsync(request, sender, outputCacheStore, cancellationToken))
+        app.MapPostRoute("/todos", HandleAsync)
             .RequireAuthorization(Policies.StandardUser)
             .WithDescription("Used to create a todo")
+            .WithTags(OpenApi.Tags.ToDos)
             .Produces(StatusCodes.Status400BadRequest);
     }
 
     public static async Task<CreatedAtRoute<CreateTodoItemResponse>> HandleAsync(
-        CreateTodoItemRequest request,
+        [FromBody][Validate] CreateTodoItemRequest request,
         ISender sender, 
         IOutputCacheStore outputCacheStore,
         CancellationToken cancellationToken)
