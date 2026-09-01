@@ -16,5 +16,6 @@ public static partial class EventMapper
         return MapMessage<TSource, TDest>(source);
     }
 
+    [MapperIgnoreTarget(nameof(ToDoItemCreated.CorrelationId))]
     private static partial ToDoItemCreated MapToDoItemCreated(TodoItemCreatedEvent source);
 }
