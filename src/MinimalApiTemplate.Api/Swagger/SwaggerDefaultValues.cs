@@ -23,11 +23,17 @@ public class SwaggerDefaultValues : IOperationFilter
         {
             // REF: https://github.com/domaindrivendev/Swashbuckle.AspNetCore/blob/b7cf75e7905050305b115dd96640ddd6e74c7ac9/src/Swashbuckle.AspNetCore.SwaggerGen/SwaggerGenerator/SwaggerGenerator.cs#L383-L387
             var responseKey = responseType.IsDefaultResponse ? "default" : responseType.StatusCode.ToString();
-            var response = operation.Responses[responseKey];
+
+            if (operation.Responses is null ||
+                !operation.Responses.TryGetValue(responseKey, out var response) ||
+                response?.Content is null)
+            {
+                continue;
+            }
 
             foreach (var contentType in response.Content.Keys)
             {
-                if (!responseType.ApiResponseFormats.Any(x => x.MediaType == contentType))
+                if (responseType.ApiResponseFormats.All(x => x.MediaType != contentType))
                 {
                     response.Content.Remove(contentType);
                 }
