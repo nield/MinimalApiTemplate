@@ -6,7 +6,7 @@ namespace MinimalApiTemplate.Api.Endpoints.V1.TodoItems.DeleteToDoItem;
 
 public class DeleteToDoItemEndpoint : IEndpoint
 {
-    public void AddRoute(IEndpointRouteBuilder app)
+    public static void AddRoute(IEndpointRouteBuilder app)
     {
         app.MapDeleteRoute("/todos/{id}", HandleAsync)
             .WithDescription("Used to delete a todo")

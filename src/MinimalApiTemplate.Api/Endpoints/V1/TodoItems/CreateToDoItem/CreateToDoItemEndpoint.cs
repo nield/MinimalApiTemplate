@@ -5,7 +5,7 @@ namespace MinimalApiTemplate.Api.Endpoints.V1.TodoItems.CreateToDoItem;
 
 public class CreateToDoItemEndpoint : IEndpoint 
 {
-    public void AddRoute(IEndpointRouteBuilder app)
+    public static void AddRoute(IEndpointRouteBuilder app)
     {
         app.MapPostRoute("/todos", HandleAsync)
             .RequireAuthorization(Policies.StandardUser)

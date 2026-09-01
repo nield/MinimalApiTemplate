@@ -5,7 +5,7 @@ namespace MinimalApiTemplate.Api.Endpoints.V1.TodoItems.UpdateToDoItem;
 
 public class UpdateToDoItemEndpoint : IEndpoint
 {
-    public void AddRoute(IEndpointRouteBuilder app)
+    public static void AddRoute(IEndpointRouteBuilder app)
     {
         app.MapPutRoute("/todos/{id}", HandleAsync)
             .RequireAuthorization(Policies.StandardUser)

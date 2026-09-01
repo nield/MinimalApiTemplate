@@ -7,7 +7,7 @@ namespace MinimalApiTemplate.Api.Endpoints.V1.TodoItems.GetTodoItemsWithPaginati
 
 public class GetTodoItemsWithPaginationEndpoint : IEndpoint
 {
-    public void AddRoute(IEndpointRouteBuilder app)
+    public static void AddRoute(IEndpointRouteBuilder app)
     {
         app.MapGetRoute("/todos", HandleAsync)
             .RequireAuthorization(Policies.StandardUser)
