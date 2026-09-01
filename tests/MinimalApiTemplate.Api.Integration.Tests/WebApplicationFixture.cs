@@ -50,7 +50,7 @@ public class WebApplicationFixture : IAsyncLifetime
     {
         try
         {
-            using var cancellationSource = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+            using var cancellationSource = new CancellationTokenSource(TimeSpan.FromSeconds(60));
 
             await Task.WhenAll(
                 DatabaseContainer.Instance.StartContainerAsync(cancellationSource.Token),
