@@ -22,11 +22,23 @@ This template was initially based on [Jason Tyler's Template](https://github.com
 ## Getting Started
 
 1. Git Clone the repo to your device
-2. Open command prompt and set the current folder to the root of the repo
-3. Execute 'dotnet new install .' command in the command prompt
-4. While in command prompt create a folder in the location you want the template code to be created
-5. Execute 'dotnet new ca-template -o "**New Micro Service Name here**"' command in the command prompt
-6. If you need to uninstall the template
+2. **(Docker Compose only)** If you run the solution via Docker Compose, set up the local HTTPS
+   development certificate. This step is **not** required when running via .NET Aspire (the AppHost),
+   which manages certificates for you.
+   The certificate is **not** committed to the repo (it contains a private key); each developer
+   generates their own locally. From the root of the repo run:
+   - Windows (PowerShell): `./scripts/certs/setup-dev-certs.ps1`
+   - macOS/Linux: `./scripts/certs/setup-dev-certs.sh`
+
+   This exports a dev cert into your user profile (`%APPDATA%\ASP.NET\Https` on Windows,
+   `~/.aspnet/https` on macOS/Linux), which `docker-compose.override.yml` mounts into the API
+   container. The password must match `Kestrel__Certificates__Default__Password` in
+   `docker-compose.override.yml` (default: `devpassword`).
+3. Open command prompt and set the current folder to the root of the repo
+4. Execute 'dotnet new install .' command in the command prompt
+5. While in command prompt create a folder in the location you want the template code to be created
+6. Execute 'dotnet new ca-template -o "**New Micro Service Name here**"' command in the command prompt
+7. If you need to uninstall the template
     - Open command prompt and set the current folder to the root of the repo
     - Execute 'dotnet new uninstall .' command in the command prompt
 

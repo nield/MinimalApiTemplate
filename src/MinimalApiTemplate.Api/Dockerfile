@@ -1,11 +1,11 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 
 COPY ./NuGet.config /src
@@ -15,6 +15,7 @@ COPY ["src/MinimalApiTemplate.Application/MinimalApiTemplate.Application.csproj"
 COPY ["src/MinimalApiTemplate.Domain/MinimalApiTemplate.Domain.csproj", "src/MinimalApiTemplate.Domain/"]
 COPY ["src/MinimalApiTemplate.Infrastructure/MinimalApiTemplate.Infrastructure.csproj", "src/MinimalApiTemplate.Infrastructure/"]
 COPY ["src/MinimalApiTemplate.Messages/MinimalApiTemplate.Messages.csproj", "src/MinimalApiTemplate.Messages/"]
+COPY ["src/MinimalApiTemplate.ServiceDefaults/MinimalApiTemplate.ServiceDefaults.csproj", "src/MinimalApiTemplate.ServiceDefaults/"]
 RUN dotnet restore "src/MinimalApiTemplate.Api/MinimalApiTemplate.Api.csproj" --configfile /src/NuGet.config
 COPY . .
 WORKDIR "/src/src/MinimalApiTemplate.Api"

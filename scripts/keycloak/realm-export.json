@@ -463,7 +463,6 @@
   },
   "groups": [
     {
-      "id": "5e27ee9f-6341-4626-ade2-e38b237a91fc",
       "name": "Admin",
       "path": "/Admin",
       "subGroups": [],
@@ -474,7 +473,6 @@
       "clientRoles": {}
     },
     {
-      "id": "6fd9901c-841b-44d8-bb34-43cf54d5b3b5",
       "name": "Standard",
       "path": "/Standard",
       "subGroups": [],

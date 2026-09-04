@@ -7,6 +7,11 @@ services:
       - MassTransit__PublishEnabled=true
       - OTEL_EXPORTER_OTLP_ENDPOINT=
       - SEQ_SERVER_URL=http://host.docker.internal:8903
+      # Inside the container, localhost is the container itself, so Keycloak's metadata
+      # (default localhost:8930 in appsettings) is unreachable and no signing keys load.
+      # Point the OIDC metadata at a container-reachable host; Issuer stays localhost:8930
+      # so tokens minted for host clients still validate.
+      - AuthorityOptions__MetaDataUrl=http://host.docker.internal:8930/realms/my-realm/.well-known/openid-configuration
     ports:
       - "8901:443"
     networks:
@@ -53,10 +58,11 @@ services:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=61tagstdgdtfsgkF!@
     healthcheck:
-      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "61tagstdgdtfsgkF!@", "-Q", "SELECT 1"]
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P \"$$MSSQL_SA_PASSWORD\" -C -Q \"SELECT 1\" -b -o /dev/null"]
       interval: 5s
       timeout: 3s
-      retries: 10   
+      retries: 10
+      start_period: 10s
     ports:
       - "8902:1433"
     networks:
@@ -67,6 +73,7 @@ services:
     container_name: minimalapitemplate.seq
     environment:
       - ACCEPT_EULA=Y
+      - SEQ_FIRSTRUN_NOAUTHENTICATION=true
     ports:
       - "8903:80"
     volumes:
@@ -122,8 +129,8 @@ services:
     container_name: minimalapitemplate.keycloak
     command: start-dev --log-level=INFO --features=preview
     environment:
-      - KEYCLOAK_ADMIN=admin
-      - KEYCLOAK_ADMIN_PASSWORD=admin
+      - KC_BOOTSTRAP_ADMIN_USERNAME=admin
+      - KC_BOOTSTRAP_ADMIN_PASSWORD=admin
       - KC_DB=postgres
       - KC_DB_URL_HOST=minimalapitemplate.keycloak.db
       - KC_DB_URL_DATABASE=keycloak
@@ -131,13 +138,11 @@ services:
       - KC_DB_PASSWORD=secret
       - KC_TRANSACTION_XA_ENABLED=false
       - KC_HEALTH_ENABLED=true
-      - KC_METRICS_ENABLED=true 
-      - KC_HOSTNAME_URL=http://minimalapitemplate.keycloak
-      - KC_HOSTNAME_ADMIN_URL=http://minimalapitemplate.keycloak
+      - KC_METRICS_ENABLED=true
     ports:
       - "8930:8080"
     healthcheck:
-      test: ["CMD-SHELL", "exec 3<> /dev/tcp/127.0.0.1/9000; echo -e 'GET /health/ready HTTP/1.1\\r\\nhost: http://localhost\\r\\nConnection: close\\r\\n\\r\\n' >&3; if [ $? -eq 0 ]; then echo 'Healthcheck Successful'; exit 0; else echo 'Healthcheck Failed'; exit 1; fi;"]
+      test: ["CMD-SHELL", "exec 3<>/dev/tcp/127.0.0.1/9000; printf 'GET /health/ready HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n' >&3; cat <&3 | grep -q '\"status\": \"UP\"'"]
       interval: 10s
       timeout: 5s
       retries: 10
