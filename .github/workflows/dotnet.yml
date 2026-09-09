@@ -14,9 +14,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 10.x.x
         
@@ -27,12 +27,12 @@ jobs:
       run: dotnet build MinimalApiTemplate.slnx --no-restore
     
     - name: Test
-      run: dotnet test MinimalApiTemplate.slnx -p:CollectCoverage=true -p:CoverletOutputFormat=cobertura --no-build --verbosity normal
+      run: dotnet test MinimalApiTemplate.slnx --no-build --verbosity normal -- --coverage --coverage-output-format cobertura --results-directory ${{ github.workspace }}/TestResults
     
     - name: ReportGenerator
-      uses: danielpalme/ReportGenerator-GitHub-Action@5.1.21
+      uses: danielpalme/ReportGenerator-GitHub-Action@5.5.11
       with:
-        reports: '${{ github.workspace }}/tests/*Tests*/coverage.cobertura.xml' # REQUIRED # The coverage reports that should be parsed (separated by semicolon). Globbing is supported.
+        reports: '${{ github.workspace }}/TestResults/**/*.cobertura.xml' # REQUIRED # The coverage reports that should be parsed (separated by semicolon). Globbing is supported.
         targetdir: '${{ github.workspace }}/CodeCoverage' # REQUIRED # The directory where the generated report should be saved.
         reporttypes: 'HtmlInline;Cobertura;Badges' # The output formats and scope (separated by semicolon) Values: Badges, Clover, Cobertura, OpenCover, CsvSummary, Html, Html_Dark, Html_Light, Html_BlueRed, HtmlChart, HtmlInline, HtmlInline_AzurePipelines, HtmlInline_AzurePipelines_Dark, HtmlInline_AzurePipelines_Light, HtmlSummary, JsonSummary, Latex, LatexSummary, lcov, MarkdownSummary, MarkdownSummaryGithub, MarkdownDeltaSummary, MHtml, PngChart, SonarQube, TeamCitySummary, TextSummary, TextDeltaSummary, Xml, XmlSummary
         tag: '${{ github.run_number }}_${{ github.run_id }}' # Optional tag or build version.
