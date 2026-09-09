@@ -21,13 +21,13 @@ jobs:
         dotnet-version: 10.x.x
         
     - name: Restore dependencies
-      run: dotnet restore MinimalApiTemplate.sln
+      run: dotnet restore MinimalApiTemplate.slnx
     
     - name: Build
-      run: dotnet build MinimalApiTemplate.sln --no-restore
+      run: dotnet build MinimalApiTemplate.slnx --no-restore
     
     - name: Test
-      run: dotnet test MinimalApiTemplate.sln -p:CollectCoverage=true -p:CoverletOutputFormat=cobertura --no-build --verbosity normal
+      run: dotnet test MinimalApiTemplate.slnx -p:CollectCoverage=true -p:CoverletOutputFormat=cobertura --no-build --verbosity normal
     
     - name: ReportGenerator
       uses: danielpalme/ReportGenerator-GitHub-Action@5.1.21
