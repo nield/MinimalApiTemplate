@@ -37,7 +37,23 @@ builder.AddProject<Projects.MinimalApiTemplate_Api>("minimalapitemplate-api")
     .WithReference(keycloak)
     .WaitFor(keycloak)
     .WithEnvironment("MassTransit__PublishEnabled", "true")
-    .WithEnvironment("SEQ_SERVER_URL", "http://localhost:8002");
+    .WithEnvironment("SEQ_SERVER_URL", "http://localhost:8002")
+    .WithUrls(context =>
+    {
+        foreach (var url in context.Urls)
+        {
+            url.DisplayLocation = UrlDisplayLocation.DetailsOnly;
+        }
+    
+        context.Urls.Add(new ResourceUrlAnnotation
+        {
+            DisplayText = "Swagger UI",
+            Url = "/swagger",
+            Endpoint = context.GetEndpoint("https") is { Exists: true } https
+                ? https
+                : context.GetEndpoint("http")
+        });
+    });
 
 builder.AddProject<Projects.MinimalApiTemplate_Worker>("minimalapitemplate-worker")
     .WithReference(rabbit)
