@@ -27,7 +27,7 @@ jobs:
       run: dotnet build MinimalApiTemplate.slnx --no-restore
     
     - name: Test
-      run: dotnet test MinimalApiTemplate.slnx --no-build --verbosity normal -- --coverage --coverage-output-format cobertura --results-directory ${{ github.workspace }}/TestResults
+      run: dotnet test MinimalApiTemplate.slnx --no-build --verbosity normal --coverage --coverage-settings ${{ github.workspace }}/codecoverage.config --coverage-output-format cobertura --results-directory ${{ github.workspace }}/TestResults
     
     - name: ReportGenerator
       uses: danielpalme/ReportGenerator-GitHub-Action@5.5.11
