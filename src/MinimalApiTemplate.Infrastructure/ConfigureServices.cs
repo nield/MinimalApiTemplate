@@ -7,6 +7,7 @@ using MinimalApiTemplate.Infrastructure.Messaging;
 using MinimalApiTemplate.Infrastructure.Persistence;
 using MinimalApiTemplate.Infrastructure.Persistence.Interceptors;
 
+// ReSharper disable once CheckNamespace
 namespace Microsoft.Extensions.DependencyInjection;
 
 public static class ConfigureServices
@@ -76,12 +77,12 @@ public static class ConfigureServices
 
             options.UseSqlServer(
                 configuration.GetConnectionString("SqlDatabase"),
-                builder =>
-                    builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)
+                sqlBuilder =>
+                    sqlBuilder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)
                         .EnableRetryOnFailure(maxRetryCount: 3)
                         .MigrationsHistoryTable(ApplicationDbContext.MigrationTableName, ApplicationDbContext.DbSchema))
                     .EnableSensitiveDataLogging(hostEnvironment.IsDevelopment());
-        }, ServiceLifetime.Scoped);
+        });
 
         builder.EnrichSqlServerDbContext<ApplicationDbContext>();
     }

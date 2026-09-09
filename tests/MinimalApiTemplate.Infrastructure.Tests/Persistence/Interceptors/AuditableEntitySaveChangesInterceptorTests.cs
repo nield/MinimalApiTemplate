@@ -34,7 +34,7 @@ public class AuditableEntitySaveChangesInterceptorTests
 
         entry.Should().NotBeNull();
 
-        entry!.Entity.Should().NotBeNull();
+        entry.Entity.Should().NotBeNull();
 
         entry.Entity.CreatedBy.Should().Be(userId);
         entry.Entity.CreatedDateTime.Should().Be(dateTime);
@@ -66,7 +66,7 @@ public class AuditableEntitySaveChangesInterceptorTests
 
         entry.Should().NotBeNull();
 
-        entry!.Entity.Should().NotBeNull();
+        entry.Entity.Should().NotBeNull();
 
         entry.Entity.LastModifiedBy.Should().Be(userId);
         entry.Entity.LastModifiedDateTime.Should().Be(dateTime);

@@ -17,7 +17,7 @@ public class TokenService : ITokenService
     {
         var token = "";
 
-        if (_httpContextAccessor.HttpContext?.Request?.Headers?.TryGetValue("Authorization", out StringValues values) ?? false)
+        if (_httpContextAccessor.HttpContext?.Request.Headers.TryGetValue("Authorization", out StringValues values) ?? false)
         {
             token = values[0]?.Replace("Bearer ", "", StringComparison.OrdinalIgnoreCase) ?? "";
         }

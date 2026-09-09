@@ -15,16 +15,16 @@ public class CurrentUserService : ICurrentUserService
     }
 
     public string? UserId => 
-        _httpContextAccessor.HttpContext?.User?.FindFirstValue(Headers.UserProfileId);
+        _httpContextAccessor.HttpContext?.User.FindFirstValue(Headers.UserProfileId);
 
     public string? UserProfileId =>
-        _httpContextAccessor.HttpContext?.User?.FindFirstValue(Headers.UserProfileId);
+        _httpContextAccessor.HttpContext?.User.FindFirstValue(Headers.UserProfileId);
 
     public string? CorrelationId =>
         _httpContextAccessor.HttpContext?.GetCorrelationId(allowEmpty: true);
 
     public string? Token =>
         _httpContextAccessor.HttpContext
-            ?.Request?.Headers?.FirstOrDefault(x => x.Key == Headers.Authorization)
+            ?.Request.Headers.FirstOrDefault(x => x.Key == Headers.Authorization)
             .Value;
 }

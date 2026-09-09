@@ -1,4 +1,6 @@
-﻿namespace MinimalApiTemplate.Messages.V1;
+﻿using MinimalApiTemplate.Messages.Enums;
+
+namespace MinimalApiTemplate.Messages.V1;
 
 public class ToDoItemCreated : BaseMessage
 {

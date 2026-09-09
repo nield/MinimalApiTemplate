@@ -2,6 +2,7 @@
 using MinimalApiTemplate.Application.Common.Models;
 
 #pragma warning disable IDE0130 // Namespace does not match folder structure
+// ReSharper disable once CheckNamespace
 namespace System.Linq;
 #pragma warning restore IDE0130 // Namespace does not match folder structure
 

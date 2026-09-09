@@ -20,5 +20,5 @@ internal sealed class RabbitContainer : BaseContainer<RabbitContainer>
     }
 
     public override string GetConnectionString() =>
-         $"amqp://{Username}:{Password}@{_container!.Hostname}:{_container.GetMappedPublicPort(RabbitDefaultPort)}";
+         $"amqp://{Username}:{Password}@{_container.Hostname}:{_container.GetMappedPublicPort(RabbitDefaultPort)}";
 }

@@ -81,6 +81,7 @@ public class PaginatedListTests
         sut.HasPreviousPage.Should().BeTrue();
     }
 
+    [Fact]
     public void When_PageNumberIsEqualToTotalPages_Then_HasPreviousPage_Should_BeTrue()
     {
         var sut = new PaginatedList<SampleTestModel>(_items, 2, 2, 1);
@@ -88,6 +89,7 @@ public class PaginatedListTests
         sut.HasPreviousPage.Should().BeTrue();
     }
 
+    [Fact]
     public void When_PageNumberIsEqualToFirstPage_Then_HasPreviousPage_Should_BeFalse()
     {
         var sut = new PaginatedList<SampleTestModel>(_items, 2, 1, 1);

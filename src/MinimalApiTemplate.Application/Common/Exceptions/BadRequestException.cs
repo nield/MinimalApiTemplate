@@ -6,9 +6,4 @@ public class BadRequestException : Exception
         : base(message)
     {
     }
-
-    private BadRequestException()
-    : base()
-    {
-    }
 }

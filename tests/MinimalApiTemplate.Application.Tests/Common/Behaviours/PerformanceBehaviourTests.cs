@@ -13,7 +13,7 @@ public class PerformanceBehaviourTests
     private readonly ICurrentUserService _currentUserServiceMock = Substitute.For<ICurrentUserService>();
     private readonly IServiceScopeFactory _serviceScopeFactoryMock = Substitute.For<IServiceScopeFactory>();
     private readonly IServiceScope _serviceScopeMock = Substitute.For<IServiceScope>();
-    private MessageHandlerDelegate<PerformanceBehaviourTestInput, Unit>? _pipelineBehaviourDelegateMock = null;
+    private MessageHandlerDelegate<PerformanceBehaviourTestInput, Unit>? _pipelineBehaviourDelegateMock;
 
     public PerformanceBehaviourTests()
     {
@@ -25,7 +25,7 @@ public class PerformanceBehaviourTests
             .Returns("1");
     }
 
-    public void Setup(AppSettings appSettings)
+    private void Setup(AppSettings appSettings)
     {
         _performanceBehaviour = new(_loggerMock,
                                     _serviceScopeFactoryMock,

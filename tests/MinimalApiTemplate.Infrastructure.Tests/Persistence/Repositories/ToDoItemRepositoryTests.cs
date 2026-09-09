@@ -14,7 +14,7 @@ public class ToDoItemRepositoryTests : BasePersistenceTestFixture<ToDoItemReposi
     [Fact]
     public async Task Given_ToDoItemDoesExist_Then_ReturnTrue()
     {
-        var sut = await _repository.GetByIdAsync(1);
+        var sut = await _repository.GetByIdAsync(1, TestContext.Current.CancellationToken);
 
         sut.Should().NotBeNull();
     }
@@ -23,13 +23,13 @@ public class ToDoItemRepositoryTests : BasePersistenceTestFixture<ToDoItemReposi
     [Fact]
     public async Task Given_ToDoItemDoesExist_When_Deleting_Then_ToDoItemShouldBeRemoved()
     {
-        var entity = await _repository.GetByIdAsync(1);
+        var entity = await _repository.GetByIdAsync(1, TestContext.Current.CancellationToken);
 
         entity.Should().NotBeNull();
 
-        await _repository.DeleteAsync(entity!);
+        await _repository.DeleteAsync(entity, TestContext.Current.CancellationToken);
 
-        var deletedTemplate = await _repository.GetByIdAsync(1);
+        var deletedTemplate = await _repository.GetByIdAsync(1, TestContext.Current.CancellationToken);
 
         deletedTemplate.Should().BeNull();
     }
@@ -37,19 +37,19 @@ public class ToDoItemRepositoryTests : BasePersistenceTestFixture<ToDoItemReposi
     [Fact]
     public async Task Given_ToDoItemDoesExist_When_Updating_Then_ToDoItemShouldBeUpdate()
     {
-        var entity = await _repository.GetByIdAsync(1);
+        var entity = await _repository.GetByIdAsync(1, TestContext.Current.CancellationToken);
 
         entity.Should().NotBeNull();
 
         var newNote = "updated note";
 
-        entity!.Note = newNote;
+        entity.Note = newNote;
 
-        await _repository.UpdateAsync(entity);
+        await _repository.UpdateAsync(entity, TestContext.Current.CancellationToken);
 
-        var updatedTemplate = await _repository.GetByIdAsync(1);
+        var updatedTemplate = await _repository.GetByIdAsync(1, TestContext.Current.CancellationToken);
 
         updatedTemplate.Should().NotBeNull();
-        updatedTemplate!.Note.Should().Be(newNote);
+        updatedTemplate.Note.Should().Be(newNote);
     }
 }

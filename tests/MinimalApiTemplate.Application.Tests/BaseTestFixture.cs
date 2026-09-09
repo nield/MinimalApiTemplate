@@ -18,11 +18,6 @@ public abstract class BaseTestFixture : IDisposable
     protected readonly ICurrentUserService _currentUserServiceMock = Substitute.For<ICurrentUserService>();
     protected bool _disposedValue;
 
-    protected BaseTestFixture()
-    {
-
-    }
-
     protected virtual void Dispose(bool disposing)
     {
         if (!_disposedValue)

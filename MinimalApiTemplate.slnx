@@ -1,0 +1,26 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".gitignore" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/MinimalApiTemplate.Api/MinimalApiTemplate.Api.csproj" />
+    <Project Path="src/MinimalApiTemplate.Application/MinimalApiTemplate.Application.csproj" />
+    <Project Path="src/MinimalApiTemplate.Domain/MinimalApiTemplate.Domain.csproj" />
+    <Project Path="src/MinimalApiTemplate.Infrastructure/MinimalApiTemplate.Infrastructure.csproj" />
+    <Project Path="src/MinimalApiTemplate.Messages/MinimalApiTemplate.Messages.csproj" />
+    <Project Path="src/MinimalApiTemplate.Sdk/MinimalApiTemplate.Sdk.csproj" />
+    <Project Path="src/MinimalApiTemplate.Worker/MinimalApiTemplate.Worker.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/MinimalApiTemplate.Api.Integration.Tests/MinimalApiTemplate.Api.Integration.Tests.csproj" />
+    <Project Path="tests/MinimalApiTemplate.Api.Tests/MinimalApiTemplate.Api.Tests.csproj" />
+    <Project Path="tests/MinimalApiTemplate.Application.Tests/MinimalApiTemplate.Application.Tests.csproj" />
+    <Project Path="tests/MinimalApiTemplate.Infrastructure.Tests/MinimalApiTemplate.Infrastructure.Tests.csproj" />
+  </Folder>
+  <Project Path="docker-compose.dcproj">
+    <Build />
+  </Project>
+  <Project Path="src/MinimalApiTemplate.AppHost/MinimalApiTemplate.AppHost.csproj" />
+  <Project Path="src/MinimalApiTemplate.ServiceDefaults/MinimalApiTemplate.ServiceDefaults.csproj" />
+</Solution>

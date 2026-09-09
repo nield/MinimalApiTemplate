@@ -23,7 +23,7 @@ internal sealed class DatabaseContainer : BaseContainer<DatabaseContainer>
     }
 
     public override string GetConnectionString() =>
-        $"Server={_container!.Hostname},{_container.GetMappedPublicPort(DatabaseDefaultPort)};Database={DatabaseName};User Id={DatabaseUsername};Password={DatabasePassword};TrustServerCertificate=True";
+        $"Server={_container.Hostname},{_container.GetMappedPublicPort(DatabaseDefaultPort)};Database={DatabaseName};User Id={DatabaseUsername};Password={DatabasePassword};TrustServerCertificate=True";
 
     public override async Task StartContainerAsync(CancellationToken cancellationToken)
     {

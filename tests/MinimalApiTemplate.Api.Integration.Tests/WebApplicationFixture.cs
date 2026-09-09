@@ -9,7 +9,7 @@ namespace MinimalApiTemplate.Api.Integration.Tests;
 
 public class WebApplicationFixture : IAsyncLifetime
 {
-    private readonly CustomWebApplicationFactory<global::Program> _factory = new();
+    private readonly CustomWebApplicationFactory<Program> _factory = new();
 
     private SqlConnection? _databaseConnection = null;
     private Respawner? _respawner = null;
@@ -28,7 +28,7 @@ public class WebApplicationFixture : IAsyncLifetime
         }
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         await StartContainers();
 
@@ -79,7 +79,7 @@ public class WebApplicationFixture : IAsyncLifetime
         await dbContextInitialiser.SeedDataAsync();
     }
         
-    public async Task DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
         _httpClient?.Dispose();
 

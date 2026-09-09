@@ -1,4 +1,4 @@
-﻿namespace MinimalApiTemplate.Messages;
+﻿namespace MinimalApiTemplate.Messages.Enums;
 
 public enum PriorityLevel
 {

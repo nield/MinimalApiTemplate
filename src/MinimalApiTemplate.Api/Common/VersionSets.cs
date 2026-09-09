@@ -18,7 +18,7 @@ public static class VersionSets
             VersionSetStore[key] = value;
         }
 
-        return value!;
+        return value;
     }
 
     private static ApiVersionSet CreateVersionSet(int majorVersion, int minorVersion)

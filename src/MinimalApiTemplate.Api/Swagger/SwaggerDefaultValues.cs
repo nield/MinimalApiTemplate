@@ -12,7 +12,7 @@ namespace MinimalApiTemplate.Api.Swagger;
 public class SwaggerDefaultValues : IOperationFilter
 {
     /// <inheritdoc />
-    public void Apply(Microsoft.OpenApi.OpenApiOperation operation, OperationFilterContext context)
+    public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
         var apiDescription = context.ApiDescription;
 
@@ -26,7 +26,7 @@ public class SwaggerDefaultValues : IOperationFilter
 
             if (operation.Responses is null ||
                 !operation.Responses.TryGetValue(responseKey, out var response) ||
-                response?.Content is null)
+                response.Content is null)
             {
                 continue;
             }
@@ -56,7 +56,7 @@ public class SwaggerDefaultValues : IOperationFilter
                 continue;
             }
 
-            openApiParameter.Description ??= description.ModelMetadata?.Description;
+            openApiParameter.Description ??= description.ModelMetadata.Description;
 
             if (openApiParameter.Schema is OpenApiSchema schema &&
                  schema.Default == null &&

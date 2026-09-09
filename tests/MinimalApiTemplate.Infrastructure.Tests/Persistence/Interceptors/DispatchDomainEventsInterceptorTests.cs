@@ -24,7 +24,7 @@ public class DispatchDomainEventsInterceptorTests : BaseTestFixture
 
         dbContext.FakeEntities.Add(entity);
 
-        await _interceptor.DispatchDomainEvents(dbContext);
+        await _interceptor.DispatchDomainEvents(dbContext, TestContext.Current.CancellationToken);
 
         await _mediatorMock.Received()
             .Publish(Arg.Any<BaseEvent>(), Arg.Any<CancellationToken>());

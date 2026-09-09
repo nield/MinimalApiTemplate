@@ -20,7 +20,10 @@ public class ToDoItemsEndpointTests
     {
         var payload = Builder<CreateTodoItemRequest>.CreateNew().Build();
 
-        var sut = await _webApplicationFixture.HttpClient.PostAsJsonAsync("/api/v1/todos", payload);
+        var sut = await _webApplicationFixture.HttpClient.PostAsJsonAsync(
+            "/api/v1/todos", 
+            payload,
+            cancellationToken: TestContext.Current.CancellationToken);
 
         sut.Should().NotBeNull();
         sut.StatusCode.Should().Be(HttpStatusCode.Created);
@@ -29,16 +32,20 @@ public class ToDoItemsEndpointTests
     [Fact]
     public async Task Given_ExistingId_When_FetchingItem_Then_ReturnItem()
     {
-        var sut = await _webApplicationFixture.HttpClient.GetFromJsonAsync<GetToDoItemResponse>("/api/v1/todos/1");
+        var sut = await _webApplicationFixture.HttpClient.GetFromJsonAsync<GetToDoItemResponse>(
+            "/api/v1/todos/1",
+            cancellationToken: TestContext.Current.CancellationToken);
 
         sut.Should().NotBeNull();
-        sut!.Id.Should().Be(1);
+        sut.Id.Should().Be(1);
     }
 
     [Fact]
     public async Task Given_NonExistingId_When_FetchingItem_Then_ReturnNotFound()
     {
-        var sut = await _webApplicationFixture.HttpClient.GetAsync("/api/v1/todos/123");
+        var sut = await _webApplicationFixture.HttpClient.GetAsync(
+            "/api/v1/todos/123",
+            cancellationToken: TestContext.Current.CancellationToken);
 
         sut.Should().NotBeNull();
 
@@ -48,10 +55,12 @@ public class ToDoItemsEndpointTests
     [Fact]
     public async Task Given_DataExists_When_FetchingItems_Then_ReturnPagedItem()
     {
-        var sut = await _webApplicationFixture.HttpClient.GetFromJsonAsync<PaginatedListResponse<GetToDoItemsResponse>>("/api/v1/todos?PageNumber=1&PageSize=10");
+        var sut = await _webApplicationFixture.HttpClient.GetFromJsonAsync<PaginatedListResponse<GetToDoItemsResponse>>(
+            "/api/v1/todos?PageNumber=1&PageSize=10",
+            cancellationToken: TestContext.Current.CancellationToken);
 
         sut.Should().NotBeNull();
-        sut!.Items.Count.Should().NotBe(0);
+        sut.Items.Count.Should().NotBe(0);
         sut.PageNumber.Should().Be(1);
         sut.PageSize.Should().Be(10);
         sut.TotalPages.Should().Be(1);
@@ -60,7 +69,9 @@ public class ToDoItemsEndpointTests
     [Fact]
     public async Task Given_ExistingId_When_DeletingItem_Then_ReturnNoContent()
     {
-        var sut = await _webApplicationFixture.HttpClient.DeleteAsync("/api/v1/todos/1");
+        var sut = await _webApplicationFixture.HttpClient.DeleteAsync(
+            "/api/v1/todos/1",
+            cancellationToken: TestContext.Current.CancellationToken);
 
         sut.Should().NotBeNull();
         sut.StatusCode.Should().Be(HttpStatusCode.NoContent);
@@ -71,7 +82,9 @@ public class ToDoItemsEndpointTests
     [Fact]
     public async Task Given_NonExistingId_When_DeletingItem_Then_ReturnNotFound()
     {
-        var sut = await _webApplicationFixture.HttpClient.DeleteAsync("/api/v1/todos/123");
+        var sut = await _webApplicationFixture.HttpClient.DeleteAsync(
+            "/api/v1/todos/123",
+            cancellationToken: TestContext.Current.CancellationToken);
 
         sut.Should().NotBeNull();
         sut.StatusCode.Should().Be(HttpStatusCode.NotFound);

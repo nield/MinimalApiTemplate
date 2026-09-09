@@ -6,9 +6,7 @@ namespace MinimalApiTemplate.Api.Integration.Tests.Containers;
 internal sealed class CacheContainer : BaseContainer<CacheContainer>
 {
     private const ushort CacheDefaultPort = 6379;
-
-    public string GetCacheConnectionString() => $"{_container!.Hostname}:{_container.GetMappedPublicPort(CacheDefaultPort)}";
-
+    
     protected override IContainer BuildContainer()
     {
         return new ContainerBuilder("redis:latest")
@@ -18,5 +16,5 @@ internal sealed class CacheContainer : BaseContainer<CacheContainer>
     }
 
     public override string GetConnectionString() =>
-        $"{_container!.Hostname}:{_container.GetMappedPublicPort(CacheDefaultPort)}";
+        $"{_container.Hostname}:{_container.GetMappedPublicPort(CacheDefaultPort)}";
 }

@@ -24,7 +24,7 @@ public class SoftDeleteSaveChangesInterceptorTests
 
         entry.Should().NotBeNull();
 
-        entry!.Entity.Should().NotBeNull();
+        entry.Entity.Should().NotBeNull();
 
         entry.Entity.IsDeleted.Should().BeTrue();
         entry.State.Should().Be(EntityState.Modified);

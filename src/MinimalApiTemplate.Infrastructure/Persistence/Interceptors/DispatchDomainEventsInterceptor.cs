@@ -30,13 +30,14 @@ public class DispatchDomainEventsInterceptor : SaveChangesInterceptor
         var entities = context.ChangeTracker
             .Entries<BaseEntity>()
             .Where(e => e.Entity.DomainEvents.Count > 0)
-            .Select(e => e.Entity);
+            .Select(e => e.Entity)
+            .ToList();
 
         var domainEvents = entities
             .SelectMany(e => e.DomainEvents)
             .ToList();
 
-        entities.ToList().ForEach(e => e.ClearDomainEvents());
+        entities.ForEach(e => e.ClearDomainEvents());
 
         foreach (var domainEvent in domainEvents)
             await _mediator.Publish(domainEvent, cancellationToken);

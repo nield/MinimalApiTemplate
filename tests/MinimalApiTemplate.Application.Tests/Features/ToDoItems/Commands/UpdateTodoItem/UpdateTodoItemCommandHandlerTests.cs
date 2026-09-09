@@ -21,7 +21,7 @@ public class UpdateTodoItemCommandHandlerTests : BaseTestFixture<UpdateTodoItemC
             .ReturnsNull();
 
         var command = Builder<UpdateTodoItemCommand>.CreateNew()
-                                        .With(x => id)
+                                        .With(x => x.Id, id)
                                         .Build();
 
         await Assert.ThrowsAsync<NotFoundException>(() =>
@@ -40,7 +40,7 @@ public class UpdateTodoItemCommandHandlerTests : BaseTestFixture<UpdateTodoItemC
             .Returns(Builder<TodoItem>.CreateNew().Build());
 
         await _handler.Handle(Builder<UpdateTodoItemCommand>.CreateNew()
-                                        .With(x => id)
+                                        .With(x => x.Id, id)
                                         .Build(), CancellationToken.None);
 
         await _templateRepositoryMock.Received()

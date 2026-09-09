@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using FluentValidation;
 
 namespace MinimalApiTemplate.Api.Common.Validation;
 
@@ -9,9 +8,10 @@ public static class ValidationFilter
 {
     public static EndpointFilterDelegate ValidationFilterFactory(EndpointFilterFactoryContext context, EndpointFilterDelegate next)
     {
-        IEnumerable<ValidationDescriptor> validationDescriptors = GetValidators(context.MethodInfo, context.ApplicationServices);
+        IReadOnlyList<ValidationDescriptor> validationDescriptors = GetValidators(context.MethodInfo, context.ApplicationServices)
+            .ToList();
 
-        if (validationDescriptors.Any())
+        if (validationDescriptors.Count > 0)
         {
             return invocationContext => Validate(validationDescriptors, invocationContext, next);
         }
@@ -20,7 +20,7 @@ public static class ValidationFilter
         return invocationContext => next(invocationContext);
     }
 
-    private static async ValueTask<object?> Validate(IEnumerable<ValidationDescriptor> validationDescriptors, EndpointFilterInvocationContext invocationContext, EndpointFilterDelegate next)
+    private static async ValueTask<object?> Validate(IReadOnlyList<ValidationDescriptor> validationDescriptors, EndpointFilterInvocationContext invocationContext, EndpointFilterDelegate next)
     {
         foreach (ValidationDescriptor descriptor in validationDescriptors)
         {

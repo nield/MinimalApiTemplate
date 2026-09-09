@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using MinimalApiTemplate.Api.Integration.Tests.Containers;
 using MinimalApiTemplate.Api.Integration.Tests.Mocks;
-using MinimalApiTemplate.Application.Common;
 using MinimalApiTemplate.Application.Common.Interfaces;
 using static MinimalApiTemplate.Application.Common.Constants;
 
@@ -32,7 +31,7 @@ public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProg
             CacheContainer.Instance.GetConnectionString()
         );
 
-        builder.UseEnvironment(Constants.Environments.Test);
+        builder.UseEnvironment(Environments.Test);
 
         builder.ConfigureTestServices(services =>
         {
