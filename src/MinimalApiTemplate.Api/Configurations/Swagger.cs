@@ -12,6 +12,30 @@ public static class Swagger
         services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
         services.AddSwaggerGen(options => 
         {
+            // Endpoints share simple type names (Request, Response, ...), so strip the
+            // shared namespace prefixes to generate short, unique schema ids.
+            string[] schemaIdPrefixes =
+            [
+                "MinimalApiTemplate.Api.Endpoints.",
+                "MinimalApiTemplate.Api.",
+            ];
+
+            options.CustomSchemaIds(type =>
+            {
+                var id = type.FullName?.Replace("+", ".", StringComparison.Ordinal);
+
+                foreach (var prefix in schemaIdPrefixes)
+                {
+                    if (id?.StartsWith(prefix, StringComparison.Ordinal) == true)
+                    {
+                        id = id[prefix.Length..];
+                        break;
+                    }
+                }
+
+                return id;
+            });
+
             // Add OAuth2 authentication scheme
             options.AddSecurityDefinition("Keycloak", new OpenApiSecurityScheme
             {
@@ -35,7 +59,7 @@ public static class Swagger
             {
                 {
                     new OpenApiSecuritySchemeReference("Keycloak", document),
-                    new List<string> { "minimal-api-aud" }
+                    ["minimal-api-aud"]
                 }
             });
 

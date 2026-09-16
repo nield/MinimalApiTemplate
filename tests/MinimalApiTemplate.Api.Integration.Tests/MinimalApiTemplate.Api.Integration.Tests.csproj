@@ -29,4 +29,8 @@
     <ProjectReference Include="..\..\src\MinimalApiTemplate.Api\MinimalApiTemplate.Api.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Endpoints\V1\TodoItems\" />
+  </ItemGroup>
+
 </Project>

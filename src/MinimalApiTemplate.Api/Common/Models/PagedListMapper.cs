@@ -1,19 +1,16 @@
-﻿using MinimalApiTemplate.Api.Endpoints.V1.TodoItems.GetTodoItemsWithPagination;
-using MinimalApiTemplate.Application.Common.Models;
-using MinimalApiTemplate.Application.Features.TodoItems.Queries.GetTodoItemsWithPagination;
+﻿using MinimalApiTemplate.Application.Common.Models;
 
 namespace MinimalApiTemplate.Api.Common.Models;
 
-[Mapper]
-public static partial class PagedListMapper
+public static class PagedListMapper
 {
-    public static partial TDest MapItem<TSource, TDest>(TSource source);
-
-    public static PaginatedListResponse<TDest> MapToPaginatedList<TSource, TDest>(this PaginatedList<TSource> source) 
+    public static PaginatedListResponse<TDest> MapToPaginatedList<TSource, TDest>(
+        this PaginatedList<TSource> source,
+        Func<TSource, TDest> mapItem)
     {
         return new PaginatedListResponse<TDest>
         {
-            Items = source.Items.Select(x => MapItem<TSource, TDest>(x)).ToList(),
+            Items = source.Items.Select(mapItem).ToList(),
             PageNumber = source.PageNumber,
             TotalPages = source.TotalPages,
             TotalCount = source.TotalCount,
@@ -22,6 +19,4 @@ public static partial class PagedListMapper
             HasNextPage = source.HasNextPage
         };    
     }
-
-    private static partial GetToDoItemsResponse MapGetToDoItemsResponse(GetTodoItemsDto source);
 }
