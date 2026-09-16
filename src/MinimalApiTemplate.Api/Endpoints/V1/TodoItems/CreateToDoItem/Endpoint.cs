@@ -1,16 +1,13 @@
-﻿using MinimalApiTemplate.Api.Common.Extensions;
-using static MinimalApiTemplate.Api.Common.Constants;
-
-namespace MinimalApiTemplate.Api.Endpoints.V1.TodoItems.CreateToDoItem;
+﻿namespace MinimalApiTemplate.Api.Endpoints.V1.TodoItems.CreateToDoItem;
 
 public class Endpoint : IEndpoint 
 {
     public static void AddRoute(IEndpointRouteBuilder app)
     {
-        app.MapPostRoute("/todos", HandleAsync)
+        app.MapPostRoute(ApiRoutes.Todos, HandleAsync)
             .RequireAuthorization(Policies.StandardUser)
             .WithDescription("Used to create a todo")
-            .WithTags(OpenApi.Tags.ToDos)
+            .WithTags(ApiTags.ToDos)
             .Produces(StatusCodes.Status400BadRequest);
     }
 

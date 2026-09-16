@@ -1,6 +1,4 @@
-﻿using MinimalApiTemplate.Api.Common.Extensions;
-using MinimalApiTemplate.Application.Features.TodoItems.Queries.GetToDoItem;
-using static MinimalApiTemplate.Api.Common.Constants;
+﻿using MinimalApiTemplate.Application.Features.TodoItems.Queries.GetToDoItem;
 
 namespace MinimalApiTemplate.Api.Endpoints.V2.ToDoItems.GetToDoItem;
 
@@ -8,13 +6,13 @@ public class Endpoint : IEndpoint
 {
     public static void AddRoute(IEndpointRouteBuilder app)
     {
-        app.MapGetRoute("/todos/{id}", HandleAsync, majorVersion: 2)
+        app.MapGetRoute(ApiRoutes.Todos + "/{id}", HandleAsync, majorVersion: 2)
             .RequireAuthorization(Policies.StandardUser)
             .WithDescription("Used to get a single todo")
             .WithName("GetToDoItemV2")
             .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status400BadRequest)
-            .WithTags(OpenApi.Tags.ToDos);
+            .WithTags(ApiTags.ToDos);
     }
 
     public static async Task<Ok<Response>> HandleAsync(

@@ -1,7 +1,4 @@
-﻿using MinimalApiTemplate.Api.Common.Extensions;
-using MinimalApiTemplate.Api.Common.Models;
-using MinimalApiTemplate.Application.Features.TodoItems.Queries.GetTodoItemsWithPagination;
-using static MinimalApiTemplate.Api.Common.Constants;
+﻿using MinimalApiTemplate.Application.Features.TodoItems.Queries.GetTodoItemsWithPagination;
 
 namespace MinimalApiTemplate.Api.Endpoints.V1.TodoItems.GetTodoItemsWithPagination;
 
@@ -9,10 +6,10 @@ public class Endpoint : IEndpoint
 {
     public static void AddRoute(IEndpointRouteBuilder app)
     {
-        app.MapGetRoute("/todos", HandleAsync)
+        app.MapGetRoute(ApiRoutes.Todos, HandleAsync)
             .RequireAuthorization(Policies.StandardUser)
             .WithDescription("Used to get a list of todos")
-            .WithTags(OpenApi.Tags.ToDos)
+            .WithTags(ApiTags.ToDos)
             .CacheOutput(builder => builder.SetVaryByQuery(nameof(Request.PageNumber),
                                                             nameof(Request.PageSize),
                                                             nameof(Request.Tags))

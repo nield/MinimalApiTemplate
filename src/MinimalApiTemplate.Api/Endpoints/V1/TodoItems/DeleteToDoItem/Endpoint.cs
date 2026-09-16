@@ -1,6 +1,4 @@
-﻿using MinimalApiTemplate.Api.Common.Extensions;
-using MinimalApiTemplate.Application.Features.TodoItems.Commands.DeleteTodoItem;
-using static MinimalApiTemplate.Api.Common.Constants;
+﻿using MinimalApiTemplate.Application.Features.TodoItems.Commands.DeleteTodoItem;
 
 namespace MinimalApiTemplate.Api.Endpoints.V1.TodoItems.DeleteToDoItem;
 
@@ -8,11 +6,11 @@ public class Endpoint : IEndpoint
 {
     public static void AddRoute(IEndpointRouteBuilder app)
     {
-        app.MapDeleteRoute("/todos/{id}", HandleAsync)
+        app.MapDeleteRoute(ApiRoutes.Todos + "/{id}", HandleAsync)
             .WithDescription("Used to delete a todo")
             .RequireAuthorization(Policies.AdminUser)
             .Produces(StatusCodes.Status404NotFound)
-            .WithTags(OpenApi.Tags.ToDos);
+            .WithTags(ApiTags.ToDos);
     }
 
     public static async Task<NoContent> HandleAsync(

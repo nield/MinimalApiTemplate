@@ -13,7 +13,7 @@ public class EndpointTests
     }
 
     [Fact]
-    public async Task Given_ValidData_When_CreatingTodoItem_Then_ReturnCreated()
+    public async Task  Given_ValidData_When_CreatingTodoItem_Then_ReturnCreated()
     {
         var payload = Builder<Request>.CreateNew().Build();
 

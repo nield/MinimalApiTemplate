@@ -2,14 +2,16 @@
 
 public static class Constants
 {
-    public static class OpenApi
+    public static class ApiTags
     {
-        public static class Tags
-        {
-            public const string ToDos = "ToDos";
-        }
+        public const string ToDos = "ToDos";
     }
 
+    public static class ApiRoutes
+    {
+        public const string Todos = "/todos";
+    }
+    
     public static class OutputCacheTags
     {
         public const string ToDoList = "ToDoList";

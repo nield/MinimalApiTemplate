@@ -1,18 +1,15 @@
-﻿using MinimalApiTemplate.Api.Common.Extensions;
-using static MinimalApiTemplate.Api.Common.Constants;
-
-namespace MinimalApiTemplate.Api.Endpoints.V1.TodoItems.UpdateToDoItem;
+﻿namespace MinimalApiTemplate.Api.Endpoints.V1.TodoItems.UpdateToDoItem;
 
 public class Endpoint : IEndpoint
 {
     public static void AddRoute(IEndpointRouteBuilder app)
     {
-        app.MapPutRoute("/todos/{id}", HandleAsync)
+        app.MapPutRoute(ApiRoutes.Todos + "/{id}", HandleAsync)
             .RequireAuthorization(Policies.StandardUser)
             .WithDescription("Used to update a todo")
             .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status404NotFound)
-            .WithTags(OpenApi.Tags.ToDos);
+            .WithTags(ApiTags.ToDos);
     }
 
     public static async Task<NoContent> HandleAsync(
