@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
       <OutputType>Exe</OutputType>
@@ -11,18 +11,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AwesomeAssertions" Version="9.6.0" />
-    <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" Version="18.11.0" />
-    <PackageReference Include="NBuilder" Version="6.1.0" />
-    <PackageReference Include="Respawn" Version="7.0.0" />
-    <PackageReference Include="Testcontainers" Version="4.14.0" />
-    <PackageReference Include="xunit.v3" Version="4.0.0" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="4.0.0">
+    <PackageReference Include="AwesomeAssertions" />
+    <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" />
+    <PackageReference Include="NBuilder" />
+    <PackageReference Include="Respawn" />
+    <PackageReference Include="Testcontainers" />
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="xunit.runner.visualstudio">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.11" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="10.0.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
   </ItemGroup>
 
   <ItemGroup>

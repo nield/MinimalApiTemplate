@@ -23,7 +23,7 @@ RUN dotnet build "MinimalApiTemplate.Worker.csproj" -c $BUILD_CONFIGURATION -o /
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "MinimalApiTemplate.Worker.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "MinimalApiTemplate.Worker.csproj" -c $BUILD_CONFIGURATION -o /app/publish -r linux-x64 --self-contained false /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
