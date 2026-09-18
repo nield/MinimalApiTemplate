@@ -1,19 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MinimalApiTemplate.Infrastructure.Persistence.Interceptors;
 
 public class AuditableEntitySaveChangesInterceptor : SaveChangesInterceptor
 {
-    private readonly ICurrentUserService _currentUserService;
-    private readonly TimeProvider _dateTimeProvider;
+    private readonly IServiceScopeFactory _scopeFactory;
 
-    public AuditableEntitySaveChangesInterceptor(
-        ICurrentUserService currentUserService,
-        TimeProvider dateTimeProvider)
+    public AuditableEntitySaveChangesInterceptor(IServiceScopeFactory scopeFactory)
     {
-        _currentUserService = currentUserService;
-        _dateTimeProvider = dateTimeProvider;
+        _scopeFactory = scopeFactory;
     }
 
     public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
@@ -34,20 +31,26 @@ public class AuditableEntitySaveChangesInterceptor : SaveChangesInterceptor
     {
         if (context == null) return;
 
+        // Resolve scoped services through the application scope factory. The DbContext is pooled,
+        // so its internal service provider (context.GetService) does not expose application services.
+        using var scope = _scopeFactory.CreateScope();
+        var currentUserService = scope.ServiceProvider.GetRequiredService<ICurrentUserService>();
+        var dateTimeProvider = scope.ServiceProvider.GetRequiredService<TimeProvider>();
+        
         foreach (var entry in context.ChangeTracker.Entries<BaseAuditableEntity>())
         {
             if (entry.State == EntityState.Added)
             {
-                entry.Entity.CreatedBy = _currentUserService.UserId;
-                entry.Entity.CreatedDateTime = _dateTimeProvider.GetUtcNow();
+                entry.Entity.CreatedBy = currentUserService.UserId;
+                entry.Entity.CreatedDateTime = dateTimeProvider.GetUtcNow();
             }
 
             if (entry.State == EntityState.Added
                     || entry.State == EntityState.Modified
                     || entry.HasChangedOwnedEntities())
             {
-                entry.Entity.LastModifiedBy = _currentUserService.UserId;
-                entry.Entity.LastModifiedDateTime = _dateTimeProvider.GetUtcNow();
+                entry.Entity.LastModifiedBy = currentUserService.UserId;
+                entry.Entity.LastModifiedDateTime = dateTimeProvider.GetUtcNow();
             }
         }
     }

@@ -1,7 +1,5 @@
 ﻿using System.Security.Claims;
-using MinimalApiTemplate.Api.Common.Extensions;
 using MinimalApiTemplate.Application.Common.Interfaces;
-using static MinimalApiTemplate.Api.Common.Constants;
 
 namespace MinimalApiTemplate.Api.Common.Services;
 
@@ -15,10 +13,7 @@ public class CurrentUserService : ICurrentUserService
     }
 
     public string? UserId => 
-        _httpContextAccessor.HttpContext?.User.FindFirstValue(Headers.UserProfileId);
-
-    public string? UserProfileId =>
-        _httpContextAccessor.HttpContext?.User.FindFirstValue(Headers.UserProfileId);
+        _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
     public string? CorrelationId =>
         _httpContextAccessor.HttpContext?.GetCorrelationId(allowEmpty: true);

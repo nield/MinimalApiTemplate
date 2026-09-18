@@ -1,4 +1,5 @@
-﻿using MinimalApiTemplate.Domain.Common;
+using Microsoft.Extensions.DependencyInjection;
+using MinimalApiTemplate.Domain.Common;
 using MinimalApiTemplate.Infrastructure.Persistence.Interceptors;
 
 namespace MinimalApiTemplate.Infrastructure.Tests.Persistence.Interceptors;
@@ -8,10 +9,17 @@ public class AuditableEntitySaveChangesInterceptorTests
     private readonly AuditableEntitySaveChangesInterceptor _interceptor;
     private readonly ICurrentUserService _userServiceMock = Substitute.For<ICurrentUserService>();
     private readonly TimeProvider _timeProviderMock = Substitute.For<TimeProvider>();
+    private readonly IServiceProvider _serviceProvider;
 
     public AuditableEntitySaveChangesInterceptorTests()
     {
-        _interceptor = new(_userServiceMock, _timeProviderMock);
+        _serviceProvider = new ServiceCollection()
+            .AddSingleton(_userServiceMock)
+            .AddSingleton(_timeProviderMock)
+            .BuildServiceProvider();
+
+        _interceptor = new AuditableEntitySaveChangesInterceptor(
+            _serviceProvider.GetRequiredService<IServiceScopeFactory>());
     }
 
     [Fact]
@@ -24,7 +32,7 @@ public class AuditableEntitySaveChangesInterceptorTests
 
         _timeProviderMock.GetUtcNow().Returns(dateTime);
 
-        var dbContext = new FakeEntityDbContext();
+        var dbContext = new FakeEntityDbContext(_serviceProvider);
 
         dbContext.FakeEntities.Add(new FakeEntity { Name = "test1" });
 
@@ -52,7 +60,7 @@ public class AuditableEntitySaveChangesInterceptorTests
 
         _timeProviderMock.GetUtcNow().Returns(dateTime);
 
-        var dbContext = new FakeEntityDbContext();
+        var dbContext = new FakeEntityDbContext(_serviceProvider);
         dbContext.FakeEntities.Add(new FakeEntity { Name = "update1" });
         dbContext.SaveChanges();
 

@@ -20,7 +20,6 @@ public static class Constants
     public static class Headers
     {
         public const string CorrelationId = "x-correlation-id";
-        public const string UserProfileId = "UserProfileId";
         public const string Authorization = "Authorization";
     } 
 }

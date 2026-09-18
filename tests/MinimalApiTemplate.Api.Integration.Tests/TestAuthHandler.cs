@@ -29,7 +29,7 @@ public class TestAuthHandler : AuthenticationHandler<TestAuthHandlerOptions>
             new(ClaimTypes.Name, "Test user"),
             new(ClaimTypes.NameIdentifier, "1"),
             new(Headers.CorrelationId, "1"),
-            new(Headers.UserProfileId, "1")
+            new(ClaimTypes.NameIdentifier, "1")
         };
 
         // Add as many claims as you need here

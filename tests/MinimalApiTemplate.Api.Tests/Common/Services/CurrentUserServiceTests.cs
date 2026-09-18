@@ -22,7 +22,7 @@ public class CurrentUserServiceTests
         {
             User = new ClaimsPrincipal(new ClaimsIdentity(
             [
-                new(Headers.UserProfileId, "1")
+                new(ClaimTypes.NameIdentifier, "1")
             ]))
         };
 
@@ -39,32 +39,6 @@ public class CurrentUserServiceTests
         _httpContextAccessorMock.HttpContext.Returns(context);
 
         _currentUserService.UserId.Should().BeNull();
-    }
-
-    [Fact]
-    public void Given_UserProfileIdClaimExists_When_FetchingUserId_Then_ReturnsUserProfileIdFromClaim()
-    {
-        var context = new DefaultHttpContext
-        {
-            User = new ClaimsPrincipal(new ClaimsIdentity(
-            [
-                new(Headers.UserProfileId, "1")
-            ]))
-        };
-
-        _httpContextAccessorMock.HttpContext.Returns(context);
-
-        _currentUserService.UserProfileId.Should().Be("1");
-    }
-
-    [Fact]
-    public void Given_UserProfileIdClaimDoesNotExists_When_FetchingUserProfileId_Then_ReturnsNull()
-    {
-        var context = new DefaultHttpContext();
-
-        _httpContextAccessorMock.HttpContext.Returns(context);
-
-        _currentUserService.UserProfileId.Should().BeNull();
     }
 
     [Fact]

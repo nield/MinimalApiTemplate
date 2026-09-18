@@ -62,8 +62,8 @@ public static class ConfigureServices
         IConfiguration configuration,
         IHostEnvironment hostEnvironment)
     {
-        builder.Services.AddScoped<ISaveChangesInterceptor, AuditableEntitySaveChangesInterceptor>();
-        builder.Services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
+        builder.Services.AddSingleton<ISaveChangesInterceptor, AuditableEntitySaveChangesInterceptor>();
+        builder.Services.AddSingleton<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
         builder.Services.AddSingleton<ISaveChangesInterceptor, SoftDeleteSaveChangesInterceptor>();
 
         builder.Services.AddScoped<ApplicationDbContextInitialiser>();
@@ -71,7 +71,7 @@ public static class ConfigureServices
         builder.Services.AddScoped<IApplicationDbContext>(provider =>
             provider.GetRequiredService<ApplicationDbContext>());        
 
-        builder.Services.AddDbContext<ApplicationDbContext>((sp, options) =>
+        builder.Services.AddDbContextPool<ApplicationDbContext>((sp, options) =>
         {
             options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
 
