@@ -1,1 +1,1 @@
-k6 run --vus 10 --duration 10s api-create-test.js
+k6 run  api-create-test.js

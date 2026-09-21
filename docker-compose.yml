@@ -11,7 +11,7 @@ services:
       # (default localhost:8930 in appsettings) is unreachable and no signing keys load.
       # Point the OIDC metadata at a container-reachable host; Issuer stays localhost:8930
       # so tokens minted for host clients still validate.
-      - AuthorityOptions__MetaDataUrl=http://host.docker.internal:8930/realms/my-realm/.well-known/openid-configuration
+      - AuthorityOptions__MetaDataUrl=https://host.docker.internal:8930/realms/my-realm/.well-known/openid-configuration
     ports:
       - "8901:443"
     networks:

@@ -4,22 +4,36 @@ import exec from 'k6/execution';
 
 // define configuration
 export const options = {
+  scenarios: {
+    create_todos: {
+      executor: 'ramping-vus',
+      startVUs: 0,
+      stages: [
+        { duration: '30s', target: 50 },
+        { duration: '1m', target: 50 },
+        { duration: '10s', target: 0 },
+      ],
+    },
+  },
   thresholds: {
     http_req_failed: ['rate<0.01'],
     http_req_duration: ['p(99)<1000'],
   },
+  // Reuse TCP/TLS connections and skip cert validation for localhost
+  noConnectionReuse: false,
+  insecureSkipTLSVerify: true,
 };
 
 // config for Keycloak
 const keycloakConfig = {
-  tokenUrl: 'http://localhost:8930/realms/my-realm/protocol/openid-connect/token',
+  tokenUrl: 'https://localhost:8930/realms/my-realm/protocol/openid-connect/token',
   clientId: 'minimal-api-k6-client',
   clientSecret: '615M2X7zOywKE2nNWQSOC72quFjmvc3Q',
   username: 'StandardUser',
   password: 'password',
 };
 
-function getAccessToken() {
+function requestToken() {
   const payload = {
     grant_type: 'password',
     client_id: keycloakConfig.clientId,
@@ -41,7 +55,26 @@ function getAccessToken() {
   );
 
   const body = res.json();
-  return body.access_token;
+  return {
+    accessToken: body.access_token,
+    // Refresh 30s before actual expiry to be safe
+    expiresAt: Date.now() + (body.expires_in - 30) * 1000,
+  };
+}
+
+// One-time setup: validates auth before the run starts
+export function setup() {
+  requestToken();
+}
+
+// Per-VU cached token, refreshed only when near expiry
+let cached = null;
+
+function getAccessToken() {
+  if (!cached || Date.now() >= cached.expiresAt) {
+    cached = requestToken();
+  }
+  return cached.accessToken;
 }
 
 export default function () {
