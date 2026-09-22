@@ -7,7 +7,7 @@ public class Endpoint : IEndpoint
     public static void AddRoute(IEndpointRouteBuilder app)
     {
         app.MapGetRoute(ApiRoutes.Todos, HandleAsync)
-            .RequireAuthorization(Policies.StandardUser)
+            .RequireAuthorization(Policies.AdminOrStandardUser)
             .WithDescription("Used to get a list of todos")
             .WithTags(ApiTags.ToDos)
             .CacheOutput(builder => builder.SetVaryByQuery(nameof(Request.PageNumber),

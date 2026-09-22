@@ -37,6 +37,9 @@ public static class Auth
 
             options.AddPolicy(Policies.AdminUser, policy =>
                 policy.RequireRole(Roles.AdminUserRole));
+            
+            options.AddPolicy(Policies.AdminOrStandardUser, policy =>
+                policy.RequireRole(Roles.AdminUserRole, Roles.StandardUserRole));
         });
     }
 

@@ -5,7 +5,7 @@ public class Endpoint : IEndpoint
     public static void AddRoute(IEndpointRouteBuilder app)
     {
         app.MapPostRoute(ApiRoutes.Todos, HandleAsync)
-            .RequireAuthorization(Policies.StandardUser)
+            .RequireAuthorization(Policies.AdminOrStandardUser)
             .WithDescription("Used to create a todo")
             .WithTags(ApiTags.ToDos)
             .Produces(StatusCodes.Status400BadRequest);

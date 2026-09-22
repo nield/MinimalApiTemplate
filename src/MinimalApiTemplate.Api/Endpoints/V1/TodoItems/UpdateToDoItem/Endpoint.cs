@@ -5,7 +5,7 @@ public class Endpoint : IEndpoint
     public static void AddRoute(IEndpointRouteBuilder app)
     {
         app.MapPutRoute(ApiRoutes.Todos + "/{id}", HandleAsync)
-            .RequireAuthorization(Policies.StandardUser)
+            .RequireAuthorization(Policies.AdminOrStandardUser)
             .WithDescription("Used to update a todo")
             .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status404NotFound)

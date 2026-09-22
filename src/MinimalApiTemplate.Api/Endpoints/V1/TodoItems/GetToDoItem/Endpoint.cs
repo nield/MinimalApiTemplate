@@ -7,7 +7,7 @@ public class Endpoint : IEndpoint
     public static void AddRoute(IEndpointRouteBuilder app)
     {
         app.MapGetRoute(ApiRoutes.Todos + "/{id}", HandleAsync)
-            .RequireAuthorization(Policies.StandardUser)
+            .RequireAuthorization(Policies.AdminOrStandardUser)
             .WithDescription("Used to get a single todo")
             .WithName("GetToDoItem")
             .Produces(StatusCodes.Status404NotFound)

@@ -27,5 +27,6 @@ public static class Constants
     {
         public const string StandardUser = "StandardUser";
         public const string AdminUser = "AdminUser";
+        public const string AdminOrStandardUser = "AdminOrStandardUser";
     }
 }

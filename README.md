@@ -7,8 +7,8 @@ An example .NET 10 Minimal Api application with OpenAPI, Swashbuckle, and API ve
 
 It also include the following:
 - KeyCloak IDP 
-- .NET Aspire
-- .NET 8 ExceptionHandlers
+- Aspire
+- ExceptionHandlers
 - Redis OutputCaching
 - CorrelationId handling using HeaderPropagation
 - OpenTelemetry with custom metrics
@@ -54,7 +54,7 @@ Roles
 - standard-user-role
   - Can Create, Update and View
 - admin-user-role
-  - Can Delete
+  - Can Create, Update,View and Delete
   
 Users (Password is password)
 - AdminUser
