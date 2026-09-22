@@ -8,6 +8,6 @@ global using MinimalApiTemplate.Domain.Common;
 global using MinimalApiTemplate.Domain.Entities;
 global using MinimalApiTemplate.Domain.Enums;
 global using MinimalApiTemplate.Messages.Common;
-global using MassTransit;
+global using Rebus.Bus;
 global using Microsoft.Extensions.Logging;
 global using Mediator;

@@ -4,7 +4,7 @@ services:
     image: ${DOCKER_REGISTRY-}minimalapitemplate.api
     container_name: minimalapitemplate.api
     environment:
-      - MassTransit__PublishEnabled=true
+      - Messaging__PublishEnabled=true
       - OTEL_EXPORTER_OTLP_ENDPOINT=
       - SEQ_SERVER_URL=http://host.docker.internal:8903
       # Inside the container, localhost is the container itself, so Keycloak's metadata
@@ -35,7 +35,7 @@ services:
     image: ${DOCKER_REGISTRY-}minimalapitemplate.worker
     container_name: minimalapitemplate.worker
     environment:
-      - MassTransit__ConsumerEnabled=true
+      - Messaging__ConsumerEnabled=true
       - OTEL_EXPORTER_OTLP_ENDPOINT=
       - SEQ_SERVER_URL=http://host.docker.internal:8903
     ports:

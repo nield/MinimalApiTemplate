@@ -13,7 +13,7 @@ It also include the following:
 - CorrelationId handling using HeaderPropagation
 - OpenTelemetry with custom metrics
 - Integration tests using TestContainers
-- Pub Sub using MassTransit
+- Pub Sub using Rebus
 - API versioning
 - Auditing using Audit.Net
 

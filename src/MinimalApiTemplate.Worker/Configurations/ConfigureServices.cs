@@ -7,7 +7,7 @@ public static class ConfigureServices
 {
     public static IHostApplicationBuilder SetupWorker(this IHostApplicationBuilder builder)
     {
-        builder.SetupMassTransit();
+        builder.SetupMessaging();
 
         return builder;
     }

@@ -10,9 +10,11 @@
       <PackageReference Include="Aspire.Microsoft.EntityFrameworkCore.SqlServer" />
       <PackageReference Include="Aspire.StackExchange.Redis.DistributedCaching" />
       <PackageReference Include="Aspire.StackExchange.Redis.OutputCaching" />
+      <PackageReference Include="Aspire.RabbitMQ.Client" />
       <PackageReference Include="Audit.NET.SqlServer" />
-      <PackageReference Include="MassTransit.Extensions.DependencyInjection" />
-      <PackageReference Include="MassTransit.RabbitMQ" />
+      <PackageReference Include="Rebus.ServiceProvider" />
+      <PackageReference Include="Rebus.RabbitMq" />
+      <PackageReference Include="Rebus.OpenTelemetry" />
       <PackageReference Include="Microsoft.AspNetCore.HeaderPropagation" />
       <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" />
       <PackageReference Include="OpenTelemetry" />

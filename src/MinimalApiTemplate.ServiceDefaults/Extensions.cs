@@ -1,6 +1,4 @@
 using HealthChecks.UI.Client;
-using MassTransit.Logging;
-using MassTransit.Monitoring;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.DependencyInjection;
@@ -60,11 +58,11 @@ public static class Extensions
                     .AddPrometheusExporter()
                     .AddHttpClientInstrumentation()
                     .AddMeter("MinimalTemplate")
-                    .AddMeter(InstrumentationOptions.MeterName))  // MassTransit Meter
+                    .AddMeter("Rebus.Diagnostics")) // Rebus Meter
             .WithTracing(tracing => 
                 tracing
                     .AddSource(builder.Environment.ApplicationName)
-                    .AddSource(DiagnosticHeaders.DefaultListenerName) // MassTransit ActivitySource
+                    .AddSource("Rebus.Diagnostics") // Rebus ActivitySource
                     .AddAspNetCoreInstrumentation()
                     // Uncomment the following line to enable gRPC instrumentation (requires the OpenTelemetry.Instrumentation.GrpcNetClient package)
                     //.AddGrpcClientInstrumentation()

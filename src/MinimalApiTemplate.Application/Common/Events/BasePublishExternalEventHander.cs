@@ -22,30 +22,15 @@ public abstract class BasePublishExternalEventHander<TNotification, TMessage>
     public virtual async ValueTask Handle(TNotification notification, CancellationToken cancellationToken)
     {
         var message = MapMessage(notification);
+        
+        SetMessageDefaults(message);
 
         await _publishMessageService.Publish(message, cancellationToken);
     }
 
-    protected virtual TMessage MapMessage(TNotification notification)
-    {
-        try
-        {
-            var message = notification.MapToMessage<TNotification, TMessage>();
+    protected abstract TMessage MapMessage(TNotification notification);
 
-            SetMessageDefaults(message);
-
-            return message;
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, @"Could not map notification type '{Notification}' 
-                                        to message type '{MessageType}'", typeof(TNotification).Name, typeof(TMessage).Name);
-
-            throw new InvalidMappingException(typeof(TNotification), typeof(TMessage));
-        }
-    }
-
-    protected void SetMessageDefaults(TMessage message)
+    protected virtual void SetMessageDefaults(TMessage message)
     {
         message.CorrelationId = _currentUserService.CorrelationId ?? Guid.NewGuid().ToString();
     }

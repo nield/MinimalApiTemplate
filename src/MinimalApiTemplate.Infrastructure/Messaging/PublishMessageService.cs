@@ -5,28 +5,28 @@ namespace MinimalApiTemplate.Infrastructure.Messaging;
 
 public class PublishMessageService : IPublishMessageService
 {
-    private readonly IPublishEndpoint _publishEndpoint;
-    private readonly MassTransitSettings _massTransitSettings;
+    private readonly IBus _bus;
+    private readonly MessagingSettings _messagingSettings;
     private readonly ILogger<PublishMessageService> _logger;
 
     public PublishMessageService(
-        IPublishEndpoint publishEndpoint,
-        IOptions<MassTransitSettings> massTransitSettings,
+        IBus bus,
+        IOptions<MessagingSettings> messagingSettings,
         ILogger<PublishMessageService> logger)
     {
-        _publishEndpoint = publishEndpoint;
-        _massTransitSettings = massTransitSettings.Value;
+        _bus = bus;
+        _messagingSettings = messagingSettings.Value;
         _logger = logger;
     }
 
     public async Task Publish<TMessage>(TMessage message, CancellationToken cancellationToken = default)
         where TMessage : BaseMessage
     {
-        if (!_massTransitSettings.PublishEnabled) return;
+        if (!_messagingSettings.PublishEnabled) return;
 
         try
         {
-            await _publishEndpoint.Publish(message, cancellationToken);
+            await _bus.Publish(message);
         }
         catch (Exception ex)
         {

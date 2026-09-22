@@ -8,6 +8,6 @@ public static class Options
     {
         services.Configure<AppSettings>(config);
 
-        services.Configure<MassTransitSettings>(config.GetSection("MassTransit"));
+        services.Configure<MessagingSettings>(config.GetSection("Messaging"));
     }
 }

@@ -6,6 +6,7 @@ using MinimalApiTemplate.Infrastructure.Common;
 using MinimalApiTemplate.Infrastructure.Messaging;
 using MinimalApiTemplate.Infrastructure.Persistence;
 using MinimalApiTemplate.Infrastructure.Persistence.Interceptors;
+using Rebus.Config;
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.Extensions.DependencyInjection;
@@ -21,7 +22,7 @@ public static class ConfigureServices
         builder.SetupCaching();
         builder.Services.SetupRepositories();
         builder.Services.SetupMetrics();
-        builder.Services.SetupMassTransit(configuration);
+        builder.SetupMessaging();
         builder.Services.SetupHttpClients(configuration);
 
         SetupAuditing(configuration);
@@ -109,34 +110,27 @@ public static class ConfigureServices
         builder.AddRedisOutputCache("Redis");
     }
 
-    private static void SetupMassTransit(this IServiceCollection services, IConfiguration configuration)
+    private static void SetupMessaging(this IHostApplicationBuilder builder)
     {
-        MessageCorrelation.UseCorrelationId<BaseMessage>(x => 
-            Guid.TryParse(x.CorrelationId, out Guid parsedGuid) ? parsedGuid : Guid.NewGuid());
+        var configuration = builder.Configuration;
 
-        if (!IsMassTransitEnabled(configuration))
+        if (!configuration.GetValue<bool>("Messaging:PublishEnabled"))
         {
-            services.AddScoped<IPublishMessageService, MockPublishMessageService>();
+            builder.Services.AddScoped<IPublishMessageService, MockPublishMessageService>();
             return;
         }
-       
-        services.AddScoped<IPublishMessageService, PublishMessageService>();
 
-        services.AddMassTransit(config =>
-        {
-            config.AddTelemetryListener(true);
+        builder.Services.AddScoped<IPublishMessageService, PublishMessageService>();
 
-            config.ConfigureHealthCheckOptions(options => options.Name = "MassTransit");
+        var rabbitUri = configuration.GetConnectionString("RabbitMq");
 
-            config.UsingRabbitMq((context, rabbitConfig) =>
-            {
-                var rabbitUri = configuration.GetConnectionString("RabbitMq");
+        ArgumentException.ThrowIfNullOrWhiteSpace(rabbitUri);
 
-                ArgumentException.ThrowIfNullOrWhiteSpace(rabbitUri);
+        builder.Services.AddRebus(configure => configure
+            .Transport(t => t.UseRabbitMqAsOneWayClient(rabbitUri))
+            .Options(o => o.EnableDiagnosticSources()));
 
-                rabbitConfig.Host(new Uri(rabbitUri));
-            });
-        });                  
+        builder.AddRabbitMQClient(connectionName: "RabbitMq");
     }
 
     private static void SetupAuditing(IConfiguration configuration)
@@ -151,8 +145,6 @@ public static class ConfigureServices
                 .LastUpdatedColumnName("LastUpdatedDate")
                 .CustomColumn("EventType", ev => ev.EventType));
     }
-    private static bool IsMassTransitEnabled(IConfiguration configuration)
-        => configuration.GetValue<bool>("MassTransit:PublishEnabled");
 
     private static void SetThreadPoolMinThreads(int minThreadCount) =>
         ThreadPool.SetMinThreads(minThreadCount, minThreadCount);

@@ -5,10 +5,14 @@ public record DeleteTodoItemCommand(long Id) : IRequest;
 public class DeleteTodoItemCommandHandler : IRequestHandler<DeleteTodoItemCommand>
 {
     private readonly IToDoItemRepository _toDoItemRepository;
+    private readonly IToDoItemMetrics _toDoItemMetrics;
 
-    public DeleteTodoItemCommandHandler(IToDoItemRepository toDoItemRepository)
+    public DeleteTodoItemCommandHandler(
+        IToDoItemRepository toDoItemRepository,
+        IToDoItemMetrics toDoItemMetrics)
     {
         _toDoItemRepository = toDoItemRepository;
+        _toDoItemMetrics = toDoItemMetrics;
     }
 
     public async ValueTask<Unit> Handle(DeleteTodoItemCommand request, CancellationToken cancellationToken)
@@ -24,6 +28,8 @@ public class DeleteTodoItemCommandHandler : IRequestHandler<DeleteTodoItemComman
             await _toDoItemRepository.DeleteAsync(entity, cancellationToken);
         }
 
+        _toDoItemMetrics.ToDoItemsDeleted("deleted");
+        
         return Unit.Value;
     }
 }

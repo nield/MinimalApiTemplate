@@ -13,5 +13,8 @@ public class TodoItemCreatedEventExternalHandler
         : base(publishMessageService, currentUserService, logger)
     {
     }
+
+    protected override ToDoItemCreated MapMessage(TodoItemCreatedEvent notification) =>
+        notification.MapToDoItemCreated();
 }
 

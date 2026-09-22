@@ -43,7 +43,7 @@ builder.AddProject<Projects.MinimalApiTemplate_Api>("minimalapitemplate-api")
     .WaitFor(seq)
     .WithReference(keycloak)
     .WaitFor(keycloak)
-    .WithEnvironment("MassTransit__PublishEnabled", "true")
+    .WithEnvironment("Messaging__PublishEnabled", "true")
     .WithEnvironment("SEQ_SERVER_URL", "http://localhost:8002")
     .WithUrls(context =>
     {
@@ -66,7 +66,7 @@ builder.AddProject<Projects.MinimalApiTemplate_Worker>("minimalapitemplate-worke
     .WithReference(rabbit)
     .WaitFor(rabbit)
     .WaitFor(seq)
-    .WithEnvironment("MassTransit__ConsumerEnabled", "true")
+    .WithEnvironment("Messaging__ConsumerEnabled", "true")
     .WithEnvironment("SEQ_SERVER_URL", "http://localhost:8002");
 
 await builder.Build().RunAsync();
