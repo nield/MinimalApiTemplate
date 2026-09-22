@@ -1,4 +1,3 @@
-using Mediator;
 using Microsoft.Extensions.DependencyInjection;
 using MinimalApiTemplate.Domain.Common;
 using MinimalApiTemplate.Infrastructure.Persistence.Interceptors;

@@ -7,16 +7,13 @@ public abstract class BasePublishExternalEventHander<TNotification, TMessage>
 {
     private readonly IPublishMessageService _publishMessageService;
     private readonly ICurrentUserService _currentUserService;
-    private readonly ILogger _logger;
 
     protected BasePublishExternalEventHander(
         IPublishMessageService publishMessageService,
-        ICurrentUserService currentUserService, 
-        ILogger logger)
+        ICurrentUserService currentUserService)
     {
         _publishMessageService = publishMessageService;
         _currentUserService = currentUserService;
-        _logger = logger;
     }
 
     public virtual async ValueTask Handle(TNotification notification, CancellationToken cancellationToken)

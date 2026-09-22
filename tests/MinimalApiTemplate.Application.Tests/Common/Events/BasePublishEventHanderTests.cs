@@ -10,7 +10,7 @@ public class BasePublishEventHanderTests : BaseTestFixture<FakePublishEventHande
 
     public BasePublishEventHanderTests()
     {
-        _hander = new(_publishMessageServiceMock, _currentUserServiceMock, _logger);
+        _hander = new(_publishMessageServiceMock, _currentUserServiceMock);
     }
 
     [Fact]
@@ -31,9 +31,8 @@ public class FakePublishEventHander
 {
     public FakePublishEventHander(
         IPublishMessageService publishMessageService, 
-        ICurrentUserService currentUserService,
-        ILogger<FakePublishEventHander> logger) 
-        : base(publishMessageService, currentUserService, logger)
+        ICurrentUserService currentUserService) 
+        : base(publishMessageService, currentUserService)
     {
     }
 

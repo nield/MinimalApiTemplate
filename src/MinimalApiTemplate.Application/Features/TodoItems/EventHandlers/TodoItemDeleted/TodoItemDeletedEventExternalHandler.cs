@@ -8,9 +8,8 @@ public class TodoItemDeletedEventExternalHandler
 {
     public TodoItemDeletedEventExternalHandler(
         IPublishMessageService publishMessageService, 
-        ICurrentUserService currentUserService, 
-        ILogger<TodoItemDeletedEventExternalHandler> logger) 
-        : base(publishMessageService, currentUserService, logger)
+        ICurrentUserService currentUserService) 
+        : base(publishMessageService, currentUserService)
     {
     }
 

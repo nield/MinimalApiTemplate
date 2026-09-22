@@ -52,6 +52,8 @@ public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProg
                 .AddPolicy(Policies.AdminUser, policy =>
                     policy.RequireAuthenticatedUser())
                 .AddPolicy(Policies.StandardUser, policy =>
+                    policy.RequireAuthenticatedUser())
+                .AddPolicy(Policies.AdminOrStandardUser, policy =>
                     policy.RequireAuthenticatedUser());
         });
 

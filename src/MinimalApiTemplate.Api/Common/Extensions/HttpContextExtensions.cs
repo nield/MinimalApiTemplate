@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Primitives;
-using static MinimalApiTemplate.Api.Common.Constants;
 
 namespace MinimalApiTemplate.Api.Common.Extensions;
 

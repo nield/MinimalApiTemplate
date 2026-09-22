@@ -11,9 +11,9 @@ public class WebApplicationFixture : IAsyncLifetime
 {
     private readonly CustomWebApplicationFactory<Program> _factory = new();
 
-    private SqlConnection? _databaseConnection = null;
-    private Respawner? _respawner = null;
-    private HttpClient? _httpClient = null;
+    private SqlConnection? _databaseConnection;
+    private Respawner? _respawner;
+    private HttpClient? _httpClient;
 
     public HttpClient HttpClient
     {

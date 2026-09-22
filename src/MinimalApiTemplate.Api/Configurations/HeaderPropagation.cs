@@ -1,7 +1,4 @@
-﻿using MinimalApiTemplate.Api.Common.Extensions;
-using static MinimalApiTemplate.Api.Common.Constants;
-
-namespace MinimalApiTemplate.Api.Configurations;
+﻿namespace MinimalApiTemplate.Api.Configurations;
 
 public static class HeaderPropagation
 {

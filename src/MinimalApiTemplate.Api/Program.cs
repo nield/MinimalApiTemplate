@@ -1,4 +1,3 @@
-using MinimalApiTemplate.Api.Common.Extensions;
 using MinimalApiTemplate.Api.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
