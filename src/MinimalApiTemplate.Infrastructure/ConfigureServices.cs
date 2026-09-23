@@ -34,9 +34,17 @@ public static class ConfigureServices
 
     public static IHostApplicationBuilder AddWorkerInfrastructureServices(this IHostApplicationBuilder builder)
     {
+        var configuration = builder.Configuration;
+        var hostEnvironment = builder.Environment;
+        
+        builder.SetupDatabase(configuration, hostEnvironment);
+        builder.SetupCaching();
+        builder.Services.SetupRepositories();
         builder.Services.SetupMetrics();
         builder.Services.SetupHttpClients(builder.Configuration);
 
+        SetupAuditing(configuration);
+        
         SetThreadPoolMinThreads(500);
 
         return builder;

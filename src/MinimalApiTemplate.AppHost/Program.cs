@@ -33,7 +33,7 @@ var keycloak = builder.AddKeycloak("Keycloak", 8930, keycloakUsername, keycloakP
     .WithRealmImport("../../scripts/keycloak/")
     .WithLifetime(ContainerLifetime.Persistent);
 
-builder.AddProject<Projects.MinimalApiTemplate_Api>("minimalapitemplate-api")    
+var api = builder.AddProject<Projects.MinimalApiTemplate_Api>("minimalapitemplate-api")    
     .WithReference(database)
     .WaitFor(database)
     .WithReference(rabbit)
@@ -63,9 +63,14 @@ builder.AddProject<Projects.MinimalApiTemplate_Api>("minimalapitemplate-api")
     });
 
 builder.AddProject<Projects.MinimalApiTemplate_Worker>("minimalapitemplate-worker")
+    .WithReference(database)
+    .WaitFor(database)
     .WithReference(rabbit)
     .WaitFor(rabbit)
+    .WithReference(redis)
+    .WaitFor(redis)
     .WaitFor(seq)
+    .WaitFor(api)
     .WithEnvironment("Messaging__ConsumerEnabled", "true")
     .WithEnvironment("SEQ_SERVER_URL", "http://localhost:8002");
 

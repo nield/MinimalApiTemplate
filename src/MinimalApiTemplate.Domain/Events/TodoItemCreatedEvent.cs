@@ -1,6 +1,6 @@
 ﻿namespace MinimalApiTemplate.Domain.Events;
 
-public class TodoItemCreatedEvent : BaseEvent
+public class TodoItemCreatedEvent : BaseEvent, IReplaceEntityIdOnEvent
 {
     public long Id { get; set; }
     public required string Title { get; set; }

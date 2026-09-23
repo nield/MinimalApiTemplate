@@ -36,17 +36,27 @@ public class DispatchDomainEventsInterceptor : SaveChangesInterceptor
 
         if (entities.Count == 0) return;
      
+        var domainEvents = new List<BaseEvent>();
+        
+        foreach (var entity in entities)
+        {
+            foreach (var domainEvent in entity.DomainEvents)
+            {
+                // Use the DB-generated Id now that SaveChanges has completed.
+                if (domainEvent is IReplaceEntityIdOnEvent replaceEntityId)
+                    replaceEntityId.Id = entity.Id;
+                
+                domainEvents.Add(domainEvent);
+            }
+
+            entity.ClearDomainEvents();
+        }
+        
         // Resolve scoped services through the application scope factory. The DbContext is pooled,
         // so its internal service provider (context.GetService) does not expose application services.
         using var scope = _scopeFactory.CreateScope();
         
         var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
-        
-        var domainEvents = entities
-            .SelectMany(e => e.DomainEvents)
-            .ToList();
-
-        entities.ForEach(e => e.ClearDomainEvents());
 
         foreach (var domainEvent in domainEvents)
             await mediator.Publish(domainEvent, cancellationToken);
