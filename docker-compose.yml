@@ -7,11 +7,11 @@ services:
       - Messaging__PublishEnabled=true
       - OTEL_EXPORTER_OTLP_ENDPOINT=
       - SEQ_SERVER_URL=http://host.docker.internal:8903
-      # Inside the container, localhost is the container itself, so Keycloak's metadata
-      # (default localhost:8930 in appsettings) is unreachable and no signing keys load.
-      # Point the OIDC metadata at a container-reachable host; Issuer stays localhost:8930
-      # so tokens minted for host clients still validate.
-      - AuthorityOptions__MetaDataUrl=https://host.docker.internal:8930/realms/my-realm/.well-known/openid-configuration
+      - AuthorityOptions__Authority=http://localhost:8930/realms/my-realm
+      - AuthorityOptions__AuthorizationUrl=http://localhost:8930/realms/my-realm/protocol/openid-connect/auth
+      - AuthorityOptions__MetaDataUrl=http://host.docker.internal:8930/realms/my-realm/.well-known/openid-configuration
+      - AuthorityOptions__TokenUrl=http://localhost:8930/realms/my-realm/protocol/openid-connect/token
+      - AuthorityOptions__Issuer=http://localhost:8930/realms/my-realm
     ports:
       - "8901:443"
     networks:
@@ -46,6 +46,8 @@ services:
       minimalapitemplate.seq:
         condition: service_started
       minimalapitemplate.rabbit:
+        condition: service_started
+      minimalapitemplate.api:
         condition: service_started
     build:
       context: .
